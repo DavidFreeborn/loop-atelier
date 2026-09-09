@@ -1,0 +1,2453 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#101113">
+  <meta name="description" content="An interactive generative art studio.">
+  <title>Loop atelier</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23101113'/%3E%3Cellipse cx='32' cy='32' rx='21' ry='13' fill='none' stroke='%23d8d4cb' stroke-width='2' transform='rotate(-35 32 32)'/%3E%3Cellipse cx='32' cy='32' rx='13' ry='21' fill='none' stroke='%23d8d4cb' stroke-width='2' transform='rotate(-35 32 32)'/%3E%3C/svg%3E">
+  <style>
+:root{color-scheme:dark;--bg:#101113;--surface:#151719;--text:#e4e1da;--secondary:#a6aaa9;--line:#303436;--accent:#c4b392;--art:#050607;--serif:Georgia,'Times New Roman',serif;--sans:'Segoe UI',Arial,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:14px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit;touch-action:manipulation}
+button{cursor:pointer;border:0;background:none}button:disabled{opacity:.55;cursor:wait}
+a{color:inherit;text-decoration:none}a,summary{touch-action:manipulation}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+[hidden]{display:none!important}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.masthead{max-width:clamp(780px,calc(100svh + 92px),1280px);margin:auto;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:25px 32px 22px}
+.masthead h1{font:normal 26px/1.2 var(--serif);letter-spacing:-.5px;margin:0}
+.masthead nav{display:flex;gap:26px}.nav-button{padding:8px 0;color:var(--secondary);font-size:13px;border-bottom:1px solid transparent}.nav-button.active{color:var(--text);border-color:var(--accent)}
+#studio-view{max-width:clamp(780px,calc(100svh + 92px),1280px);margin:auto;padding:12px 32px 46px}
+.workspace{display:grid;grid-template-columns:minmax(0,1fr) 246px;gap:42px;align-items:start}
+.artwork{min-width:0}.study-select{display:flex;align-items:center;gap:17px;margin-bottom:17px;min-height:44px}.study-select label{font-size:12px;color:var(--secondary)}.study-select select{min-width:0;flex:1;border:1px solid var(--line);background:var(--surface);padding:8px 12px;font:18px/1.3 var(--serif);min-height:44px;border-radius:0}
+.canvas-wrap{width:100%;aspect-ratio:1;background:var(--art);position:relative;overflow:hidden}.canvas-wrap canvas{width:100%;height:100%;display:block}.canvas-action{position:absolute;right:10px;bottom:10px;background:#101113b3;color:var(--text);width:42px;height:42px;font-size:24px;opacity:0;transition:opacity .15s}.canvas-wrap:hover .canvas-action,.canvas-action:focus-visible{opacity:1}
+.canvas-wrap:fullscreen{width:100vw;height:100vh;aspect-ratio:auto;display:grid;place-items:center;background:#050607}.canvas-wrap:fullscreen canvas{width:min(100vw,100vh);height:min(100vw,100vh)}
+#canvas-error{position:absolute;inset:14%;display:grid;place-items:center;text-align:center;background:#101113e8;padding:20px;color:var(--text)}
+.transport{display:flex;align-items:center;gap:15px;padding:12px 0 14px;border-bottom:1px solid var(--line)}.play-button{width:40px;min-width:40px;height:42px;padding:0;font-size:15px}.transport input{flex:1;min-width:30px}.transport output{font:11px ui-monospace,Consolas,monospace;min-width:40px;text-align:right;color:var(--secondary)}
+input[type=range]{appearance:none;-webkit-appearance:none;display:block;width:100%;height:28px;background:transparent;margin:0;cursor:pointer}
+input[type=range]::-webkit-slider-runnable-track{height:2px;background:#444a4b}input[type=range]::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:11px;height:11px;background:var(--accent);border-radius:50%;margin-top:-4.5px}
+input[type=range]::-moz-range-track{height:2px;background:#444a4b}input[type=range]::-moz-range-thumb{width:11px;height:11px;border:0;border-radius:50%;background:var(--accent)}
+.method{padding-top:19px;max-width:760px}.method p{margin:0;color:var(--secondary);font-size:13px;line-height:1.75}.method code{display:block;margin-top:15px;font:12px/1.8 ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--accent);overflow-wrap:anywhere}
+.inspector{min-width:0}.inspector-actions{display:flex;justify-content:flex-end;align-items:center;min-height:44px;margin-bottom:17px}.text-button{font-size:12px;color:var(--accent);padding:3px 0}
+.control{margin-bottom:19px}.control label{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:12px;color:var(--secondary);margin-bottom:7px}.control output{color:var(--text);font:11px ui-monospace,Consolas,monospace}
+.control select,.control input[type=number]{width:100%;min-width:0;border:1px solid var(--line);background:var(--surface);border-radius:0;padding:9px 10px;min-height:41px;font-size:13px}.split-control{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:13px}.split-control>div{min-width:0}
+.preset-actions{display:flex;gap:8px;margin:24px 0}.secondary-button{flex:1;min-width:0;border:1px solid #444a4b;padding:9px 5px;min-height:41px;font-size:12px}.secondary-button:hover{border-color:var(--accent)}
+.export-options{border-top:1px solid var(--line);padding-top:17px}.export-options summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;font-size:13px}.export-options summary::-webkit-details-marker{display:none}.export-options summary:after{content:'+';color:var(--secondary);font-size:17px}.export-options[open] summary:after{content:'−'}.export-inner{padding-top:19px}.export-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.primary-button{width:100%;min-height:44px;background:var(--text);color:#171819;padding:11px 12px;text-align:center;font-size:13px}.primary-button:hover{background:#fff}.error-message{font-size:13px;line-height:1.65;color:#e6bbb2;border-left:2px solid #bf8b7b;padding:9px 12px;margin:19px 0 0;overflow-wrap:anywhere}
+#guide-view{max-width:820px;margin:0 auto;padding:24px 32px 60px}.sources-introduction{color:var(--secondary);margin:0 0 28px;font-size:14px;line-height:1.8}.sources{margin:0;padding-left:22px}.sources li{padding:0 0 20px 8px;margin-bottom:20px;border-bottom:1px solid var(--line)}.sources li::marker{color:var(--secondary);font-size:12px}.sources a{font-size:15px;text-decoration:underline;text-decoration-color:#66716e;text-underline-offset:4px}.sources a:hover{color:var(--accent)}.sources p{margin:8px 0 0;color:var(--secondary);font-size:13px;line-height:1.7}noscript{display:block;max-width:1280px;padding:30px 32px;margin:auto}
+@media(max-width:900px){.masthead,#studio-view{padding-left:25px;padding-right:25px}.workspace{grid-template-columns:minmax(0,1fr) 226px;gap:25px}.masthead h1{font-size:25px}}
+@media(max-width:700px){.masthead{padding:20px 20px 16px}.masthead h1{font-size:24px}.masthead nav{gap:20px}#studio-view{padding:8px 20px 35px}.workspace{grid-template-columns:minmax(0,1fr);gap:28px}.study-select{margin-bottom:14px}.canvas-action{opacity:1;width:44px;height:44px;right:6px;bottom:6px}.method{padding-top:16px}.method p{font-size:12px}.method code{font-size:11px}.inspector{border-top:1px solid var(--line);padding-top:10px}.inspector-actions{margin-bottom:7px;min-height:38px}.control{margin-bottom:19px}.control select,.control input[type=number]{font-size:16px;min-height:44px}.control input[type=range]{height:31px}.secondary-button{min-height:44px}.preset-actions{margin-top:23px}.split-control{grid-template-columns:repeat(auto-fit,minmax(120px,1fr))}#guide-view{padding:18px 22px 38px}.sources-introduction{font-size:13px}.sources a{font-size:14px}}
+@media(max-width:380px){.masthead{padding-left:16px;padding-right:16px;gap:18px}.masthead h1{font-size:23px}.masthead nav{gap:16px}.nav-button{font-size:12px}#studio-view{padding-left:16px;padding-right:16px}.study-select{gap:12px}.study-select select{font-size:17px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+</style>
+</head>
+<body>
+  <header class="masthead">
+    <h1><a class="brand" href="#studio">Loop atelier</a></h1>
+    <nav aria-label="Main navigation"><button class="nav-button active" id="studio-tab" aria-pressed="true">Studio</button><button class="nav-button" id="guide-tab" aria-pressed="false">Sources</button></nav>
+  </header>
+  <main id="studio-view">
+    <div class="workspace">
+      <section class="artwork" aria-label="Selected study">
+        <div class="study-select"><label for="scene-select">Study</label><select id="scene-select"></select></div>
+        <div class="canvas-wrap"><canvas id="art-canvas" width="800" height="800" role="img" aria-label="Generative study"></canvas><div id="canvas-error" role="alert" hidden></div><button id="art-fullscreen" class="canvas-action" title="Enter fullscreen" aria-label="Enter artwork fullscreen">⤢</button></div>
+        <div class="transport"><button id="play" class="play-button" aria-label="Pause animation" title="Play or pause (Space)"><span id="play-icon" aria-hidden="true">Ⅱ</span></button><label for="timeline" class="sr-only">Animation phase</label><input id="timeline" type="range" min="0" max="1000" value="150" step="1"><output id="phase-display" for="timeline">0.150</output></div>
+        <div class="method" aria-label="Mathematical construction"><p id="technique-description"></p><code id="formula"></code></div>
+      </section>
+      <aside class="inspector" aria-label="Composition controls">
+        <div class="inspector-actions"><button id="reset" class="text-button">Reset</button></div>
+        <div class="control"><label for="variation">Deformation <output for="variation" id="variation-value">50%</output></label><input id="variation" type="range" min="0" max="100" value="50"></div>
+        <div class="control"><label for="exposure">Exposure <output for="exposure" id="exposure-value">1.00</output></label><input id="exposure" type="range" min="35" max="250" value="100"></div>
+        <div class="control"><label for="duration">Loop duration <output for="duration" id="duration-value">12 s</output></label><input id="duration" type="range" min="3" max="16" value="12" step="1"></div>
+        <div class="control"><label for="seed">Seed <button class="text-button" id="new-seed" type="button">Randomize</button></label><input id="seed" type="number" min="0" max="4294967295" value="42" step="1" inputmode="numeric"></div>
+        <div class="control split-control"><div><label for="density">Particles</label><select id="density"><option value="60000">60,000</option><option value="180000" selected>180,000</option><option value="360000">360,000</option></select></div><div><label for="palette">Palette</label><select id="palette"><option value="native">Original</option><option value="silver">Silver</option><option value="amber">Amber</option><option value="paper">Ink on paper</option></select></div></div>
+        <div class="preset-actions"><button id="save-preset" class="secondary-button">Save recipe</button><button id="load-preset" class="secondary-button">Load recipe</button><input type="file" id="preset-file" accept=".json,application/json" hidden></div>
+        <details class="export-options" open><summary>Export PNG</summary><div class="export-inner"><div class="control"><label for="export-size">Resolution</label><select id="export-size"><option value="1200">1,200 × 1,200</option><option value="2400" selected>2,400 × 2,400</option><option value="3600">3,600 × 3,600</option></select></div><div class="export-row"><div class="control"><label for="samples">Samples</label><select id="samples"><option value="1">1</option><option value="8" selected>8</option><option value="16">16</option></select></div><div class="control"><label for="shutter">Shutter</label><select id="shutter"><option value="0">0°</option><option value="0.35">126°</option><option value="0.65" selected>234°</option><option value="1">360°</option></select></div></div><button id="export-png" class="primary-button">Save PNG</button></div></details>
+        <p id="error-message" class="error-message" role="alert" hidden></p>
+        <p id="status" class="sr-only" role="status" aria-live="polite"></p>
+      </aside>
+    </div>
+  </main>
+  <main id="guide-view" hidden>
+    <p class="sources-introduction">Each frame evaluates seeded mathematical functions at a phase t ∈ [0, 1). Multiple samples are averaged in linear light before tone mapping. The references below inform the constructions.</p>
+    <ol id="bibliography" class="sources">
+      <li><a href="https://bleuje.com/tutorials/" target="_blank" rel="noreferrer">Étienne Jacob — Loop tutorials</a><p>Periodicity, phase offsets, and replacement.</p></li>
+      <li><a href="https://bleuje.com/tutorial6/" target="_blank" rel="noreferrer">Étienne Jacob — Motion blur template (by beesandbombs), 2023</a><p>Template and temporal-sampling approach by Dave Whyte (beesandbombs).</p></li>
+      <li><a href="https://github.com/Bleuje/processing-animations-code" target="_blank" rel="noreferrer">Étienne Jacob — Processing animation sketches</a><p>Reference implementations studied for technique; no code copied.</p></li>
+      <li><a href="https://stevejtrettel.site/notes/2026/regular-polygons-disk-model/" target="_blank" rel="noreferrer">Steve Trettel — Regular Polygons in the Poincaré Disk, 2026</a><p>Orthogonal-circle geometry and hyperbolic reflections in Hyperbolic.</p></li>
+      <li><a href="https://pure.tue.nl/ws/files/4344195/597566.pdf" target="_blank" rel="noreferrer">N. G. de Bruijn — Algebraic theory of Penrose’s non-periodic tilings of the plane, I–II, 1981</a><p>The pentagrid dual construction used in Phason.</p></li>
+      <li><a href="https://michaelberryphysics.wordpress.com/wp-content/uploads/2013/07/berry034.pdf" target="_blank" rel="noreferrer">J. F. Nye &amp; M. V. Berry — Dislocations in wave trains, 1974</a><p>Phase singularities and winding number in Vortices.</p></li>
+      <li><a href="https://www.degruyterbrill.com/document/doi/10.1515/9781400881819/html?lang=en" target="_blank" rel="noreferrer">John Milnor — Singular Points of Complex Hypersurfaces, 1968</a><p>The fibration f/|f| and the trefoil binding used in Milnor.</p></li>
+      <li><a href="https://doc.cgal.org/latest/Interpolation/index.html" target="_blank" rel="noreferrer">CGAL — 2D and Surface Function Interpolation</a><p>Power distance and weighted Voronoi cells, used in Laguerre.</p></li>
+    </ol>
+  </main>
+  <noscript>This studio requires JavaScript. Rendered PNG and MP4 files are included in the output folder.</noscript>
+  <script type="module">
+const {TOPOLOGY_SCENES, TOPOLOGY_BUILDERS}=(()=>{
+/**
+ * Loop Atelier — three original topology studies.
+ *
+ * Builder contract: (count, seededRandom, packedBuffer) => update(phase, amount).
+ * Buffer layout is [x, y, z, intensity]. Builders allocate their immutable
+ * spatial coefficients once. Every temporal component is periodic and smooth.
+ * No original artist source, meshes, or artwork are used.
+ */
+
+const TAU = 2 * Math.PI;
+const phaseOf = t => Number.isFinite(t) ? t - Math.floor(t) : 0;
+const amountOf = a => Number.isFinite(a) ? Math.max(0, Math.min(1, a)) : 0.5;
+const arrays = (count, n) => Array.from({ length: n }, () => new Float32Array(count));
+
+const TOPOLOGY_SCENES = [
+  {
+    id: 'hopf', title: 'Hopf', subtitle: 'Every circle linked to every other',
+    description: 'Eighteen bands of linked circles swell, contract, and exchange prominence as the three-sphere turns beneath a stereographic projection. Every pair remains linked throughout the transformation.',
+    technique: 'Complex Hopf fibres on S³ undergo a periodic SU(2) rotation before stereographic projection. The unitary transformation mixes the two complex coordinates while preserving the exact circles and their linkage.',
+    formula: '(z₁,z₂) = (cos η eⁱ⁽ψ⁺φ⁾, sin η eⁱψ); P = (Re z₁, Im z₁, Re z₂)/(1 − Im z₂)',
+    duration: 10, camera: { yaw: 0.18, pitch: 0.68, distance: 3.4 },
+    pointSize: 1.13, exposure: 1.14,
+  },
+  {
+    id: 'trefoil', title: 'Trefoil', subtitle: 'A knot carrying seven braids',
+    description: 'Seven fine cable ribbons wind around a trefoil. A travelling twist threads the three crossings while a slow rocking motion reveals which strands pass over and under.',
+    technique: 'A (2,3) torus knot with a periodic orthonormal frame. Seven separated filament bands travel around its cross-section; a smooth rigid precession reveals the crossings.',
+    formula: 'C(u) = ((R+r cos 3u) cos 2u, (R+r cos 3u) sin 2u, r sin 3u); P = C + aN + bB',
+    duration: 9, camera: { yaw: -0.15, pitch: 0.44, distance: 3.4 },
+    pointSize: 1.15, exposure: 1.13,
+  },
+  {
+    id: 'klein', title: 'Klein', subtitle: 'A surface that changes sides',
+    description: 'A figure-eight cross-section makes one half-twist around a ring. Fine threads pass through the immersion’s shared circle, exposing the geometry of a non-orientable surface.',
+    technique: 'A figure-eight immersion of the Klein bottle in R³. A double traversal closes each filament; the self-intersection is intrinsic to this particular 3D immersion and is shown openly.',
+    formula: 'A+iB = eⁱ⁽ᵘ⁄²⁺δ⁾(sin v + iκ sin 2v); P = ((R+A) cos u, (R+A) sin u, B)',
+    duration: 10, camera: { yaw: 0.23, pitch: 0.68, distance: 3.4 },
+    pointSize: 1.10, exposure: 1.08,
+  },
+];
+
+/** Balanced, independently phase-offset sampling keeps each curve continuous. */
+function sampleLines(count, requestedLines, random, setup, visit) {
+  const lines = Math.max(1, Math.min(requestedLines, count));
+  for (let line = 0; line < lines; line++) {
+    const start = Math.floor(line * count / lines);
+    const end = Math.floor((line + 1) * count / lines);
+    const offset = random(), gain = 0.76 + random() * 0.24;
+    setup(line, gain);
+    for (let i = start; i < end; i++) visit(i, (i - start + offset) / (end - start), line, gain);
+  }
+  return lines;
+}
+
+function hopf(count, random, data) {
+  const [cpsi, spsi, ringIndex, gain, shimmer] = arrays(count, 5);
+  const requestedLines = 144, lineParameters = [];
+  sampleLines(count, requestedLines, random, (line, brightness) => {
+    // A band is eight nearby but distinct fibres. Latitude ranges are disjoint,
+    // and azimuth spacing within each latitude remains fixed throughout a loop.
+    const band = Math.floor(line / 8), strand = line % 8;
+    const shell = Math.floor(band / 6), azimuth = band % 6;
+    const across = (strand + 0.5) / 8 - 0.5;
+    const phi = TAU * azimuth / 6;
+    lineParameters.push({
+      eta: [0.245, 0.435, 0.625][shell] + across * 0.026,
+      phi: phi + across * 0.16,
+      shell, pulse: phi + shell * 1.1,
+      gain: brightness * (0.57 + 0.23 * Math.cos(Math.PI * across)),
+    });
+  }, (i, s, line) => {
+    const psi = TAU * s;
+    cpsi[i] = Math.cos(psi); spsi[i] = Math.sin(psi);
+    ringIndex[i] = line;
+    gain[i] = lineParameters[line].gain;
+    shimmer[i] = 0.66 + 0.22 * Math.cos(3 * psi + lineParameters[line].phi);
+  });
+  const coefficients = lineParameters.map(() => new Float64Array(9));
+  return (time, variation = 0.5) => {
+    const t = phaseOf(time), amount = amountOf(variation), angle = TAU * t;
+    const ct = Math.cos(angle), st = Math.sin(angle);
+    // This SU(2) transformation commutes with the fibre's common complex phase.
+    // It therefore sends complete Hopf circles to complete Hopf circles. Turning
+    // the three-sphere relative to the projection pole changes their apparent
+    // sizes and centres much more substantially than a rigid 3D camera orbit.
+    const mixing = (0.15 + 0.24 * amount) * st;
+    const cm = Math.cos(mixing), sm = Math.sin(mixing);
+    const axis = 0.65 * ct + 0.25 * Math.sin(2 * angle);
+    const cg = Math.cos(axis), sg = Math.sin(axis);
+    const scale = 0.467 / (1 + 5.4 * mixing * mixing);
+    for (let line = 0; line < lineParameters.length; line++) {
+      const p = lineParameters[line], c = coefficients[line];
+      const eta = p.eta + (0.014 + 0.021 * amount) * Math.sin(angle + p.pulse);
+      const phi = p.phi + (0.13 + 0.31 * amount) * Math.sin(angle + p.shell * 1.4);
+      const ce = Math.cos(eta), se = Math.sin(eta);
+      const ar = ce * Math.cos(phi), ai = ce * Math.sin(phi);
+      // (a',b') = (cos β a + sin β e^(iγ)b,
+      //           -sin β e^(-iγ)a + cos β b), with a gently moving mixing axis.
+      const aReal = cm * ar + sm * se * cg;
+      const aImag = cm * ai + sm * se * sg;
+      const bReal = -sm * (ar * cg + ai * sg) + cm * se;
+      const bImag = -sm * (ai * cg - ar * sg);
+      // Projected circles are sampled uniformly in Euclidean arc length. Direct
+      // uniform S³ samples become sparse on the expanded arcs and dotted in a
+      // live one-sample render. The following exact circle frame removes that
+      // distortion without fitting or approximating the Hopf fibre.
+      const a2 = aReal * aReal + aImag * aImag;
+      const denominator = 1 - bImag;
+      const centreX = (aReal * bImag - aImag * bReal) / a2;
+      const centreY = (aImag * bImag + aReal * bReal) / a2;
+      const radius = scale / Math.sqrt(a2);
+      c[0] = scale * centreX; c[1] = scale * centreY; c[2] = 0;
+      // First radius vector: image of ψ=0 minus the circle centre. Second:
+      // normalized derivative at ψ=0, times the radius. Both remain smooth even
+      // if b'=0, unlike a frame defined by the argument of the complex b'.
+      c[3] = scale * (aReal / denominator - centreX);
+      c[4] = scale * (aImag / denominator - centreY);
+      c[5] = scale * bReal / denominator;
+      c[6] = radius * (-aImag + aReal * bReal / denominator);
+      c[7] = radius * (aReal + aImag * bReal / denominator);
+      c[8] = radius * (-bImag + bReal * bReal / denominator);
+    }
+    for (let i = 0, j = 0; i < count; i++, j += 4) {
+      const c = coefficients[ringIndex[i]];
+      // Advect samples once around the exact circle, in addition to moving its
+      // base point. This is a change of parameter, not an approximate spline.
+      const cp = cpsi[i] * ct - spsi[i] * st;
+      const sp = spsi[i] * ct + cpsi[i] * st;
+      data[j] = c[0] + c[3] * cp + c[6] * sp;
+      data[j + 1] = c[1] + c[4] * cp + c[7] * sp;
+      data[j + 2] = c[2] + c[5] * cp + c[8] * sp;
+      data[j + 3] = gain[i] * shimmer[i];
+    }
+    return data;
+  };
+}
+
+function trefoil(count, random, data) {
+  const [px, py, pz, nx, ny, nz, bx, by, bz, cb, sb, c3u, s3u, gain] = arrays(count, 14);
+  const R = 0.535, r = 0.235;
+  sampleLines(count, 168, random, () => {}, (i, s, line, brightness) => {
+    const u = TAU * s;
+    const c2 = Math.cos(2 * u), s2 = Math.sin(2 * u);
+    const c3 = Math.cos(3 * u), s3 = Math.sin(3 * u);
+    const rho = R + r * c3, tangentLength = Math.hypot(3 * r, 2 * rho);
+    px[i] = rho * c2; py[i] = rho * s2; pz[i] = r * s3;
+    // N is the unit normal of the supporting torus. B = T × N is orthogonal
+    // to both N and the knot tangent. This avoids a Frenet-frame singularity.
+    nx[i] = c3 * c2; ny[i] = c3 * s2; nz[i] = s3;
+    const radial = 2 * rho * s3 / tangentLength;
+    const angular = 3 * r / tangentLength;
+    bx[i] = radial * c2 - angular * s2;
+    by[i] = radial * s2 + angular * c2;
+    bz[i] = -2 * rho * c3 / tangentLength;
+    const band = Math.floor(line / 24), strand = line % 24;
+    const across = (strand + 0.5) / 24 - 0.5;
+    const v = TAU * (band + across * 0.56) / 7;
+    cb[i] = Math.cos(v + 5 * u); sb[i] = Math.sin(v + 5 * u);
+    c3u[i] = c3; s3u[i] = s3;
+    gain[i] = brightness * (0.57 + 0.26 * Math.cos(Math.PI * across));
+  });
+  return (time, variation = 0.5) => {
+    const t = phaseOf(time), amount = amountOf(variation), angle = TAU * t;
+    const ct = Math.cos(angle), st = Math.sin(angle);
+    const ct2 = Math.cos(2 * angle), st2 = Math.sin(2 * angle);
+    const radius = 0.071 + 0.020 * amount;
+    const yaw = 0.65 * st, pitch = 0.22 * ct, roll = 0.14 * st2;
+    const cy = Math.cos(yaw), sy = Math.sin(yaw);
+    const cp = Math.cos(pitch), sp = Math.sin(pitch);
+    const cr = Math.cos(roll), sr = Math.sin(roll);
+    for (let i = 0, j = 0; i < count; i++, j += 4) {
+      const pulse = s3u[i] * ct2 - c3u[i] * st2;
+      const tube = radius * (1 + 0.12 * pulse);
+      const breath = (0.007 + 0.013 * amount) * (s3u[i] * ct - c3u[i] * st);
+      const a = breath + tube * (cb[i] * ct - sb[i] * st);
+      const b = tube * (sb[i] * ct + cb[i] * st);
+      const x = px[i] + a * nx[i] + b * bx[i];
+      const y = py[i] + a * ny[i] + b * by[i];
+      const z = pz[i] + a * nz[i] + b * bz[i];
+      const xx = cy * x + sy * z, zz = -sy * x + cy * z;
+      const yy = cp * y - sp * zz, zzz = sp * y + cp * zz;
+      data[j] = cr * xx - sr * yy;
+      data[j + 1] = sr * xx + cr * yy;
+      data[j + 2] = zzz;
+      data[j + 3] = gain[i] * (0.72 + 0.14 * pulse);
+    }
+    return data;
+  };
+}
+
+function klein(count, random, data) {
+  const [cu, su, ch, sh, pv, qv, gain] = arrays(count, 7);
+  const requestedLines = 176, lines = Math.min(count, requestedLines);
+  sampleLines(count, requestedLines, random, () => {}, (i, s, line, brightness) => {
+    // u traverses twice, while v covers half its usual domain. This samples
+    // the quotient once and closes every filament under its reversed gluing.
+    const u = 2 * TAU * s, v = Math.PI * (line + 0.5) / lines;
+    cu[i] = Math.cos(u); su[i] = Math.sin(u);
+    ch[i] = Math.cos(u / 2); sh[i] = Math.sin(u / 2);
+    pv[i] = Math.sin(v); qv[i] = Math.sin(2 * v);
+    gain[i] = brightness * (0.38 + 0.40 * Math.sin(v));
+  });
+  return (time, variation = 0.5) => {
+    const t = phaseOf(time), amount = amountOf(variation), angle = TAU * t;
+    const ct = Math.cos(angle), st = Math.sin(angle);
+    const roll = 0.70 * st, cr = Math.cos(roll), sr = Math.sin(roll);
+    const crossSection = 0.81 + 0.20 * amount, ratio = 0.74 + 0.065 * ct;
+    for (let i = 0, j = 0; i < count; i++, j += 4) {
+      const co = ch[i] * cr - sh[i] * sr, si = sh[i] * cr + ch[i] * sr;
+      const wave = cu[i] * ct + su[i] * st;
+      const width = crossSection * (1 + 0.05 * wave);
+      const a = width * (pv[i] * co - ratio * qv[i] * si);
+      const b = width * (pv[i] * si + ratio * qv[i] * co);
+      const R = 1.75 + (0.04 + 0.13 * amount) * (su[i] * ct - cu[i] * st);
+      data[j] = 0.33 * (R + a) * cu[i];
+      data[j + 1] = 0.33 * (R + a) * su[i];
+      data[j + 2] = 0.33 * b;
+      data[j + 3] = gain[i] * (0.76 + 0.09 * wave);
+    }
+    return data;
+  };
+}
+
+const TOPOLOGY_BUILDERS = { hopf, trefoil, klein };
+
+return {TOPOLOGY_SCENES, TOPOLOGY_BUILDERS};
+})();
+const {FIELD_SCENES, FIELD_BUILDERS}=(()=>{
+/**
+ * Three original field studies. No copied artwork, sketch, or noise code.
+ * Builders own static samples and return update(t, amount), filling the supplied
+ * [x,y,z,intensity] Float32Array without allocating in the frame loop.
+ */
+const TAU = 2 * Math.PI;
+
+const FIELD_SCENES = [
+  {
+    id: 'gyroid', title: 'Gyroid', subtitle: 'A porous nodal architecture',
+    description: 'A continuous labyrinth of saddle surfaces breathes inside a cut cube. Its openings pass through the sculpture; fine granular light reveals the walls between them.',
+    technique: 'Area-weighted samples of a marching-tetrahedra approximation to sin x cos y + sin y cos z + sin z cos x = 0. A periodic normal wave deforms this nodal approximation; it is not an exact minimal-surface solver.',
+    formula: 'G = sin x cos y + sin y cos z + sin z cos x = 0; P(t) = P₀ + a n sin(τt + φ)',
+    duration: 10, camera: { yaw: 0.48, pitch: 0.29, distance: 3.5 },
+    pointSize: 1.28, exposure: 1.3,
+  },
+  {
+    id: 'resonance', title: 'Resonance', subtitle: 'Two modes in quadrature',
+    description: 'Luminous nodal curves travel across a dark square membrane. Straight divisions open into curved chambers and exchange places as two resonant modes interfere.',
+    technique: 'Quadrature superposition of the degenerate square Neumann modes (2,5) and (5,2). Brightness traces the instantaneous zero set, displayed on an undulating saddle. This is an analytic modal field, not a simulation of sand or a bending plate.',
+    formula: 'F(u,v,t) = cos(2πu)cos(5πv)cos τt + cos(5πu)cos(2πv)sin τt',
+    duration: 12, camera: { yaw: 0.12, pitch: 0.64, distance: 3.55 },
+    pointSize: 1.13, exposure: 7.861,
+  },
+  {
+    id: 'harmonic', title: 'Harmonic', subtitle: 'An octupole changing basis',
+    description: 'Eight layered lobes gather into an axial sculpture with a folded equatorial belt, then separate again. The centre stays dark as the entire harmonic form slowly turns.',
+    technique: 'Two equal-energy, orthogonal real degree-three spherical harmonics are mixed continuously. A smooth magnitude maps the angular field to lobed radial volumes; it is a sculptural field visualization, not an electron-density calculation.',
+    formula: 'Q = √105 xyz cos τt + (√7/2)(5z³ − 3z) sin τt, |n| = 1; r ∝ √(Q² + ε²) − ε',
+    duration: 12, camera: { yaw: 0.48, pitch: 0.64, distance: 3.5 },
+    pointSize: 1.22, exposure: 1.48,
+  },
+];
+
+function arrays(count, n) { return Array.from({ length: n }, () => new Float32Array(count)); }
+
+function gyroidImplicit(x, y, z) {
+  return Math.sin(x) * Math.cos(y) + Math.sin(y) * Math.cos(z) + Math.sin(z) * Math.cos(x);
+}
+
+/** Analytic equations are exposed for mathematical validation and reuse. */
+function degreeThreeModes(x, y, z, out = new Float64Array(2)) {
+  out[0] = Math.sqrt(105) * x * y * z;
+  out[1] = .5 * Math.sqrt(7) * (2 * z * z * z - 3 * z * x * x - 3 * z * y * y);
+  return out;
+}
+
+function membraneModes(u, v, out = new Float64Array(2)) {
+  out[0] = Math.cos(2 * Math.PI * u) * Math.cos(5 * Math.PI * v);
+  out[1] = Math.cos(5 * Math.PI * u) * Math.cos(2 * Math.PI * v);
+  return out;
+}
+
+// The topology is independent of seed and count, so compile it once per module.
+let gyroidMesh;
+function buildGyroidMesh() {
+  if (gyroidMesh) return gyroidMesh;
+  const divisions = 32, side = divisions + 1, step = TAU / divisions;
+  const values = new Float64Array(side ** 3);
+  const idx = (x, y, z) => (z * side + y) * side + x;
+  for (let z = 0; z < side; z++) for (let y = 0; y < side; y++) for (let x = 0; x < side; x++) {
+    values[idx(x, y, z)] = gyroidImplicit(-Math.PI + step * x, -Math.PI + step * y, -Math.PI + step * z);
+  }
+  const tetrahedra = [[0, 5, 1, 6], [0, 1, 2, 6], [0, 2, 3, 6], [0, 3, 7, 6], [0, 7, 4, 6], [0, 4, 5, 6]];
+  const corners = [[0, 0, 0], [1, 0, 0], [1, 1, 0], [0, 1, 0], [0, 0, 1], [1, 0, 1], [1, 1, 1], [0, 1, 1]];
+  const triangles = [], cumulative = [];
+  let area = 0;
+  const triangle = (a, b, c) => {
+    const ux = b[0] - a[0], uy = b[1] - a[1], uz = b[2] - a[2];
+    const vx = c[0] - a[0], vy = c[1] - a[1], vz = c[2] - a[2];
+    const crossX = uy * vz - uz * vy, crossY = uz * vx - ux * vz, crossZ = ux * vy - uy * vx;
+    const size = .5 * Math.hypot(crossX, crossY, crossZ);
+    if (size < 1e-11) return;
+    triangles.push(...a, ...b, ...c); area += size; cumulative.push(area);
+  };
+  for (let z = 0; z < divisions; z++) for (let y = 0; y < divisions; y++) for (let x = 0; x < divisions; x++) {
+    const p = corners.map(([dx, dy, dz]) => [-Math.PI + step * (x + dx), -Math.PI + step * (y + dy), -Math.PI + step * (z + dz)]);
+    const v = corners.map(([dx, dy, dz]) => values[idx(x + dx, y + dy, z + dz)]);
+    const edge = (a, b) => {
+      const t = v[a] / (v[a] - v[b]);
+      return [p[a][0] + t * (p[b][0] - p[a][0]), p[a][1] + t * (p[b][1] - p[a][1]), p[a][2] + t * (p[b][2] - p[a][2])];
+    };
+    for (const tetra of tetrahedra) {
+      const inside = tetra.filter(i => v[i] < 0), outside = tetra.filter(i => v[i] >= 0);
+      if (inside.length === 1 || inside.length === 3) {
+        const one = inside.length === 1 ? inside : outside, other = inside.length === 1 ? outside : inside;
+        triangle(edge(one[0], other[0]), edge(one[0], other[1]), edge(one[0], other[2]));
+      } else if (inside.length === 2) {
+        const a = edge(inside[0], outside[0]), b = edge(inside[0], outside[1]);
+        const c = edge(inside[1], outside[0]), d = edge(inside[1], outside[1]);
+        triangle(a, b, d); triangle(a, d, c);
+      }
+    }
+  }
+  gyroidMesh = { triangles: Float64Array.from(triangles), cumulative: Float64Array.from(cumulative), area };
+  return gyroidMesh;
+}
+
+function gyroid(count, random, data) {
+  const mesh = buildGyroidMesh(), scale = .655 / Math.PI;
+  const [px, py, pz, nx, ny, nz, phaseC, phaseS, gain] = arrays(count, 9);
+  let triangle = 0;
+  for (let i = 0; i < count; i++) {
+    const target = (i + random()) / count * mesh.area;
+    while (triangle < mesh.cumulative.length - 1 && mesh.cumulative[triangle] < target) triangle++;
+    const k = triangle * 9, s = Math.sqrt(random()), b = random();
+    const w0 = 1 - s, w1 = s * (1 - b), w2 = s * b;
+    const m = mesh.triangles;
+    const x = w0 * m[k] + w1 * m[k + 3] + w2 * m[k + 6];
+    const y = w0 * m[k + 1] + w1 * m[k + 4] + w2 * m[k + 7];
+    const z = w0 * m[k + 2] + w1 * m[k + 5] + w2 * m[k + 8];
+    const gx = Math.cos(x) * Math.cos(y) - Math.sin(z) * Math.sin(x);
+    const gy = -Math.sin(x) * Math.sin(y) + Math.cos(y) * Math.cos(z);
+    const gz = -Math.sin(y) * Math.sin(z) + Math.cos(z) * Math.cos(x);
+    const norm = Math.hypot(gx, gy, gz) || 1;
+    px[i] = x * scale; py[i] = y * scale; pz[i] = z * scale;
+    nx[i] = gx / norm; ny[i] = gy / norm; nz[i] = gz / norm;
+    const phase = 1.1 * x - .8 * y + .65 * z;
+    phaseC[i] = Math.cos(phase); phaseS[i] = Math.sin(phase);
+    // Surface normals model the static scaffold, not exact normals after deformation.
+    const illumination = .17 + .83 * Math.abs((.36 * gx + .67 * gy + .64 * gz) / norm);
+    gain[i] = (.74 + .26 * random()) * illumination * .64;
+  }
+  return (t, amount = .5) => {
+    const ct = Math.cos(TAU * t), st = Math.sin(TAU * t);
+    const angle = .12 * st, ca = Math.cos(angle), sa = Math.sin(angle);
+    const breath = .007 + .024 * amount;
+    for (let i = 0, j = 0; i < count; i++, j += 4) {
+      const wave = phaseS[i] * ct + phaseC[i] * st;
+      const x = px[i] + breath * nx[i] * wave;
+      const y = py[i] + breath * ny[i] * wave;
+      const z = pz[i] + breath * nz[i] * wave;
+      data[j] = ca * x + sa * z;
+      data[j + 1] = y;
+      data[j + 2] = -sa * x + ca * z;
+      data[j + 3] = gain[i] * (.88 + .12 * wave);
+    }
+    return data;
+  };
+}
+
+function resonance(count, random, data) {
+  const [px, py, modeA, modeB, saddle, gain] = arrays(count, 6);
+  const side = Math.ceil(Math.sqrt(count));
+  const modes = new Float64Array(2);
+  // Jittered strata avoid regular point-grid moiré while retaining uniform coverage.
+  for (let i = 0; i < count; i++) {
+    const u = ((i % side) + random()) / side;
+    const v = (Math.floor(i / side) + random()) / side;
+    px[i] = 1.66 * (u - .5); py[i] = 1.66 * (v - .5);
+    saddle[i] = (u - .5) * (u - .5) - (v - .5) * (v - .5);
+    membraneModes(u, v, modes); modeA[i] = modes[0]; modeB[i] = modes[1];
+    gain[i] = .8 + .2 * random();
+  }
+  return (t, amount = .5) => {
+    const angle = TAU * t + .19;
+    const a = Math.cos(angle), b = Math.sin(angle);
+    const width = .032 + .026 * amount, inverseWidth2 = 1 / (width * width);
+    const relief = .10 + .18 * amount;
+    const bow = .8 + .25 * Math.sin(TAU * t);
+    for (let i = 0, j = 0; i < count; i++, j += 4) {
+      const value = a * modeA[i] + b * modeB[i];
+      const denominator = 1 + value * value * inverseWidth2;
+      const nodal = 1 / (denominator * denominator);
+      data[j] = px[i]; data[j + 1] = py[i]; data[j + 2] = relief * value + bow * saddle[i];
+      data[j + 3] = gain[i] * (.015 + 5.6 * nodal) / 5.615;
+    }
+    return data;
+  };
+}
+
+function harmonic(count, random, data) {
+  const [nx, ny, nz, modeA, modeB, radial, gain] = arrays(count, 7);
+  const golden = Math.PI * (3 - Math.sqrt(5));
+  const rotation = TAU * random();
+  const modes = new Float64Array(2);
+  for (let i = 0; i < count; i++) {
+    // Equal-area directions interleave thirteen lightly jittered radial layers.
+    const y = 1 - 2 * (i + .5) / count;
+    const angle = golden * i + rotation, r = Math.sqrt(Math.max(0, 1 - y * y));
+    const x = r * Math.cos(angle), z = r * Math.sin(angle);
+    nx[i] = x; ny[i] = y; nz[i] = z;
+    // Both restrictions of homogeneous harmonic polynomials of degree three.
+    // Constants make the sphere averages of A² and B² equal to one.
+    degreeThreeModes(x, y, z, modes); modeA[i] = modes[0]; modeB[i] = modes[1];
+    const layer = i % 13;
+    radial[i] = .38 + .62 * Math.pow(layer / 12, .8) + (random() - .5) * .004;
+    gain[i] = (.8 + .2 * random()) * (layer === 12 ? .95 : .22 + .40 * layer / 12);
+  }
+  return (t, amount = .5) => {
+    const angle = TAU * t + .07, ct = Math.cos(angle), st = Math.sin(angle);
+    const delta = .06 + .09 * (1 - amount), factor = .41;
+    const rotation = .32 * Math.sin(TAU * t), cr = Math.cos(rotation), sr = Math.sin(rotation);
+    const pitch = .27 * Math.cos(TAU * t), cp = Math.cos(pitch), sp = Math.sin(pitch);
+    for (let i = 0, j = 0; i < count; i++, j += 4) {
+      const value = ct * modeA[i] + st * modeB[i], squared = value * value;
+      // Smooth through every nodal crossing; sqrt(x²+δ²) has finite derivatives.
+      const radius = factor * (Math.sqrt(squared + delta * delta) - delta) * radial[i];
+      const x = radius * nx[i], y = radius * ny[i], z = radius * nz[i];
+      const yy = cp * y - sp * z, zz = sp * y + cp * z;
+      data[j] = cr * x - sr * yy; data[j + 1] = sr * x + cr * yy; data[j + 2] = zz;
+      // A smooth radial visibility window prevents density collapse at the
+      // shared nodal centre. Signed brightness helps distinguish overlapping lobes.
+      const r2 = radius * radius, r4 = r2 * r2;
+      const centreFade = r4 / (r4 + .00042);
+      const signLight = .72 + .28 * value / Math.sqrt(squared + .12);
+      data[j + 3] = gain[i] * squared / (.24 + squared) * centreFade * signLight;
+    }
+    return data;
+  };
+}
+
+const FIELD_BUILDERS = { gyroid, resonance, harmonic };
+
+return {FIELD_SCENES, FIELD_BUILDERS};
+})();
+const {DYNAMIC_SCENES, DYNAMIC_BUILDERS}=(()=>{
+/**
+ * Original recursive and dynamical studies for Loop Atelier.
+ *
+ * Builders fill [x, y, z, intensity] in the supplied Float32Array. Confluence
+ * is pointwise periodic. Descent is visibly periodic under a layer permutation;
+ * identical templates and an exactly dark recycling interval make that explicit.
+ * Neither builder integrates persistent state or allocates inside update().
+ */
+const TAU = Math.PI * 2;
+const wrap = value => Number.isFinite(value) ? value - Math.floor(value) : 0;
+const clamp = (value, low, high) => Math.max(low, Math.min(high, value));
+const smooth5 = value => {
+  const x = clamp(value, 0, 1);
+  return x * x * x * (x * (x * 6 - 15) + 10);
+};
+
+const DYNAMIC_SCENES = [
+  {
+    id: 'descent', title: 'Descent', subtitle: 'An endless spiral of thresholds',
+    previewCount: 360000,
+    description: 'Nested, finely ruled thresholds expand toward the viewer. Each reveals another inside it, while the entire stairwell turns through a quiet logarithmic spiral.',
+    technique: 'Identical pleated square galleries occupy eight logarithmic scales. A quintic visibility window conceals recycling; each loop permutes the galleries exactly.',
+    formula: 'sₖ = (k − t) mod 8; rₖ = 1.18 exp(−0.405 sₖ); θₖ = αsₖ + ε sin(τt)',
+    duration: 8, camera: { yaw: 0.10, pitch: 0.30, distance: 3.85 },
+    pointSize: 1.20, exposure: 2.45, loopTopology: 'permutation',
+  },
+  {
+    id: 'confluence', title: 'Confluence', subtitle: 'Three currents through a double scroll',
+    description: 'Three broad ruled ribbons braid around a double-scroll orbit. A sequence of smooth shears stretches its lobes and turns the crossing through space, keeping every thread distinct.',
+    technique: 'A closed, three-strand ribbon braid is carried by six cyclic sine shears. Each shear has unit Jacobian determinant; their composition creates a smooth, volume-preserving deformation.',
+    formula: 'Sₓ: x ← x + a sin(ky + τt); Sᵧ: y ← y + b sin(kz − τt); S_z: z ← z + c sin(kx + τt)',
+    duration: 10, camera: { yaw: 0.12, pitch: 0.22, distance: 3.65 },
+    pointSize: 1.02, exposure: 1.06,
+  },
+];
+
+function descent(count, random, data) {
+  const layers = Math.min(8, count);
+  const perLayer = Math.floor(count / layers);
+  const active = layers * perLayer;
+  const lineCount = Math.min(32, perLayer);
+  const tx = new Float32Array(perLayer);
+  const ty = new Float32Array(perLayer);
+  const terrace = new Float32Array(perLayer);
+  const c4 = new Float32Array(perLayer);
+  const s4 = new Float32Array(perLayer);
+  const c12 = new Float32Array(perLayer);
+  const s12 = new Float32Array(perLayer);
+  const pleatEnvelope = new Float32Array(perLayer);
+  const gain = new Float32Array(perLayer);
+  // Every gallery uses this SAME template, including sampling and light. Unique
+  // random offsets per gallery would break the exact permutation at the seam.
+  for (let line = 0; line < lineCount; line++) {
+    const start = Math.floor(line * perLayer / lineCount);
+    const end = Math.floor((line + 1) * perLayer / lineCount);
+    const offset = random();
+    const v = lineCount === 1 ? 0.5 : (line + 0.12 * (random() - 0.5)) / (lineCount - 1);
+    const brightness = 0.84 + 0.16 * random();
+    const radius = 0.725 + 0.265 * v;
+    const bevelTwist = 0.20 * (v - 0.5);
+    const cb = Math.cos(bevelTwist), sb = Math.sin(bevelTwist);
+    for (let i = start; i < end; i++) {
+      const u = TAU * (i - start + offset) / (end - start);
+      const cu = Math.cos(u), su = Math.sin(u);
+      // Polar superellipse parametrisation avoids the point-density singularity
+      // of the customary signed |cos(u)|^(2/p) representation near its axes.
+      const squareness = Math.pow(cu ** 6 + su ** 6, -1 / 6);
+      tx[i] = radius * squareness * (cu * cb - su * sb);
+      ty[i] = radius * squareness * (cu * sb + su * cb);
+      terrace[i] = 0.39 * (v - 0.5) + 0.085 * Math.cos(4 * u) * (2 * v - 1);
+      c4[i] = Math.cos(4 * u);
+      s4[i] = Math.sin(4 * u);
+      c12[i] = Math.cos(12 * u + 1.2 * v);
+      s12[i] = Math.sin(12 * u + 1.2 * v);
+      pleatEnvelope[i] = Math.sin(Math.PI * clamp(v, 0, 1));
+      gain[i] = brightness * (0.85 + 0.15 * Math.sin(2 * u) ** 2)
+        * (line === 0 || line === lineCount - 1 ? 1.14 : 0.92);
+    }
+  }
+  const fadeWidth = Math.min(0.72, layers * 0.28);
+  const darkMargin = Math.min(0.16, layers * 0.08);
+  // At arbitrary counts, fewer than eight unused particles remain black. This
+  // preserves equal populations per gallery and therefore the exact image loop.
+  for (let i = active * 4; i < data.length; i++) data[i] = 0;
+  return (time, amount = 0.5) => {
+    const t = wrap(time), a = clamp(amount, 0, 1);
+    const ct = Math.cos(TAU * t), st = Math.sin(TAU * t);
+    const twist = 0.37 + 0.54 * a;
+    for (let layer = 0; layer < layers; layer++) {
+      let s = layer - t;
+      if (s < 0) s += layers;
+      const scale = 1.18 * Math.exp(-0.405 * s);
+      const theta = twist * s + 0.08 * st;
+      const ca = Math.cos(theta), sa = Math.sin(theta);
+      const window = smooth5((s - darkMargin) / fadeWidth)
+        * smooth5((layers - darkMargin - s) / fadeWidth);
+      const light = window * Math.pow(scale, 1.45);
+      const depth = 0.032 * ((layers - 1) / 2 - s);
+      for (let i = 0, j = layer * perLayer * 4; i < perLayer; i++, j += 4) {
+        const x = tx[i] * scale, y = ty[i] * scale;
+        data[j] = x * ca - y * sa;
+        data[j + 1] = x * sa + y * ca;
+        data[j + 2] = depth + scale * (terrace[i]
+          + (0.025 + 0.035 * a) * (s4[i] * ct + c4[i] * st)
+          + (0.055 + 0.045 * a) * pleatEnvelope[i] * (s12[i] * ct - c12[i] * st));
+        data[j + 3] = gain[i] * light;
+      }
+    }
+    return data;
+  };
+}
+
+function confluence(count, random, data) {
+  const strands = 3;
+  const linesPerStrand = 36;
+  const lines = Math.min(strands * linesPerStrand, count);
+  const px = new Float32Array(count);
+  const py = new Float32Array(count);
+  const pz = new Float32Array(count);
+  const c2 = new Float32Array(count);
+  const s2 = new Float32Array(count);
+  const gain = new Float32Array(count);
+  for (let line = 0; line < lines; line++) {
+    const start = Math.floor(line * count / lines);
+    const end = Math.floor((line + 1) * count / lines);
+    const strand = Math.floor(line * strands / lines);
+    const first = Math.floor(strand * lines / strands);
+    const last = Math.floor((strand + 1) * lines / strands);
+    const v = last - first <= 1 ? 0 : (line - first) / (last - first - 1) - 0.5;
+    const sampleOffset = random();
+    const brightness = 0.85 + 0.15 * random();
+    const phase = strand * TAU / strands;
+    for (let i = start; i < end; i++) {
+      const u = TAU * (i - start + sampleOffset) / (end - start);
+      const su = Math.sin(u), cu = Math.cos(u);
+      const s2u = Math.sin(2 * u), c2u = Math.cos(2 * u);
+      // A closed double-scroll centreline. Its tangent never vanishes. Using
+      // its projected normal rather than a Frenet frame avoids inflection flips.
+      let dx = 0.67 * cu, dy = 0.88 * c2u, dz = -0.245 * su;
+      const tangentLength = Math.hypot(dx, dy, dz);
+      dx /= tangentLength; dy /= tangentLength; dz /= tangentLength;
+      const horizontalLength = Math.hypot(dx, dy);
+      const nx = -dy / horizontalLength, ny = dx / horizontalLength;
+      const bx = -dz * ny, by = dz * nx, bz = dx * ny - dy * nx;
+      const braidAngle = 3 * u + phase;
+      const radius = 0.125 + 0.115 * v;
+      const normal = radius * Math.cos(braidAngle);
+      const binormal = radius * Math.sin(braidAngle);
+      px[i] = 0.67 * su + normal * nx + binormal * bx;
+      py[i] = 0.44 * s2u + normal * ny + binormal * by;
+      pz[i] = 0.245 * cu + binormal * bz;
+      c2[i] = c2u; s2[i] = s2u;
+      gain[i] = brightness * (0.43 + 0.11 * Math.abs(v) * 2);
+    }
+  }
+  return (time, amount = 0.5) => {
+    const t = wrap(time), a = clamp(amount, 0, 1);
+    const phase = TAU * t, ct = Math.cos(phase), st = Math.sin(phase);
+    const ax = 0.14 + 0.16 * a, ay = 0.11 + 0.12 * a, az = 0.14 + 0.15 * a;
+    const secondary = 0.055 + 0.065 * a;
+    const displayScale = 0.99 / (1 + 0.12 * a);
+    // Evaluate the same shear composition at the origin and subtract it: this
+    // translation keeps the sculpture framed without changing its Jacobian.
+    let ox = ax * st;
+    let oy = ay * Math.sin(-phase);
+    let oz = az * Math.sin(3.7 * ox + phase);
+    ox += secondary * Math.sin(4.2 * oy - phase);
+    oy += secondary * Math.sin(3.9 * oz + 2 * phase);
+    oz += secondary * Math.sin(3.4 * ox - 2 * phase);
+    for (let i = 0, j = 0; i < count; i++, j += 4) {
+      let x = px[i], y = py[i], z = pz[i];
+      x += ax * Math.sin(3.4 * y + phase);
+      y += ay * Math.sin(3.1 * z - phase);
+      z += az * Math.sin(3.7 * x + phase);
+      x += secondary * Math.sin(4.2 * y - phase);
+      y += secondary * Math.sin(3.9 * z + 2 * phase);
+      z += secondary * Math.sin(3.4 * x - 2 * phase);
+      data[j] = displayScale * (x - ox);
+      data[j + 1] = displayScale * (y - oy);
+      data[j + 2] = displayScale * (z - oz);
+      const travellingLight = c2[i] * ct + s2[i] * st;
+      data[j + 3] = gain[i] * (0.77 + 0.23 * travellingLight * travellingLight);
+    }
+    return data;
+  };
+}
+
+const DYNAMIC_BUILDERS = { descent, confluence };
+
+return {DYNAMIC_SCENES, DYNAMIC_BUILDERS};
+})();
+const {SPACE_SHADERS}=(()=>{
+/** Original opaque, architectural studies for Loop Atelier. */
+const ARCHITECTURE = String.raw`
+const float PI = 3.141592653589793;
+const float TAU = 6.283185307179586;
+vec2 mapScene(vec3 p);
+vec3 materialAt(vec3 p, float id);
+float gFloor,gFov;
+float sdRoundBox(vec3 p, vec3 b, float r) {
+  vec3 q=abs(p)-b;
+  return length(max(q,0.0))+min(max(q.x,max(q.y,q.z)),0.0)-r;
+}
+float squareBeam(vec2 p,float w,float bevel) {
+  vec2 q=abs(p)-vec2(w);
+  return length(max(q,0.0))+min(max(q.x,q.y),0.0)-bevel;
+}
+float seededPhase(){return TAU*fract(sin(uSeed*0.01731+0.719)*437.1831);}
+vec3 normalAt(vec3 p,float e) {
+  const vec2 k=vec2(1.0,-1.0);
+  return normalize(k.xyy*mapScene(p+k.xyy*e).x+k.yyx*mapScene(p+k.yyx*e).x
+    +k.yxy*mapScene(p+k.yxy*e).x+k.xxx*mapScene(p+k.xxx*e).x);
+}
+float occlusionAt(vec3 p,vec3 n) {
+  float ao=0.0,weight=1.0;
+  for(int i=1;i<=4;i++) {
+    float h=0.025+float(i)*0.064;
+    ao+=(h-mapScene(p+n*h).x)*weight;
+    weight*=0.56;
+  }
+  return clamp(1.0-1.8*ao,0.12,1.0);
+}
+float shadowAt(vec3 p,vec3 direction) {
+  float t=0.025,result=1.0;
+  for(int i=0;i<24;i++) {
+    float d=mapScene(p+direction*t).x;
+    result=min(result,13.0*d/t);
+    t+=clamp(d,0.028,0.24);
+    if(d<0.001||t>5.5) break;
+  }
+  return clamp(result,0.06,1.0);
+}
+vec3 architecture(vec2 p,vec3 ro,vec3 target,float theme) {
+  vec3 fw=normalize(target-ro),rt=normalize(cross(fw,vec3(0.0,1.0,0.0))),up=cross(rt,fw);
+  vec3 rd=normalize(fw+gFov*p.x*rt+gFov*p.y*up);
+  // Both sculptures and their plinths fit inside this box. Spend the ray
+  // budget inside that region; handle the unbounded floor analytically.
+  vec3 ta=(-vec3(2.06)-ro)/rd,tb=(vec3(2.06)-ro)/rd;
+  vec3 nearBound=min(ta,tb),farBound=max(ta,tb);
+  float entry=max(nearBound.x,max(nearBound.y,nearBound.z));
+  float exitDistance=min(farBound.x,min(farBound.y,farBound.z));
+  bool intersects=exitDistance>=max(entry,0.0);
+  float travel=intersects?max(0.0,entry-0.003):18.0;
+  if(rd.y<-0.0001&&-(ro.y+gFloor)/rd.y<travel)intersects=false;
+  vec2 h=vec2(1.0,0.0);bool hit=false;
+  int steps=uResolution<800.0?68:80;
+  for(int i=0;i<80;i++) {
+    if(i>=steps||!intersects) break;
+    h=mapScene(ro+rd*travel);
+    if(h.x<0.0009+travel*0.00010){hit=true;break;}
+    travel+=max(h.x*0.91,0.001);
+    if(travel>17.0)break;
+  }
+  vec3 background=mix(vec3(0.009,0.014,0.021),vec3(0.028,0.022,0.019),theme);
+  background*=0.62+0.38*exp(-0.8*dot(p,p));
+  // Continue the distant studio floor analytically instead of revealing the
+  // ray-marcher's far bound as a hard false horizon behind the sculpture.
+  if(!hit&&rd.y<-0.0001) {
+    float floorTravel=-(ro.y+gFloor)/rd.y;
+    if(floorTravel>0.0) {travel=floorTravel;h=vec2(0.0);hit=true;}
+  }
+  if(!hit)return background;
+  vec3 pos=ro+rd*travel;
+  vec3 n=h.y<0.5?vec3(0.0,1.0,0.0):normalAt(pos,0.0012+0.00008*travel);
+  vec3 albedo=materialAt(pos,h.y);
+  vec3 light=normalize(vec3(-0.55,0.87,0.58));
+  bool distantFloor=h.y<0.5&&length(pos.xz)>5.5;
+  float diffuse=max(dot(n,light),0.0);
+  float ao=distantFloor?1.0:pow(occlusionAt(pos,n),0.72);
+  float shadow=distantFloor?1.0:shadowAt(pos+n*0.007,light);
+  float rim=max(dot(n,normalize(vec3(0.7,0.3,-0.6))),0.0);
+  vec3 halfVector=normalize(light-rd);
+  float specular=pow(max(dot(n,halfVector),0.0),72.0)*shadow;
+  vec3 ambient=vec3(0.14,0.18,0.24)*(0.62+0.38*max(n.y,0.0));
+  vec3 colour=albedo*(ambient*ao+vec3(1.65,1.37,1.02)*diffuse*shadow);
+  colour+=albedo*vec3(0.18,0.28,0.43)*rim*ao;
+  float metal=(theme>0.5&&h.y>0.5&&h.y<3.5)||(theme<0.5&&h.y>1.5&&h.y<2.5)?1.0:0.0;
+  colour+=mix(vec3(0.52),albedo,0.55)*specular*(0.7+metal);
+  vec3 reflected=reflect(rd,n);
+  float panel=smoothstep(0.78,0.98,dot(reflected,normalize(vec3(-0.4,0.75,0.2))));
+  colour+=albedo*vec3(0.58,0.63,0.71)*panel*metal*ao*0.35;
+  float grazing=pow(1.0-max(dot(n,-rd),0.0),4.0);
+  colour+=vec3(0.08,0.11,0.15)*grazing*ao;
+  float haze=1.0-exp(-(h.y<0.5?0.072:0.014)*travel);
+  return max(mix(colour,background,haze),vec3(0.0));
+}
+`;
+
+const SECTION = String.raw`
+vec2 gXW,gYW,gZW;
+float gSlice,gWidth,gSpacing;
+vec4 sectionCoordinates(vec3 p) {
+  vec4 q=vec4(p,gSlice);
+  q.xw=mat2(gXW.x,-gXW.y,gXW.y,gXW.x)*q.xw;
+  q.yw=mat2(gYW.x,-gYW.y,gYW.y,gYW.x)*q.yw;
+  q.zw=mat2(gZW.x,-gZW.y,gZW.y,gZW.x)*q.zw;
+  return q;
+}
+vec2 sectionStructure(vec3 p) {
+  vec4 q=sectionCoordinates(p);
+  vec4 d=abs(mod(q+0.5*gSpacing,gSpacing)-0.5*gSpacing);
+  // The thickened pairwise intersections of a 4D hypercubic grid's planes.
+  // Restriction to the 3D slice yields architectural struts. No 4D-to-3D
+  // perspective division is involved: this is genuinely a hyperplane slice.
+  // The symmetric cross-section increases with either nonnegative coordinate.
+  // Its minimum pair is therefore the two smallest coordinates: two rounded
+  // box evaluations replace six, with exactly the same geometry and material.
+  float smallest=min(d.x,min(d.y,d.z));
+  float middle=max(min(d.x,d.y),min(max(d.x,d.y),d.z));
+  float ivory=squareBeam(vec2(smallest,middle),gWidth,0.017);
+  float metal=squareBeam(vec2(smallest,d.w),gWidth,0.017);
+  vec2 result=ivory<metal?vec2(ivory,1.0):vec2(metal,2.0);
+  float clip=sdRoundBox(p,vec3(1.67),0.045);
+  result.x=max(result.x,clip);
+  return result;
+}
+vec2 mapScene(vec3 p) {
+  vec2 result=sectionStructure(p);
+  float plinth=sdRoundBox(p-vec3(0.0,-1.79,0.0),vec3(1.86,0.085,1.86),0.045);
+  if(plinth<result.x)result=vec2(plinth,3.0);
+  float floorDistance=p.y+1.95;
+  if(floorDistance<result.x)result=vec2(floorDistance,0.0);
+  return result;
+}
+vec3 materialAt(vec3 p,float id) {
+  if(id<0.5)return vec3(0.020,0.027,0.039);
+  if(id>2.5)return vec3(0.028,0.038,0.055);
+  if(id>1.5)return vec3(0.49,0.205,0.072);
+  return vec3(0.74,0.71,0.64);
+}
+vec3 artwork(vec2 p) {
+  float a=TAU*fract(uPhase),seed=seededPhase();
+  float xw=0.48+(0.24+0.36*uVariation)*sin(a);
+  float yw=-0.22+(0.20+0.28*uVariation)*sin(a+0.9);
+  float zw=0.34+(0.19+0.27*uVariation)*cos(a);
+  gXW=vec2(cos(xw),sin(xw));gYW=vec2(cos(yw),sin(yw));gZW=vec2(cos(zw),sin(zw));
+  gSlice=0.31*sin(a+0.4)+0.045*sin(seed);
+  gWidth=0.047+0.013*uVariation;
+  gFloor=1.95;
+  gFov=0.62;
+  gSpacing=0.88+0.10*fract(sin(uSeed*0.371)*73.15);
+  float camera=0.73+0.13*sin(a);
+  vec3 ro=vec3(5.15*cos(camera),3.10+0.13*cos(a),5.15*sin(camera));
+  return architecture(p,ro,vec3(0.0,-0.34,0.0),0.0);
+}
+`;
+
+const INVERSION = String.raw`
+vec3 gCentre,gGridShift;
+float gRadius2,gGridSize;
+vec2 vaultedGrid(vec3 q) {
+  vec3 d=abs(mod(q+0.5*gGridSize,gGridSize)-0.5*gGridSize);
+  float a=squareBeam(d.xy,0.040,0.045);
+  float b=squareBeam(d.xz,0.040,0.045);
+  float c=squareBeam(d.yz,0.040,0.045);
+  float distance=min(a,min(b,c));
+  return vec2(distance,a<b&&a<c?1.0:(b<c?2.0:3.0));
+}
+vec2 invertedStructure(vec3 p) {
+  vec3 relative=p-gCentre;
+  float radius=max(length(relative),0.025),r2=radius*radius;
+  vec3 q=gCentre+gRadius2*relative/r2+gGridShift;
+  vec2 grid=vaultedGrid(q);
+  // Exact identity: |I(x)-I(p)|=R²|x-p|/(|x-c||p-c|). Within a ball of
+  // radius d around p, this is <=R²d/(r(r-d)). Solving for a safe source
+  // clearance D gives the conservative step below, without a square root.
+  float D=abs(grid.x);
+  float safe=D*r2/(gRadius2+D*radius);
+  float distance=sign(grid.x)*safe;
+  // Finite crop: the accumulation at the inversion centre is deliberately
+  // excluded, so the shader does not pretend to resolve infinitely small cells.
+  distance=max(distance,0.31-radius);
+  distance=max(distance,sdRoundBox(p,vec3(1.78,1.43,1.78),0.08));
+  return vec2(distance,grid.y);
+}
+vec2 mapScene(vec3 p) {
+  vec2 result=invertedStructure(p);
+  float plinth=sdRoundBox(p-vec3(0.0,-1.60,0.0),vec3(1.94,0.065,1.94),0.045);
+  if(plinth<result.x)result=vec2(plinth,4.0);
+  float ground=p.y+1.78;
+  if(ground<result.x)result=vec2(ground,0.0);
+  return result;
+}
+vec3 materialAt(vec3 p,float id) {
+  if(id<0.5)return vec3(0.025,0.028,0.037);
+  if(id>3.5)return vec3(0.065,0.061,0.055);
+  float r=length(p-gCentre);
+  vec3 copper=vec3(0.65,0.34,0.13),cobalt=vec3(0.045,0.12,0.21);
+  float blend=smoothstep(0.48,1.58,r);
+  if(id<1.5)blend=0.65+0.35*blend;
+  return mix(cobalt,copper,blend);
+}
+vec3 artwork(vec2 p) {
+  float a=TAU*fract(uPhase),seed=seededPhase();
+  gCentre=vec3(0.20*cos(a),0.14*sin(a),0.15*sin(2.0*a));
+  gGridShift=vec3(0.22*sin(a+0.4),0.19*cos(a),0.17*sin(2.0*a+0.7));
+  gGridShift+=0.035*vec3(sin(seed),cos(seed),sin(seed+1.3));
+  gRadius2=1.72+(0.16+0.24*uVariation)*sin(a-0.3);
+  gGridSize=0.87+0.04*cos(seed);
+  gFloor=1.78;
+  gFov=0.65;
+  float camera=0.60+0.18*sin(a+0.2);
+  vec3 ro=vec3(5.2*cos(camera),2.65+0.18*cos(a),5.2*sin(camera));
+  return architecture(p,ro,vec3(0.0,-0.30,0.0),1.0);
+}
+`;
+
+const SPACE_SHADERS = [
+  {
+    id:'section',title:'Section',subtitle:'Rooms from a fourth direction',
+    description:'A four-dimensional cellular grid passes through a three-dimensional slice. Ivory and copper structures join, divide, and change direction as the slice turns through the grid.',
+    technique:'Ray-marched thickened intersections of pairs of hypercubic grid planes in R⁴, restricted to a rotating affine three-plane. Real occlusion, soft shadows, and opaque material distinguish the structural families.',
+    formula:'q = R(t)(x,y,z,h(t)); solid = {minᵢ<ⱼ d((qᵢ,qⱼ),grid) < ε}',
+    duration:12,exposure:1,collection:3,kind:'shader',palette:'native',source:ARCHITECTURE+SECTION,
+  },
+  {
+    id:'inversion',title:'Inversion',subtitle:'An arcade folded through a sphere',
+    description:'Ordered rooms become curved vaults around a shifting inversion sphere. Broad copper arches give way to progressively smaller cobalt chambers toward the centre.',
+    technique:'The inverse image of a periodic architectural lattice under sphere inversion. A conservative distance bound supports opaque ray marching; the central accumulation is deliberately cropped at finite scale.',
+    formula:'I(p) = c + R²(p−c)/‖p−c‖²; geometry = I⁻¹(periodic vaulted grid)',
+    duration:12,exposure:1,collection:3,kind:'shader',palette:'native',source:ARCHITECTURE+INVERSION,
+  },
+];
+
+return {SPACE_SHADERS};
+})();
+const {COMPLEX_SHADERS}=(()=>{
+/** Original complex-dynamics and diffraction studies; no borrowed shader code. */
+const COMPLEX_SHADERS = [
+  {
+    id: 'monodromy', title: 'Monodromy', subtitle: 'Five roots exchange their identities',
+    description: 'Copper, deep blue and ivory territories unfold into recursively branching borders. Three roots braid in one direction while two braid in the other; the polynomial returns to its beginning even though its roots have exchanged places.',
+    technique: 'Newton iteration of a degree-five complex polynomial built from a cubic and a quadratic factor. Periodic coefficients produce root monodromy. Smooth orbit effort supplies engraved contours; converged root position supplies a continuous, label-independent palette.',
+    formula: 'P(z,t) = [(z−c(t))³−a(t)][(z−d(t))²−b(t)]; zₙ₊₁ = zₙ − P/P′',
+    duration: 12, exposure: 1, collection: 3, kind: 'shader', palette: 'native',
+    source: `
+vec2 cmul(vec2 a, vec2 b) { return vec2(a.x*b.x-a.y*b.y, a.x*b.y+a.y*b.x); }
+vec2 cdiv(vec2 a, vec2 b) { return cmul(a,vec2(b.x,-b.y))/max(dot(b,b),1e-24); }
+vec2 cis(float a) { return vec2(cos(a),sin(a)); }
+float engraved(float phase, float width) {
+  float pixel = max(fwidth(phase), 1e-4);
+  float line = 1.0-smoothstep(width, width+pixel, abs(sin(phase)));
+  return mix(line, 2.0*width/3.14159265359, smoothstep(.45,1.8,pixel));
+}
+vec3 artwork(vec2 p) {
+  float tau=6.28318530718, t=tau*uPhase, seed=.37*sin(uSeed*.0137);
+  vec2 c=.19*vec2(cos(t+.4),sin(t-.2));
+  vec2 d=.29*vec2(cos(t+2.1),sin(t+1.2));
+  vec2 a=(.48+.16*cos(t+.2))*cis(t+seed);
+  vec2 b=(.16+.07*sin(t+.8))*cis(-t+.9+seed);
+  float tilt=.14*sin(t);
+  mat2 rotation=mat2(cos(tilt),sin(tilt),-sin(tilt),cos(tilt));
+  vec2 z=rotation*(p*(1.12+.32*uVariation));
+  float effort=0.0;
+  for(int i=0;i<28;i++) {
+    vec2 zc=z-c, zd=z-d, zc2=cmul(zc,zc);
+    vec2 A=cmul(zc2,zc)-a, B=cmul(zd,zd)-b;
+    vec2 f=cmul(A,B), df=3.0*cmul(zc2,B)+2.0*cmul(zd,A);
+    float residual=length(f);
+    effort+=(1.0-exp(-3.2*sqrt(residual)))*smoothstep(1e-5,1e-3,residual);
+    if(residual>1e-8) {
+      z-=cdiv(f,df);
+      // Only near singular Newton poles: keep powers inside Float32 range.
+      z*=min(1.0,1000.0/max(length(z),1e-12));
+    }
+  }
+  // Smooth through roots crossing the origin; atan would rotate an entire
+  // basin's colour abruptly even though the root itself moves continuously.
+  vec2 direction=z*inversesqrt(dot(z,z)+.15*.15);
+  float warm=.5+.5*(direction.y*cos(.65)+direction.x*sin(.65));
+  vec3 ink=vec3(.012,.039,.075), copper=vec3(1.35,.34,.095), chalk=vec3(1.75,1.52,1.04);
+  vec3 pigment=mix(ink,copper,smoothstep(.12,.85,warm));
+  float secondHarmonic=(direction.x*direction.x-direction.y*direction.y)*cos(.8)+2.0*direction.x*direction.y*sin(.8);
+  pigment=mix(pigment,chalk,.42*smoothstep(.45,1.0,.5+.5*secondHarmonic));
+  float relief=.34+.66*exp(-.13*effort);
+  float fine=engraved(8.3*effort+.6*direction.y,.14);
+  float broad=engraved(2.3*effort+.5,.08);
+  float border=1.0-exp(-.065*max(effort-5.0,0.0));
+  vec3 color=pigment*relief*(.58+.42*fine);
+  color+=vec3(.32,.58,.7)*border*(.25+.75*broad);
+  color+=chalk*.27*broad*exp(-.06*effort);
+  return max(color,vec3(0.0));
+}`,
+  },
+  {
+    id: 'caustic', title: 'Caustic', subtitle: 'Two quartic wavefronts collide',
+    description: 'Amber and glacial wavefronts braid through a folded cubic plane. Six spreading arms gather into cusps, exchange fine fringes and open deep channels of destructive interference.',
+    technique: 'Direct midpoint quadrature of two finite-aperture quartic diffraction integrals. A periodic cubic map bends their control plane into a braid. Color follows relative wave strength, while coherent interference alone supplies the light. This is a scalar wave study with an artistic coordinate embedding, not a ray-traced fluid simulation.',
+    formula: 'Ψ(X,Y)=∫w(s) exp[ik(s⁴/4+Xs²/2+Ys)] ds; I=|Ψ₁+eⁱθΨ₂|²',
+    duration: 12, exposure: 1, collection: 3, kind: 'shader', palette: 'native',
+    source: `
+vec2 phaseUnit(float a) { return vec2(cos(a),sin(a)); }
+vec3 artwork(vec2 p) {
+  float tau=6.28318530718, t=tau*uPhase, seed=.29*sin(uSeed*.021);
+  float turn=.22*sin(t+seed);
+  mat2 rotation=mat2(cos(turn),sin(turn),-sin(turn),cos(turn));
+
+  vec2 z=rotation*p;
+  vec2 z2=vec2(z.x*z.x-z.y*z.y,2.0*z.x*z.y);
+  vec2 z3=vec2(z2.x*z.x-z2.y*z.y,z2.x*z.y+z2.y*z.x);
+  float twisting=.5*sin(t);
+  mat2 twist=mat2(cos(twisting),sin(twisting),-sin(twisting),cos(twisting));
+  vec2 q=1.45*tanh(.9*(1.35*z3-(.55+.18*cos(t))*twist*z));
+  float separation=.54+.32*cos(t);
+  float bend=.16+.18*uVariation;
+  vec2 first=vec2(2.7*(q.x-separation)-.78, 3.15*q.y+.58*sin(t+.3)+bend*q.x*q.x);
+  vec2 second=vec2(-2.7*(q.x+separation)-.78, 3.15*q.y-.58*sin(t+.3)-bend*q.x*q.x);
+  float k=16.0+8.0*uVariation;
+  vec2 waveA=vec2(0.0), waveB=vec2(0.0);
+  // Fixed, independent quadrature: no time stepping or texture feedback.
+  for(int i=0;i<256;i++) {
+    float s=-1.7+(float(i)+.5)*(3.4/256.0);
+    float s2=s*s, quartic=.25*s2*s2;
+    float aperture=.5+.5*cos(3.14159265359*s/1.7);
+    float phaseA=k*(quartic+.5*first.x*s2+first.y*s);
+    float phaseB=k*(quartic+.5*second.x*s2+second.y*s);
+    waveA+=aperture*phaseUnit(phaseA);
+    waveB+=aperture*phaseUnit(phaseB);
+  }
+  waveA*=3.4/256.0; waveB*=3.4/256.0;
+  float angle=1.2*sin(t-.4)+seed+9.0*q.x-6.0*q.y;
+  vec2 phasedB=vec2(waveB.x*cos(angle)-waveB.y*sin(angle),waveB.x*sin(angle)+waveB.y*cos(angle));
+  float IA=dot(waveA,waveA), IB=dot(waveB,waveB), interference=dot(waveA+phasedB,waveA+phasedB);
+  // An explicit artistic intensity transfer suppresses the broad low-level
+  // field, giving destructive-interference channels a clear graphic presence.
+
+  float energy=pow(1.1*interference,1.55);
+  float balance=IA/max(IA+IB,1e-8);
+  vec3 hue=mix(vec3(.025,.42,.94),vec3(1.65,.32,.045),smoothstep(.18,.82,balance));
+  vec3 color=energy*hue;
+  color+=vec3(.7,.79,.73)*.065*energy*energy;
+  // A subdued full-frame field preserves the darkest destructive interference.
+  color+=vec3(.0025,.006,.011);
+  return max(color,vec3(0.0));
+}`,
+  },
+];
+
+return {COMPLEX_SHADERS};
+})();
+const {PATTERN_SHADERS}=(()=>{
+/** Original full-frame pattern mechanisms. Sources define artwork(vec2 p).
+ * All returned values are nonnegative LINEAR radiance for the shared tone map.
+ */
+const PALIMPSEST = `
+float paBox(vec2 p, vec2 b) {
+  vec2 q = abs(p) - b;
+  return length(max(q, 0.0)) + min(max(q.x, q.y), 0.0);
+}
+float paInside(float d, float aa) { return 1.0 - smoothstep(-aa, aa, d); }
+float paLine(float d, float w, float aa) { return 1.0 - smoothstep(w-aa, w+aa, abs(d)); }
+float paHash(vec2 p) { return fract(sin(dot(p,vec2(127.1,311.7))+uSeed*.0137)*43758.5453); }
+vec3 artwork(vec2 p) {
+  const float TAU = 6.28318530718;
+  vec2 z = p - vec2(-.17,.065);
+  float radius = max(length(z), .00001);
+  float logarithm = 1.72 * log(radius);
+  // One time cycle translates this lattice by (-3,+2). Its material keys
+  // repeat every three radial and two angular cells, so the image is periodic.
+  vec2 q = vec2(logarithm - 3.0*uPhase,
+    6.0*atan(z.y,z.x)/TAU - (.20+.45*uVariation)*logarithm + 2.0*uPhase);
+  vec2 cell = floor(q);
+  vec2 key = mod(cell,vec2(3.,2.));
+  vec2 f = fract(q)-.5;
+  if(key.y>.5) f=vec2(-f.y,f.x);
+  float aa = min(.18, 3.6/(max(uResolution,64.)*radius));
+  float family = key.x;
+  float paper = paLine(paBox(f,vec2(.445)),.037,aa);
+  float ink = 0.;
+  if(family<.5) {
+    // Nested rooms with alternating open thresholds, not concentric circles.
+    vec2 room=f;
+    float scale=1.;
+    for(int level=0;level<4;level++) {
+      float wall=paLine(paBox(room,vec2(.335*scale)),.023*scale+.004,aa);
+      float doorway=paInside(paBox(room-vec2(.335*scale,0.),vec2(.065*scale,.11*scale)),aa);
+      paper=max(paper,wall*(1.-doorway));
+      room=vec2(-room.y,room.x)-vec2(.024*scale,-.014*scale);
+      scale*=.56;
+    }
+    paper=max(paper,paInside(paBox(f-vec2(.13,-.11),vec2(.07,.19)),aa));
+  } else if(family<1.5) {
+    paper=max(paper,paInside(paBox(f,vec2(.355,.375)),aa));
+    ink=max(ink,paInside(paBox(f+vec2(.06,.015),vec2(.19,.255)),aa));
+    float steps=paLine(fract((f.y+.5)*7.)-.5,.11,aa*7.);
+    ink=max(ink,steps*paInside(paBox(f-vec2(.245,0.),vec2(.065,.32)),aa));
+    ink=max(ink,paInside(paBox(f-vec2(-.22,.28),vec2(.065,.055)),aa));
+  } else {
+    paper=max(paper,paInside(paBox(f-vec2(-.22,0.),vec2(.08,.34)),aa));
+    paper=max(paper,paInside(paBox(f-vec2(.12,.23),vec2(.22,.065)),aa));
+    paper=max(paper,paInside(paBox(f-vec2(.12,-.23),vec2(.22,.065)),aa));
+    paper=max(paper,paLine(paBox(f-vec2(.075,0.),vec2(.15)),.028,aa));
+    float hatch=paLine(fract((f.x+f.y)*10.)-.5,.10,aa*10.);
+    paper=max(paper,hatch*paInside(paBox(f-vec2(.255,0.),vec2(.055,.13)),aa));
+  }
+  float redDoor=paInside(paBox(f-vec2(.08,-.015),vec2(.047,.075)),aa);
+  float redRail=paInside(paBox(f-vec2(-.38,.15),vec2(.014,.15)),aa);
+  float accent=(redDoor+redRail)*step(.5,paHash(key));
+  float tick=paInside(paBox(f-vec2(.365,.34),vec2(.032,.009)),aa);
+  paper=max(paper,tick);
+  vec3 color=mix(vec3(.001),vec3(3.6),clamp(paper-ink,0.,1.));
+  color=mix(color,vec3(3.8,.065,.017),clamp(accent,0.,1.));
+  // Deliberate central aperture also removes the unresolved log singularity.
+  float aperture=smoothstep(.020,.052,radius);
+  color=mix(vec3(.001),color,aperture);
+  float seal=paLine(radius-.028,.0017,1.4/max(uResolution,64.));
+  return max(mix(color,vec3(3.8,.065,.017),seal),vec3(0.));
+}
+`;
+
+const SWITCHBOARD = `
+float swHash(vec2 p) { return fract(sin(dot(p,vec2(113.7,271.9))+uSeed*.0213)*41537.1941); }
+float swEase(float value) { float x=clamp(value,0.,1.);return x*x*x*(x*(6.*x-15.)+10.); }
+mat2 swRotation(float a) { float c=cos(a),s=sin(a);return mat2(c,-s,s,c); }
+float swBand(float distance, float width, float aa) { return 1.-smoothstep(width-aa,width+aa,abs(distance)); }
+vec4 swMechanism(vec2 q, float offset) {
+  vec2 cell=floor(q),f=fract(q)-.5;
+  float key=swHash(cell);
+  float group=swHash(floor(cell*.5));
+  float local=fract(uPhase + offset - .051*(cell.x-cell.y) - .13*group);
+  float first=swEase((local-.12)/.23);
+  float second=swEase((local-.62)/.23);
+  // Two quarter turns: final angle differs by pi, an exact symmetry of the
+  // paired arcs. Both movement windows have zero velocity and acceleration.
+  float angle=1.57079632679*(step(.5,key)+first+second);
+  vec2 v=swRotation(angle)*f;
+  float distance=min(abs(length(v-vec2(-.5,-.5))-.5),abs(length(v-vec2(.5,.5))-.5));
+  float moving=4.*first*(1.-first)+4.*second*(1.-second);
+  // The contact fingers retract before the rotor leaves its locked orientation.
+  // Cropping is radial and softly gated: no rotating square-edge fragments.
+  float retracted=swEase(first/.08)*swEase((1.-first)/.08)
+                 +swEase(second/.08)*swEase((1.-second)/.08);
+  float diskAA=max(fwidth(length(f)),.0001);
+  float disk=1.-smoothstep(.435-diskAA,.435+diskAA,length(f));
+  float gate=mix(1.,disk,retracted);
+  return vec4(distance,moving,key,gate);
+}
+vec3 artwork(vec2 p) {
+  float density=3.5+1.4*uVariation;
+  vec2 q=p*density+vec2(.5);
+  vec4 mechanism=swMechanism(q,0.);
+  vec4 large=swMechanism(p*1.13+vec2(.5),.21);
+  float aa=2.2*density/max(uResolution,64.);
+  float largeAA=2.6/max(uResolution,64.);
+  float polarity=swBand(large.x,.175,largeAA)*large.w;
+  vec3 dark=vec3(.001),paper=vec3(3.7),red=vec3(3.7,.058,.016);
+  vec3 background=mix(dark,paper,polarity);
+  vec3 foreground=mix(paper,dark,polarity);
+  float rails=swBand(mechanism.x,.083,aa)*mechanism.w;
+  float channel=swBand(mechanism.x,.031,aa)*mechanism.w;
+  vec3 color=mix(background,foreground,rails);
+  color=mix(color,background,channel);
+  float live=channel*mechanism.y;
+  color=mix(color,red,live);
+  vec2 f=fract(q)-.5;
+  // Fixed port bearings reveal when a route is locked and when it is turning.
+  float port=min(min(length(f-vec2(.5,0.)),length(f-vec2(-.5,0.))),
+                 min(length(f-vec2(0.,.5)),length(f-vec2(0.,-.5))));
+  float bearing=swBand(port-.028,.009,aa);
+  color=mix(color,foreground,bearing);
+  float pin=1.-smoothstep(.010-aa,.010+aa,port);
+  color=mix(color,mix(foreground,red,mechanism.y),pin);
+  // A finer etched scale sits in the quiet centres of selected mechanisms.
+  float plate=1.-smoothstep(.16,.19,length(f));
+  float hatch=swBand(fract((f.x-f.y)*17.)-.5,.08,aa*17.);
+  float etch=plate*hatch*step(.53,mechanism.z)*(1.-rails);
+  color=mix(color,mix(vec3(.055),vec3(1.8),1.-polarity),etch*.55);
+  float boss=swBand(length(f)-.033,.006,aa);
+  color=mix(color,foreground,boss*.8);
+  return max(color,vec3(0.));
+}
+`;
+
+const PATTERN_SHADERS = [
+  {
+    id:'palimpsest',title:'Palimpsest',subtitle:'An architectural print that consumes itself',
+    description:'Rooms, stairways and vermilion thresholds feed into an off-centre aperture. An exact logarithmic transformation repeatedly turns the smallest plan into the largest.',
+    technique:'A complex-log lattice with three radial and two angular material periods. Translation through that lattice creates a loxodromic zoom; nested rectilinear motifs provide four scales of detail.',
+    formula:'L = 1.72 ln r; q = (L − 3t, 6θ/τ − aL + 2t); material(q + (−3,2)) = material(q)',
+    duration:12,exposure:1,collection:3,kind:'shader',palette:'native',source:PALIMPSEST,
+  },
+  {
+    id:'switchboard',title:'Switchboard',subtitle:'Routes lock, release and find another order',
+    description:'An interlocking print of paired tracks rearranges through staggered quarter turns. Larger routes reverse the black-and-white ground while vermilion channels mark mechanisms in motion.',
+    technique:'Two nested Truchet scales use quintic stop-and-turn schedules. A half-turn is an exact symmetry of each paired-arc motif, making the punctuated mechanism image-periodic.',
+    formula:'α = (π/2)[b + E((s−.12)/.23) + E((s−.62)/.23)], s = fract(t−delay)',
+    duration:12,exposure:1,collection:3,kind:'shader',palette:'native',source:SWITCHBOARD,
+  },
+];
+
+return {PATTERN_SHADERS};
+})();
+const {GEOMETRY_04_SHADERS}=(()=>{
+/** Original implicit and cellular geometry for Loop Atelier, collection 04.
+ * All temporal parameters use a wrapped phase and integer-frequency harmonics.
+ * Each source is independent GLSL for the shared artwork(vec2) renderer contract.
+ */
+const STUDIO = String.raw`
+const float PI=3.141592653589793, TAU=6.283185307179586;
+float hash1(float n){return fract(sin(n*127.1+uSeed*0.01731)*43758.5453);}
+mat2 turn(float a){float c=cos(a),s=sin(a);return mat2(c,-s,s,c);}
+vec3 backdrop(vec2 p){return vec3(0.008,0.012,0.018)*(0.70+0.30*exp(-dot(p,p)));}
+vec3 cameraRay(vec2 p,vec3 ro,vec3 target,float fov){
+ vec3 fw=normalize(target-ro),rt=normalize(cross(fw,vec3(0,1,0)));
+ return normalize(fw+fov*(p.x*rt+p.y*cross(rt,fw)));
+}
+vec2 sphereInterval(vec3 ro,vec3 rd,float r){
+ float b=dot(ro,rd),d=b*b-dot(ro,ro)+r*r;
+ if(d<0.0)return vec2(1.0,-1.0);
+ float h=sqrt(d);return vec2(max(0.0,-b-h),-b+h);
+}
+vec3 lightSurface(vec3 p,vec3 n,vec3 rd,vec3 albedo,float shadow,float ao,float metal){
+ vec3 key=normalize(vec3(-0.65,0.88,0.60)),fill=normalize(vec3(0.72,0.25,-0.48));
+ float diffuse=max(dot(n,key),0.0),back=max(dot(n,fill),0.0);
+ vec3 colour=albedo*(vec3(0.12,0.17,0.25)*ao+vec3(2.6,2.24,1.86)*diffuse*shadow);
+ colour+=albedo*vec3(0.24,0.38,0.58)*back*ao;
+ vec3 h=normalize(key-rd),reflected=reflect(rd,n);
+ float spec=pow(max(dot(n,h),0.0),mix(72.0,110.0,metal));
+ float panel=smoothstep(0.88,0.98,dot(reflected,normalize(vec3(-0.4,0.80,0.3))));
+ float fresnel=0.04+0.30*pow(1.0-max(dot(n,-rd),0.0),5.0);
+ colour+=mix(vec3(0.95),albedo,metal*.7)*(spec*shadow*0.9+panel*fresnel*ao);
+ return max(colour,vec3(0));
+}
+`;
+
+const SURGERY = String.raw`
+float gK,gA;
+mat3 gRotation;
+float quartic(vec4 c,float e,float s){return (((c.x*s+c.y)*s+c.z)*s+c.w)*s+e;}
+float signedCubeRoot(float x){return sign(x)*pow(abs(x),1.0/3.0);}
+vec3 cubicRoots(float a,float b,float c){
+ // Roots of x^3+a*x^2+b*x+c; a single real root is repeated in the output.
+ float p=b-a*a/3.0,q=(2.0*a*a*a)/27.0-a*b/3.0+c;
+ float discriminant=q*q*.25+p*p*p/27.0;
+ if(discriminant>=0.0){
+  float d=sqrt(discriminant);
+  float r=signedCubeRoot(-q*.5+d)+signedCubeRoot(-q*.5-d)-a/3.0;
+  return vec3(r);
+ }
+ float radius=2.0*sqrt(max(-p/3.0,0.0));
+ float theta=acos(clamp((-q*.5)/sqrt(max(-p*p*p/27.0,1e-20)),-1.0,1.0))/3.0;
+ vec3 r=radius*cos(vec3(theta,theta+TAU/3.0,theta+2.0*TAU/3.0))-a/3.0;
+ return vec3(min(r.x,min(r.y,r.z)),max(min(r.x,r.y),min(max(r.x,r.y),r.z)),max(r.x,max(r.y,r.z)));
+}
+float surfaceHit(vec3 worldOrigin,vec3 worldDirection){
+ vec3 ro=gRotation*worldOrigin,rd=gRotation*worldDirection;
+ // Move the polynomial origin to closest approach; this avoids cancellation
+ // from expanding fourth powers at the much more distant camera position.
+ float centre=-dot(ro,rd);vec3 r=ro+centre*rd;
+ float radius2=3.0*gA+gA*sqrt(3.0*gK)+0.002;
+ float h2=radius2-dot(r,r);if(h2<0.0)return -1.0;
+ float h=sqrt(h2),lo=max(-h,-centre+0.00015),hi=h;
+ if(lo>=hi)return -1.0;
+ vec3 r2=r*r,d2=rd*rd;
+ vec4 c=vec4(dot(d2,d2),4.0*dot(r*rd,d2),6.0*dot(r2,d2)-2.0*gA,4.0*dot(r*r2,rd)-4.0*gA*dot(r,rd));
+ float e=dot(r2-vec3(gA),r2-vec3(gA))-gK*gA*gA;
+ vec3 stationary=cubicRoots(3.0*c.y/(4.0*c.x),c.z/(2.0*c.x),c.w/(4.0*c.x));
+ stationary=clamp(stationary,vec3(lo),vec3(hi));
+ float left=lo,fl=quartic(c,e,left);
+ for(int segment=0;segment<4;segment++){
+  float right=segment==0?stationary.x:(segment==1?stationary.y:(segment==2?stationary.z:hi));
+  float fr=quartic(c,e,right);
+  if(right>left+1e-7&&fl*fr<=0.0){
+   for(int j=0;j<21;j++){
+    float middle=(left+right)*.5,fm=quartic(c,e,middle);
+    if(fl*fm<=0.0)right=middle;else{left=middle;fl=fm;}
+   }
+   return centre+(left+right)*.5;
+  }
+  left=right;fl=fr;
+ }
+ return -1.0;
+}
+vec3 artwork(vec2 p){
+ float a=TAU*fract(uPhase),seed=hash1(1.0)*TAU;
+ gA=.40;
+ float pulse=sin(a-.45);
+ gK=1.42+(0.65+0.20*uVariation)*pulse*pulse*pulse;
+ float yaw=.25+.13*sin(a+.2)+.10*sin(seed),tilt=.18+.10*cos(a);
+ gRotation=mat3(cos(yaw),0,-sin(yaw),0,1,0,sin(yaw),0,cos(yaw));
+ gRotation=mat3(1,0,0,0,cos(tilt),-sin(tilt),0,sin(tilt),cos(tilt))*gRotation;
+ vec3 ro=vec3(3.15,2.22,4.12),rd=cameraRay(p,ro,vec3(0),.385);
+ float t=surfaceHit(ro,rd);if(t<0.0)return backdrop(p);
+ vec3 pos=ro+rd*t,q=gRotation*pos;
+ vec3 grad=4.0*q*(q*q-vec3(gA));
+ // At a topology-changing critical point the geometric normal is undefined;
+ // a finite radial fallback is used only at that vanishing-gradient point.
+ vec3 n=normalize(transpose(gRotation)*(dot(grad,grad)>1e-12?grad:q));
+ vec3 h=12.0*q*q-vec3(4.0*gA);
+ float curvature=(grad.x*grad.x*h.y*h.z+grad.y*grad.y*h.x*h.z+grad.z*grad.z*h.x*h.y)/max(pow(dot(grad,grad),2.0),1e-8);
+ // Gaussian curvature identifies the saddle regions where handles form.
+ float saddle=smoothstep(-.25,1.3,-curvature);
+ vec3 albedo=mix(vec3(.76,.70,.60),vec3(.055,.18,.23),saddle*.90);
+ vec3 light=normalize(vec3(-.65,.88,.60));
+ float sh=surfaceHit(pos+n*.004,light)>0.0?.17:1.0;
+ float sh2=surfaceHit(pos+n*.004,normalize(light+vec3(.08,.025,-.04)))>0.0?.17:1.0;
+ float ao=mix(1.0,.62,saddle);
+ return lightSurface(pos,n,rd,albedo,(sh+sh2)*.5,ao,.22);
+}
+`;
+
+const LAGUERRE = String.raw`
+const int CELLS=19;
+vec3 gSites[CELLS],gCutNormal,gCutNormal2;
+float gWeights[CELLS],gCut,gCut2,gThickness;
+void prepareCells(float a){
+ for(int i=0;i<CELLS;i++){
+  float f=float(i);vec3 site;
+  if(i==0)site=vec3(0);
+  else if(i<=6){
+   float s=(i%2)==0?-1.0:1.0;
+   site=i<=2?vec3(s,0,0):(i<=4?vec3(0,s,0):vec3(0,0,s));
+   site*=.94;
+  }else{
+   int j=i-7,plane=j/4,k=j%4;
+   float x=(k%2)==0?-.82:.82,y=k<2?-.82:.82;
+   site=plane==0?vec3(x,y,0):(plane==1?vec3(x,0,y):vec3(0,x,y));
+  }
+  vec3 offset=vec3(hash1(f*3.0+3.0),hash1(f*3.0+4.0),hash1(f*3.0+5.0))-.5;
+  site+=offset*.20;
+  site+=.065*vec3(sin(a+f*1.7),cos(a+f*2.3),sin(a+f*.93));
+  gSites[i]=site;
+  gWeights[i]=(.18+.25*uVariation)*sin(a+f*1.83+hash1(f+72.0)*1.4);
+ }
+}
+vec2 cellular(vec3 p,out vec3 normal){
+ float best=1e8;int winner=0;
+ for(int i=0;i<CELLS;i++){
+  vec3 q=p-gSites[i];float power=dot(q,q)-gWeights[i];
+  if(power<best){best=power;winner=i;}
+ }
+ float clearance=1e8;
+ for(int j=0;j<CELLS;j++){
+  if(j==winner)continue;
+  vec3 q=p-gSites[j];float power=dot(q,q)-gWeights[j];
+  // Exact inward distance to a power-bisector plane of the winning cell.
+  vec3 towards=gSites[winner]-gSites[j];float separation=length(towards);
+  float distance=(power-best)/(2.0*separation);
+  if(distance<clearance){clearance=distance;normal=towards/separation;}
+ }
+ return vec2(clearance-gThickness,float(winner));
+}
+vec2 cellDetail(vec3 p,out vec3 normal){
+ vec2 wall=cellular(p,normal);float r=length(p),bound=r-1.56;
+ vec3 radial=p/max(r,.000001);
+ float d=max(wall.x,bound);float material=1.0+wall.y*.01;
+ if(bound>wall.x)normal=radial;
+ float shell=abs(r-1.515)-.045;
+ if(shell<d){d=shell;material=2.0;normal=sign(r-1.515)*radial;}
+ // Remove a dihedral wedge, retaining enough exterior shell to reveal volume.
+ float cut1=dot(p,gCutNormal)-gCut,cut2=dot(p,gCutNormal2)-gCut2;
+ float cut=min(cut1,cut2);
+ if(cut>d){d=cut;material=3.0;normal=cut1<cut2?gCutNormal:gCutNormal2;}
+ return vec2(d,material);
+}
+vec2 cellMap(vec3 p){vec3 normal;return cellDetail(p,normal);}
+vec3 cellNormal(vec3 p){
+ // Exact face normals keep hard polyhedral junctions sharp; finite-difference
+ // averaging here would invent narrow, bright bevels that are not in the model.
+ vec3 normal;cellDetail(p,normal);return normal;
+}
+float chamberExit(vec3 p,vec3 direction){
+ // A void is a convex power cell eroded by the wall thickness, intersected
+ // with the inner sphere. Its first ray exit is the first opaque boundary.
+ if(length(p)>=1.47)return 0.0;
+ float best=1e8;int winner=0;
+ for(int i=0;i<CELLS;i++){
+  vec3 q=p-gSites[i];float power=dot(q,q)-gWeights[i];
+  if(power<best){best=power;winner=i;}
+ }
+ float exitDistance=sphereInterval(p,direction,1.47).y;
+ for(int j=0;j<CELLS;j++){
+  if(j==winner)continue;
+  vec3 q=p-gSites[j],towards=gSites[winner]-gSites[j];
+  float separation=length(towards);
+  float clearance=(dot(q,q)-gWeights[j]-best)/(2.0*separation)-gThickness;
+  if(clearance<=0.0)return 0.0;
+  float closing=-dot(towards,direction)/separation;
+  if(closing>1e-7)exitDistance=min(exitDistance,clearance/closing);
+ }
+ return exitDistance;
+}
+vec2 clipHalfspace(vec2 interval,vec3 p,vec3 direction,vec3 normal,float offset){
+ float height=dot(p,normal)-offset,speed=dot(direction,normal);
+ if(abs(speed)<1e-7){if(height>0.0)return vec2(1,-1);}
+ else if(speed>0.0)interval.y=min(interval.y,-height/speed);
+ else interval.x=max(interval.x,-height/speed);
+ return interval;
+}
+float cellShadow(vec3 p,vec3 direction){
+ vec2 interval=sphereInterval(p,direction,1.56);interval.x=max(interval.x,.005);
+ // The retained volume is sphere ∩ (halfspace 1 ∪ halfspace 2). Testing
+ // those two ray intervals separately is an exact union-visibility query.
+ for(int side=0;side<2;side++){
+  vec2 segment=clipHalfspace(interval,p,direction,side==0?gCutNormal:gCutNormal2,side==0?gCut:gCut2);
+  if(segment.y<=segment.x)continue;
+  vec3 start=p+direction*(segment.x+.000001);
+  if(chamberExit(start,direction)<segment.y-segment.x-.000002)return .065;
+ }
+ return 1.0;
+}
+vec3 artwork(vec2 p){
+ float a=TAU*fract(uPhase);prepareCells(a);
+ gCutNormal=normalize(vec3(.08+.15*sin(a),.18+.12*cos(a),1));
+ gCutNormal2=normalize(vec3(1,-.10+.15*sin(a),-.12));
+ gCut=-.28+.30*sin(a+.35);gCut2=-.48+.24*cos(a-.2);
+ gThickness=.031+.012*uVariation;
+ vec3 ro=vec3(2.68,2.35,4.38),rd=cameraRay(p,ro,vec3(0),.405);
+ vec2 interval=sphereInterval(ro,rd,1.57);
+ if(interval.x>interval.y)return backdrop(p);
+ float t=interval.x;vec2 hit;bool found=false;
+ for(int i=0;i<180;i++){
+  hit=cellMap(ro+rd*t);
+  if(hit.x<.00075){found=true;break;}
+  t+=max(.0004,hit.x*.95);if(t>interval.y)break;
+ }
+ if(!found)return backdrop(p);
+ vec3 pos=ro+rd*t,n=cellNormal(pos);
+ vec3 albedo=hit.y>2.5?vec3(.59,.27,.095):(hit.y>1.5?vec3(.045,.095,.13):vec3(.68,.71,.67));
+ if(hit.y<1.5)albedo*=.88+.12*hash1(floor((hit.y-1.0)*100.0+.5)+31.0);
+ float ao=1.0;
+ for(int i=0;i<4;i++){
+  float h=.055+float(i)*.095;
+  ao-=clamp((h-cellMap(pos+n*h).x)/h,0.0,1.0)*(.34*pow(.68,float(i)));
+ }
+ float sh=cellShadow(pos+n*.004,normalize(vec3(-.65,.88,.60)));
+ return lightSurface(pos,n,rd,albedo,sh,clamp(ao,.13,1.0),hit.y>1.5?.6:.08);
+}
+`;
+
+const MILNOR = String.raw`
+vec2 gPhase0,gPhase1,gPhase2;
+float gCoefficient,gBand;
+vec2 multiplyComplex(vec2 a,vec2 b){return vec2(a.x*b.x-a.y*b.y,a.x*b.y+a.y*b.x);}
+vec2 polynomial(vec3 p){
+ float r2=dot(p,p),d=1.0+r2;
+ vec2 z1=2.0*p.xy/d,z2=vec2(2.0*p.z,r2-1.0)/d;
+ return multiplyComplex(z1,z1)+gCoefficient*multiplyComplex(multiplyComplex(z2,z2),z2);
+}
+float pageBand(vec2 f,vec2 direction){
+ float along=dot(f,direction),across=f.y*direction.x-f.x*direction.y;
+ return max(abs(across)-gBand,-along);
+}
+vec2 milnorMap(vec3 p){
+ vec2 f=polynomial(p);
+ float d0=pageBand(f,gPhase0),d1=pageBand(f,gPhase1),d2=pageBand(f,gPhase2);
+ float D=min(d0,min(d1,d2));
+ float material=d0<d1&&d0<d2?1.0:(d1<d2?2.0:3.0);
+ // The polynomial's Lipschitz constant on the unit 4-ball is <=3*max(1,c).
+ // Stereographic chord lengths obey |q(p)-q(x)|=2|p-x|/sqrt((1+|p|²)(1+|x|²)).
+ // This conservative local clearance follows by solving that chord bound.
+ float r=length(p),L=3.0*max(1.0,gCoefficient);
+ float d=D*(1.0+r*r)/(2.0*L+abs(D)*r);
+ float binding=length(f)-.045;
+ float bd=binding*(1.0+r*r)/(2.0*L+abs(binding)*r);
+ if(bd<d){d=bd;material=4.0;}
+ d=max(d,r-1.62);
+ return vec2(d,material);
+}
+vec3 milnorNormal(vec3 p){
+ const vec2 k=vec2(1,-1);float e=.0012;
+ return normalize(k.xyy*milnorMap(p+k.xyy*e).x+k.yyx*milnorMap(p+k.yyx*e).x+k.yxy*milnorMap(p+k.yxy*e).x+k.xxx*milnorMap(p+k.xxx*e).x);
+}
+float milnorShadow(vec3 p,vec3 direction){
+ float t=.005,end=sphereInterval(p,direction,1.63).y;
+ for(int i=0;i<180;i++){
+  float d=milnorMap(p+direction*t).x;
+  if(d<.00035)return .12;
+  t+=max(d*.98,.00035);if(t>end)return 1.0;
+ }
+ return .12;
+}
+vec3 artwork(vec2 p){
+ float a=TAU*fract(uPhase),seed=hash1(9.0)*TAU;
+ float theta=a+.18*sin(seed);
+ gPhase0=vec2(cos(theta),sin(theta));
+ gPhase1=vec2(cos(theta+TAU/3.0),sin(theta+TAU/3.0));
+ gPhase2=vec2(cos(theta+2.0*TAU/3.0),sin(theta+2.0*TAU/3.0));
+ gCoefficient=.85+.30*uVariation;gBand=.018+.010*uVariation;
+ float yaw=.18*sin(a+.25);
+ vec3 ro=vec3(4.25,2.15,3.078);ro.xz=turn(yaw)*ro.xz;
+ vec3 rd=cameraRay(p,ro,vec3(0),.395);
+ vec2 interval=sphereInterval(ro,rd,1.63);if(interval.x>interval.y)return backdrop(p);
+ float t=interval.x;vec2 hit;bool found=false;
+ for(int i=0;i<240;i++){
+  hit=milnorMap(ro+rd*t);if(hit.x<.0009){found=true;break;}
+  t+=max(hit.x*.97,.00035);if(t>interval.y)break;
+ }
+ if(!found)return backdrop(p);
+ vec3 pos=ro+rd*t,n=milnorNormal(pos);
+ vec3 albedo=hit.y>3.5?vec3(.60,.30,.10):(hit.y<1.5?vec3(.76,.73,.64):(hit.y<2.5?vec3(.085,.21,.26):vec3(.40,.47,.49)));
+ float ao=1.0;
+ for(int i=1;i<=4;i++){float h=float(i)*.048;ao-=(h-milnorMap(pos+n*h).x)*(.85/float(i));}
+ float sh=milnorShadow(pos+n*.005,normalize(vec3(-.65,.88,.60)));
+ return lightSurface(pos,n,rd,albedo,sh,clamp(ao,.25,1.0),hit.y>3.5?.7:.12);
+}
+`;
+
+const GEOMETRY_04_SHADERS = [
+ {
+  id:'surgery',title:'Surgery',subtitle:'Eight chambers, five handles',
+  description:'Eight chambers merge along twelve connections, forming a surface with five handles. Increasing the level closes those handles around an inner cavity.',
+  technique:'A quartic level set changes topology at its analytically known saddle levels. Rays intersect the polynomial directly; saddle curvature colours the emerging handles.',
+  formula:'Σᵢ(xᵢ²−a)² = κ(t)a²; critical levels κ = 1, 2, 3',
+  collection:4,kind:'shader',palette:'native',duration:12,exposure:1,source:STUDIO+SURGERY,
+ },
+ {
+  id:'laguerre',title:'Laguerre',subtitle:'An architecture of competing distances',
+  description:'Weighted cells exchange space inside a cutaway sphere. Moving the section reveals the shared walls and inner chambers as their boundaries rearrange.',
+  technique:'A 3D power diagram uses squared distance minus a changing weight. Exact bisector distances form finite walls; two moving planes remove a wedge from the cellular volume.',
+  formula:'Cᵢ = {x : ‖x−sᵢ‖²−wᵢ ≤ ‖x−sⱼ‖²−wⱼ for every j}',
+  collection:4,kind:'shader',palette:'native',duration:12,exposure:1,source:STUDIO+LAGUERRE,
+ },
+ {
+  id:'milnor',title:'Milnor',subtitle:'Three pages bound by a trefoil',
+  description:'Three surfaces unfold around one trefoil boundary. They are pages of a complex-polynomial open book, viewed through stereographic projection.',
+  technique:'Three argument levels of z₁²+cz₂³ on the unit 3-sphere become surfaces in 3D. Finite level bands, a thickened binding and a spherical crop make the pages visible.',
+  formula:'f=z₁²+cz₂³; arg f = 2πt+2πj/3, j=0,1,2; (z₁,z₂)∈S³',
+  collection:4,kind:'shader',palette:'native',duration:12,exposure:1,source:STUDIO+MILNOR,
+ },
+];
+
+return {GEOMETRY_04_SHADERS};
+})();
+const {MATHEMATICS_04_SHADERS}=(()=>{
+/** Original mathematical studies. artwork(p) returns nonnegative linear RGB. */
+const HYPERBOLIC = `
+vec2 hypMul(vec2 a,vec2 b){return vec2(a.x*b.x-a.y*b.y,a.x*b.y+a.y*b.x);}
+vec2 hypDiv(vec2 a,vec2 b){return hypMul(a,vec2(b.x,-b.y))/max(dot(b,b),1e-20);}
+float hypLine(float d,float width,float aa){return 1.-smoothstep(width,width+aa,abs(d));}
+vec3 artwork(vec2 p){
+  const float PI=3.14159265359, TAU=6.28318530718;
+  float t=TAU*uPhase, pixel=2./max(uResolution,64.);
+  vec3 ground=vec3(.002,.006,.011);
+  vec2 z=p/.965;
+  float diskRadius=length(z);
+  if(diskRadius>=1.) return ground;
+  float excursion=.38+.24*uVariation;
+  vec2 a=excursion*vec2(cos(t),.72*sin(t));
+  // Exact disk automorphism. Its denominator has no zero in the open disk.
+  z=hypDiv(z-a,vec2(1.,0.)-hypMul(vec2(a.x,-a.y),z));
+  float orientation=.0031*uSeed+.13*sin(2.*t);
+  z=hypMul(z,vec2(cos(orientation),sin(orientation)));
+  // Fundamental sector of the regular {7,3} tessellation.
+  float A=PI/7., B=PI/3.;
+  float denominator=sqrt(cos(B)*cos(B)-sin(A)*sin(A));
+  float centre=cos(B)/denominator, radius=sin(A)/denominator;
+  vec2 c=vec2(centre,0.);
+  for(int i=0;i<36;i++){
+    float angle=atan(z.y,z.x), sector=floor((angle+A)/(2.*A));
+    float turn=-sector*2.*A;
+    z=hypMul(z,vec2(cos(turn),sin(turn))); z.y=abs(z.y);
+    vec2 delta=z-c;
+    float distance2=dot(delta,delta);
+    if(distance2>=radius*radius) break;
+    // Reflection in an orthogonal circle is a hyperbolic isometry.
+    z=c+radius*radius*delta/distance2;
+  }
+  float conformal=max(1.-dot(z,z),1e-6);
+  float signedSine=(dot(z-c,z-c)-radius*radius)/(radius*conformal);
+  float edge=asinh(max(signedSine,0.));
+  float radial=2.*atanh(min(length(z),.99999));
+  float aa=max(fwidth(edge),pixel*.5);
+  float edgeInk=hypLine(edge,.009,aa);
+  float inset=hypLine(edge-.060,.005,aa);
+  // Seven exact orthogonal-circle arcs form a {7/2} geodesic star.
+  float r=.252+.008*sin(t), span=2.*PI/7.;
+  float gc=(1.+r*r)/(2.*r*cos(span)), gr=sqrt(gc*gc-1.);
+  float star=10.;
+  for(int j=0;j<7;j++){
+    float a=TAU*float(j)/7.;
+    vec2 centreStar=gc*vec2(cos(a),sin(a));
+    float distance=asinh((dot(z-centreStar,z-centreStar)-gr*gr)/(gr*conformal));
+    star=min(star,abs(distance));
+  }
+  float aaStar=max(fwidth(star),pixel*.35);
+  float inside=1.-smoothstep(r,r+max(fwidth(length(z)),1e-5),length(z));
+  float engraving=hypLine(star,.005,aaStar)*inside;
+  float tracery=hypLine(star-.028,.003,aaStar)*inside;
+  float inner=hypLine(radial-.152,.004,max(fwidth(radial),pixel*.35));
+  vec3 gold=vec3(1.8,.9,.19), porcelain=vec3(1.5,1.72,1.68), teal=vec3(.016,.32,.29);
+  vec3 color=ground+porcelain*.62*edgeInk+gold*.9*engraving+teal*(.8*inset+.9*tracery+.5*inner);
+  float rim=1.-smoothstep(1.-2.*pixel,1.,diskRadius);
+  return mix(ground,max(color,vec3(0.)),rim);
+}`;
+
+const PHASON = `
+float phCross(vec2 a,vec2 b){return a.x*b.y-a.y*b.x;}
+float phLine(float d,float width,float aa){return 1.-smoothstep(width,width+aa,abs(d));}
+vec3 artwork(vec2 p){
+  const float TAU=6.28318530718;
+  float t=TAU*uPhase, orientation=.0009*uSeed;
+  float c=cos(orientation),s=sin(orientation);
+  vec2 x=5.4*mat2(c,s,-s,c)*p;
+  float amplitude=.18+.35*uVariation;
+  vec2 w=vec2(.137,.091)+amplitude*vec2(cos(t),sin(t));
+  vec2 physical[5],internal[5];float gamma[5];
+  for(int j=0;j<5;j++){
+    float a=TAU*float(j)/5.;
+    physical[j]=vec2(cos(a),sin(a));internal[j]=vec2(cos(2.*a),sin(2.*a));
+    gamma[j]=dot(internal[j],w);
+  }
+  float aa=10.8/max(uResolution,64.);
+  vec3 ground=vec3(.002,.005,.009),color=vec3(0.);
+  float acceptedCoverage=0.;
+  for(int i=0;i<5;i++)for(int j=i+1;j<5;j++){
+    vec2 u=physical[i],v=physical[j];float determinant=phCross(u,v),area=abs(determinant);
+    vec2 estimate=floor(.4*vec2(dot(u,x),dot(v,x))+vec2(gamma[i],gamma[j]));
+    // A dual tile has x=(5/2)r+sum(s_l u_l), 0<=s_l<=1.
+    // The projection error is <0.65 in each grid coordinate: two levels suffice.
+    for(int ni=0;ni<2;ni++)for(int nj=0;nj<2;nj++){
+      vec2 levels=estimate+vec2(float(ni),float(nj));
+      vec2 grid=levels-vec2(gamma[i],gamma[j]);
+      vec2 r=vec2(grid.x*v.y-grid.y*u.y,u.x*grid.y-v.x*grid.x)/determinant;
+      vec2 base=levels.x*u+levels.y*v;
+      vec2 rest[3];float blend[3];int index=0;
+      for(int k=0;k<5;k++)if(k!=i&&k!=j){
+        vec2 e=physical[k];float h=dot(e,r)+gamma[k],integer=floor(h+.5);
+        float ai=phCross(e,v)/determinant,aj=phCross(u,e)/determinant;
+        vec2 derivative=internal[k]-ai*internal[i]-aj*internal[j];
+        // Smooth a phason flip in internal-space distance, not in clock time.
+        float width=.014*length(derivative);
+        rest[index]=e;blend[index]=smoothstep(-width,width,h-integer);
+        base+=integer*e;index++;
+      }
+      for(int state=0;state<8;state++){
+        vec2 b=base;float weight=1.;
+        for(int k=0;k<3;k++){
+          float bit=float((state>>k)&1);
+          b+=bit*rest[k];weight*=mix(1.-blend[k],blend[k],bit);
+        }
+        if(weight<=0.)continue;
+        vec2 centre=b+.5*(u+v),d=x-centre;
+        vec2 local=vec2(phCross(d,v),phCross(u,d))/determinant;
+        float edge=(max(abs(local.x),abs(local.y))-.5)*area;
+        if(edge>aa)continue;
+        float coverage=1.-smoothstep(-aa,aa,edge);
+        float line=phLine(edge,.010,aa);
+        float thick=step(.8,area);
+        vec2 acute=.5*(u+sign(dot(u,v))*v);
+        float arc=min(abs(length(d-acute)-.5),abs(length(d+acute)-.5));
+        float engraving=phLine(arc,.007,aa);
+        float diagonal=abs(phCross(d,acute))/length(acute);
+        float spine=phLine(diagonal,.005,aa);
+        vec3 gold=vec3(2.,.72,.095),ivory=vec3(1.65,1.78,1.67),blue=vec3(.001,.007,.015);
+        vec3 tile=blue*(.4+.8*thick)+mix(gold,ivory,thick)*(.72*line+.12*engraving);
+        tile+=gold*(.014+.19*spine)*(1.-thick);
+        color+=weight*coverage*tile;
+        acceptedCoverage+=weight*coverage;
+      }
+    }
+  }
+  // Simultaneous local flips are not disjoint events. Normalize their optical
+  // mixture so overlapping acceptance windows cannot pump the face brightness.
+  return ground+max(color,vec3(0.))/max(acceptedCoverage,.05);
+}`;
+
+const VORTICES = `
+vec2 voMul(vec2 a,vec2 b){return vec2(a.x*b.x-a.y*b.y,a.x*b.y+a.y*b.x);}
+float voLine(float value,float width){float aa=max(fwidth(value),1e-5);return 1.-smoothstep(width,width+aa,abs(value));}
+vec3 artwork(vec2 p){
+  const float TAU=6.28318530718;
+  float t=TAU*uPhase, seed=.21*sin(uSeed*.0097);
+  float angle=.16*sin(t+seed);
+  vec2 z=mat2(cos(angle),sin(angle),-sin(angle),cos(angle))*p;
+  vec2 wave=vec2(1.,0.);
+  vec2 phaseGradient=vec2(48.*z.x+8.*z.y,-48.*z.y+8.*z.x);
+  float nearest=10., chargeField=0.;
+  float separation=.35+.22*uVariation;
+  for(int j=0;j<3;j++){
+    float a=TAU*float(j)/3.;
+    vec2 positive=(.59+.08*sin(t+a))*vec2(cos(a+t),sin(a+t));
+    vec2 negative=separation*vec2(cos(a-t+.7),sin(a-t+.7))+.13*vec2(sin(t),cos(2.*t));
+    vec2 plus=z-positive,minus=z-negative;
+    float p2=dot(plus,plus),m2=dot(minus,minus);
+    vec2 f=plus*inversesqrt(p2+.0016),g=vec2(minus.x,-minus.y)*inversesqrt(m2+.0016);
+    vec2 pair=voMul(f,g);
+    wave=voMul(wave,voMul(pair,voMul(pair,pair)));
+    phaseGradient+=3.*(vec2(-plus.y,plus.x)/max(p2,1e-7)-vec2(-minus.y,minus.x)/max(m2,1e-7));
+    nearest=min(nearest,sqrt(min(p2,m2)));
+    chargeField+=.028/(p2+.05)-.028/(m2+.05);
+  }
+  float carrier=24.*(z.x*z.x-z.y*z.y)+8.*z.x*z.y+2.*sin(t);
+  wave=voMul(wave,vec2(cos(carrier),sin(carrier)));
+  float amplitude=length(wave);
+  vec2 direction=wave/max(amplitude,.002);
+  // Analytic phase-gradient scaling prevents broad chalk bands at saddles.
+  float contourGradient=length(phaseGradient)*max(abs(direction.y),.01);
+  float strand=voLine(direction.x,min(.095,.0019*contourGradient));
+  float parallel=voLine(direction.x-.62,min(.035,.0011*contourGradient));
+  float visibility=smoothstep(.005,.09,amplitude);
+  float coreRing=voLine(nearest-.030,.003)*(1.-smoothstep(.025,.08,nearest));
+  vec3 ivory=vec3(1.6,1.78,1.75), cold=vec3(.03,.38,.72), warm=vec3(1.6,.30,.08);
+  vec3 hue=mix(cold,warm,.5+.5*tanh(2.2*chargeField));
+  vec3 color=vec3(.002,.004,.009)+visibility*(ivory*.82*strand+hue*.65*parallel);
+  color+=hue*.82*coreRing;
+  return max(color,vec3(0.));
+}`;
+
+const MATHEMATICS_04_SHADERS = [
+  {
+    id:'hyperbolic', title:'Hyperbolic', subtitle:'Seven sides, three at each vertex', movieCrf:12,
+    description:'A regular hyperbolic tiling viewed through a moving disk isometry.',
+    technique:'Exact {7,3} circle-reflection tiling in the Poincaré disk; periodic Möbius translation.',
+    formula:'Mₐ(z)=(z−a)/(1−āz); reflection z↦c+R²(z−c)/|z−c|²',
+    duration:12,exposure:1,collection:4,kind:'shader',palette:'native',source:HYPERBOLIC,
+  },
+  {
+    id:'phason',title:'Phason',subtitle:'A loop through internal space',
+    description:'Dual pentagrid rhombi rearrange through local phason flips on a closed internal-space path.',
+    technique:'Dual pentagrid rhombi; optical crossfades during local flips along a closed internal-space path.',
+    formula:'uⱼ·r+γⱼ=nⱼ; X=Σⱼ⌈uⱼ·r+γⱼ⌉uⱼ; γⱼ=uⱼ⊥·w(t)',
+    duration:12,exposure:1,collection:4,kind:'shader',palette:'native',source:PHASON,
+  },
+  {
+    id:'vortices',title:'Vortices',subtitle:'Six phase singularities braid',
+    description:'Opposite-charge phase vortices deform and reconnect visible nodal fringes.',
+    technique:'Three charge +3 and three charge −3 complex factors; saddle carrier and analytic contour-width control.',
+    formula:'Ψ=eⁱφ ∏ⱼ[(z−aⱼ)(z̄−b̄ⱼ)/√((|z−aⱼ|²+ε²)(|z−bⱼ|²+ε²))]³',
+    duration:12,exposure:1,collection:4,kind:'shader',palette:'native',source:VORTICES,
+  },
+];
+
+return {MATHEMATICS_04_SHADERS};
+})();
+/**
+ * Loop Atelier — original, deterministic filament geometries.
+ *
+ * A scene owns one packed Float32Array: [x, y, z, intensity, ...].
+ * update(t, variation) mutates and returns that same array; t is measured in
+ * complete cycles. All animation is analytic and periodic, so frames may be
+ * evaluated in any order and offline exports need no simulation warm-up.
+ *
+ * The small amount of spatial “noise” is a coherent harmonic field. Spatial
+ * harmonics are precomputed; only the time harmonics are evaluated per frame.
+ * No third-party artwork, source code, or noise implementation is included.
+ */
+
+
+const TAU = Math.PI * 2;
+const clamp = (x, lo, hi) => Math.max(lo, Math.min(hi, x));
+
+const SCENES = [
+  {
+    id: 'meridian', title: 'Meridian', subtitle: 'A folded annulus',
+    description: 'A continuous silk surface turns through a saddle. Fine circular threads gather into bright folds around an unbroken dark aperture.',
+    technique: 'A toroidal surface, pleated with travelling integer harmonics. Each luminous thread is a complete closed curve.',
+    formula: 'r = R + a cos(v + τt) + b sin(3u + 2v − τt)',
+    duration: 8, camera: { yaw: 0.08, pitch: 0.44, distance: 3.4 },
+    pointSize: 1.12, exposure: 1.12,
+  },
+  {
+    id: 'bloom', title: 'Bloom', subtitle: 'Five folds, one shell',
+    description: 'Long meridian threads describe a lobed hollow vessel. Slow pressure waves move between the petals, opening light and shadow inside the form.',
+    technique: 'A fivefold polar shell with a travelling radial mode and a second harmonic in its height. Pole intensity compensates for sampling density.',
+    formula: 'r = sin(v) [a + b cos(5u + τt) + c cos(3v − τt)]',
+    duration: 8, camera: { yaw: 0.26, pitch: 1.12, distance: 3.4 },
+    pointSize: 1.13, exposure: 1.15,
+  },
+  {
+    id: 'undertow', title: 'Undertow', subtitle: 'Threads into a void',
+    description: 'Spiral filaments sweep into an oblique throat. The open aperture stays dark as folds travel around the widening mouth.',
+    technique: 'An open flared surface with a quadratic radius, helical coordinates, and two periodic travelling deformations. Particles follow closed cycles without respawning.',
+    formula: 'r = a + bu²; θ = v + 5u + τt; z = −c + du + εu cos(2v + 10u + τt)',
+    duration: 9, camera: { yaw: -0.14, pitch: 0.12, distance: 3.4 },
+    pointSize: 1.16, exposure: 1.18,
+  },
+  {
+    id: 'lattice', title: 'Lattice', subtitle: 'A standing wave in six planes',
+    description: 'A translucent wire cube bends under a standing wave. Its edges remain exact while the interior mesh alternately compresses and opens.',
+    technique: 'Two orthogonal line families on each cube face, displaced by edge-pinned spatial modes. A small periodic rotation exposes the structure.',
+    formula: 'δ(p,q,t) = sin(πp) sin(πq) [a sin(2πp + τt) + b cos(2πq − τt)]',
+    duration: 8, camera: { yaw: 0.53, pitch: 0.35, distance: 3.4 },
+    pointSize: 0.95, exposure: 0.95,
+  },
+  {
+    id: 'ribbon', title: 'Ribbon', subtitle: 'A pleated field in torsion',
+    description: 'Parallel threads form a finite sheet of pleated fabric. A travelling crimp passes through its twist, revealing the thin edge and luminous interior.',
+    technique: 'A ruled sheet around a sinusoidal spine, rotated by a longitudinal twist. Two travelling corrugations create fine ridges without temporal feedback.',
+    formula: 'P(u,v,t) = C(u,t) + Rₓ(1.5πu + a sin τt) [0, bv, ε cos(16πv + 2πu − τt)]',
+    duration: 10, camera: { yaw: -0.16, pitch: 0.08, distance: 3.4 },
+    pointSize: 1.12, exposure: 1.16,
+  },
+  {
+    id: 'orbit', title: 'Orbit', subtitle: 'Seven entrained planes',
+    description: 'Seven separated bands of precise strands precess together. Each band has its own inclination, leaving the centre open and the intersections sharply legible.',
+    technique: 'Nested elliptical thread bundles in independently precessing planes. Tiny coherent corrugations preserve a hand-spun edge without blurring the geometry.',
+    formula: 'Pₖ(u,t) = Rᵧ(αₖ(t)) Rₓ(βₖ(t)) [rₖ cos u, 0.86rₖ sin u, ε sin(7u + τt)]',
+    duration: 10, camera: { yaw: 0.07, pitch: 0.04, distance: 3.4 },
+    pointSize: 1.0, exposure: 0.92,
+  },
+  ...TOPOLOGY_SCENES.map(s => ({ ...s, collection: 2 })),
+  ...FIELD_SCENES.map(s => ({ ...s, collection: 2 })),
+  ...DYNAMIC_SCENES.map(s => ({ ...s, collection: 2 })),
+  ...PATTERN_SHADERS, ...SPACE_SHADERS, ...COMPLEX_SHADERS, ...GEOMETRY_04_SHADERS, ...MATHEMATICS_04_SHADERS,
+];
+
+/** Small seeded PRNG: no global random state is touched. */
+function seededRandom(seed = 42) {
+  let state = Number(seed) >>> 0;
+  return () => {
+    state = (state + 0x6d2b79f5) >>> 0;
+    let n = Math.imul(state ^ (state >>> 15), state | 1);
+    n ^= n + Math.imul(n ^ (n >>> 7), n | 61);
+    return ((n ^ (n >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+/** Repeat a phase exactly, including negative and out-of-order frame times. */
+function loopPhase(t) {
+  if (!Number.isFinite(t)) return 0;
+  return t - Math.floor(t);
+}
+
+function arrays(count, n) {
+  return Array.from({ length: n }, () => new Float32Array(count));
+}
+
+// Balanced line lengths keep every filament intact at arbitrary point counts.
+function filaments(count, requestedLines, random, visit) {
+  const lines = Math.max(1, Math.min(count, requestedLines));
+  for (let line = 0; line < lines; line++) {
+    const start = Math.floor(line * count / lines);
+    const end = Math.floor((line + 1) * count / lines);
+    const phase = random();
+    const offset = random() - 0.5;
+    const gain = 0.65 + random() * 0.35;
+    for (let i = start; i < end; i++) {
+      const s = (i - start + phase) / (end - start);
+      visit(i, s, (line + 0.18 * offset) / lines, gain, line);
+    }
+  }
+}
+
+function meridian(count, random, data) {
+  const [cu, su, cv, sv, c2u, s2u, c3, s3, c5, s5, gain] = arrays(count, 11);
+  filaments(count, 144, random, (i, s, line, brightness) => {
+    const u = TAU * s, v = TAU * line;
+    cu[i] = Math.cos(u); su[i] = Math.sin(u);
+    cv[i] = Math.cos(v); sv[i] = Math.sin(v);
+    c2u[i] = Math.cos(2 * u); s2u[i] = Math.sin(2 * u);
+    c3[i] = Math.cos(3 * u + 2 * v); s3[i] = Math.sin(3 * u + 2 * v);
+    c5[i] = Math.cos(5 * u - 2 * v); s5[i] = Math.sin(5 * u - 2 * v);
+    gain[i] = brightness * (0.68 + 0.23 * Math.sin(v) ** 2);
+  });
+  return (t, amount) => {
+    const ct = Math.cos(TAU * t), st = Math.sin(TAU * t);
+    const pleat = 0.026 + 0.055 * amount;
+    const saddle = 0.105 + 0.15 * amount;
+    for (let i = 0, j = 0; i < count; i++, j += 4) {
+      const vcos = cv[i] * ct - sv[i] * st;
+      const vsin = sv[i] * ct + cv[i] * st;
+      const ripple = s3[i] * ct - c3[i] * st;
+      const r = 0.535 + 0.192 * vcos + pleat * ripple;
+      data[j] = r * cu[i];
+      data[j + 1] = r * su[i];
+      data[j + 2] = 0.185 * vsin + saddle * (s2u[i] * ct + c2u[i] * st)
+        + 0.027 * (s5[i] * ct - c5[i] * st);
+      data[j + 3] = gain[i] * (0.74 + 0.19 * vcos);
+    }
+    return data;
+  };
+}
+
+function bloom(count, random, data) {
+  const [cu, su, cv, sv, c3v, s3v, c5u, s5u, c2v, s2v, gain] = arrays(count, 11);
+  filaments(count, 168, random, (i, s, line, brightness) => {
+    const u = TAU * line, v = Math.PI * (0.004 + 0.992 * s);
+    cu[i] = Math.cos(u); su[i] = Math.sin(u);
+    cv[i] = Math.cos(v); sv[i] = Math.sin(v);
+    c3v[i] = Math.cos(3 * v); s3v[i] = Math.sin(3 * v);
+    c5u[i] = Math.cos(5 * u); s5u[i] = Math.sin(5 * u);
+    c2v[i] = Math.cos(2 * v); s2v[i] = Math.sin(2 * v);
+    gain[i] = brightness * (0.14 + 0.73 * Math.sin(v) ** 0.7);
+  });
+  return (t, amount) => {
+    const ct = Math.cos(TAU * t), st = Math.sin(TAU * t);
+    const ct2 = Math.cos(2 * TAU * t), st2 = Math.sin(2 * TAU * t);
+    const lobes = 0.105 + amount * 0.12;
+    for (let i = 0, j = 0; i < count; i++, j += 4) {
+      const petal = c5u[i] * ct - s5u[i] * st;
+      const wave = c3v[i] * ct + s3v[i] * st;
+      const r = sv[i] * (0.565 + lobes * petal + 0.056 * wave);
+      data[j] = r * cu[i];
+      data[j + 1] = 0.715 * cv[i] + (0.08 + 0.065 * amount) * sv[i] * sv[i] * petal;
+      data[j + 2] = r * su[i] + 0.036 * sv[i] * (s2v[i] * ct2 - c2v[i] * st2);
+      data[j + 3] = gain[i] * (0.78 + 0.14 * petal);
+    }
+    return data;
+  };
+}
+
+function undertow(count, random, data) {
+  const [u, radius, ca, sa, c2a, s2a, c3a, s3a, spine, gain] = arrays(count, 10);
+  filaments(count, 132, random, (i, s, line, brightness) => {
+    const a = TAU * line + 5.0 * s;
+    u[i] = s; radius[i] = 0.202 + 0.53 * s * s;
+    ca[i] = Math.cos(a); sa[i] = Math.sin(a);
+    c2a[i] = Math.cos(2 * a); s2a[i] = Math.sin(2 * a);
+    c3a[i] = Math.cos(3 * a); s3a[i] = Math.sin(3 * a);
+    spine[i] = 0.115 * Math.sin(Math.PI * s);
+    gain[i] = brightness * (0.39 + 0.40 * s);
+  });
+  const cy = Math.cos(0.66), sy = Math.sin(0.66);
+  const cx = Math.cos(-0.36), sx = Math.sin(-0.36);
+  return (t, amount) => {
+    const ct = Math.cos(TAU * t), st = Math.sin(TAU * t);
+    const ct2 = Math.cos(2 * TAU * t), st2 = Math.sin(2 * TAU * t);
+    const fold = 0.026 + 0.065 * amount;
+    for (let i = 0, j = 0; i < count; i++, j += 4) {
+      const r = radius[i] * (1 + fold * (s3a[i] * ct2 - c3a[i] * st2) * u[i]);
+      const x = r * (ca[i] * ct - sa[i] * st) + spine[i] - 0.09;
+      const y = r * (sa[i] * ct + ca[i] * st) + 0.08 * u[i] * u[i];
+      const z = -0.52 + 1.08 * u[i] + (0.025 + 0.075 * amount) * u[i]
+        * (c2a[i] * ct - s2a[i] * st);
+      const xx = cy * x + sy * z;
+      const zz = -sy * x + cy * z;
+      data[j] = xx - 0.08;
+      data[j + 1] = cx * y - sx * zz;
+      data[j + 2] = sx * y + cx * zz;
+      data[j + 3] = gain[i];
+    }
+    return data;
+  };
+}
+
+function lattice(count, random, data) {
+  const [px, py, pz, nx, ny, nz, envelope, sp, cp, sq, cq, gain] = arrays(count, 12);
+  // 23 lines per family omit exact duplicate edge lines on adjacent faces.
+  const grid = 23, totalLines = 6 * 2 * grid;
+  filaments(count, totalLines, random, (i, s, _line, brightness, line) => {
+    const face = Math.floor(line / (2 * grid));
+    const axis = Math.floor(face / 2), sign = face % 2 ? 1 : -1;
+    const family = Math.floor(line / grid) % 2;
+    const across = (line % grid + 0.5) / grid;
+    const p = family ? across : s, q = family ? s : across;
+    const a = (p - 0.5) * 1.16, b = (q - 0.5) * 1.16;
+    if (axis === 0) { px[i] = sign * 0.58; py[i] = a; pz[i] = b; nx[i] = sign; }
+    if (axis === 1) { px[i] = a; py[i] = sign * 0.58; pz[i] = b; ny[i] = sign; }
+    if (axis === 2) { px[i] = a; py[i] = b; pz[i] = sign * 0.58; nz[i] = sign; }
+    envelope[i] = Math.sin(Math.PI * p) * Math.sin(Math.PI * q);
+    sp[i] = Math.sin(TAU * p); cp[i] = Math.cos(TAU * p);
+    sq[i] = Math.sin(TAU * q); cq[i] = Math.cos(TAU * q);
+    gain[i] = brightness * (0.40 + 0.10 * (1 - envelope[i]));
+  });
+  return (t, amount) => {
+    const ct = Math.cos(TAU * t), st = Math.sin(TAU * t);
+    const rot = 0.115 * st, cr = Math.cos(rot), sr = Math.sin(rot);
+    const amplitude = 0.027 + amount * 0.15;
+    for (let i = 0, j = 0; i < count; i++, j += 4) {
+      const wave = amplitude * envelope[i] * ((sp[i] * ct + cp[i] * st)
+        + 0.46 * (cq[i] * ct + sq[i] * st));
+      const x = px[i] + wave * nx[i];
+      const y = py[i] + wave * ny[i];
+      const z = pz[i] + wave * nz[i];
+      data[j] = cr * x + sr * z;
+      data[j + 1] = y;
+      data[j + 2] = -sr * x + cr * z;
+      data[j + 3] = gain[i];
+    }
+    return data;
+  };
+}
+
+function ribbon(count, random, data) {
+  const [u, v, csp, ssp, ctw, stw, cfold, sfold, cfine, sfine, gain] = arrays(count, 11);
+  filaments(count, 176, random, (i, s, line, brightness) => {
+    const along = 2 * s - 1, across = 2 * line - 1;
+    u[i] = along; v[i] = across;
+    csp[i] = Math.cos(Math.PI * along); ssp[i] = Math.sin(Math.PI * along);
+    ctw[i] = Math.cos(1.5 * Math.PI * along); stw[i] = Math.sin(1.5 * Math.PI * along);
+    cfold[i] = Math.cos(16 * Math.PI * across + TAU * along);
+    sfold[i] = Math.sin(16 * Math.PI * across + TAU * along);
+    cfine[i] = Math.cos(28 * Math.PI * across - 2 * TAU * along);
+    sfine[i] = Math.sin(28 * Math.PI * across - 2 * TAU * along);
+    gain[i] = brightness * (0.64 + 0.16 * Math.cos(Math.PI * along / 2));
+  });
+  return (t, amount) => {
+    const ct = Math.cos(TAU * t), st = Math.sin(TAU * t);
+    const ct2 = Math.cos(2 * TAU * t), st2 = Math.sin(2 * TAU * t);
+    const roll = 0.45 * st, cr = Math.cos(roll), sr = Math.sin(roll);
+    const pleat = 0.016 + 0.035 * amount;
+    for (let i = 0, j = 0; i < count; i++, j += 4) {
+      const co = ctw[i] * cr - stw[i] * sr;
+      const si = stw[i] * cr + ctw[i] * sr;
+      const spineY = 0.135 * (ssp[i] * ct + csp[i] * st);
+      const spineZ = 0.15 * (csp[i] * ct + ssp[i] * st);
+      const width = 0.385 * v[i] * (0.94 + 0.08 * (csp[i] * ct + ssp[i] * st));
+      const fold = pleat * (cfold[i] * ct + sfold[i] * st)
+        + 0.011 * (cfine[i] * ct2 - sfine[i] * st2);
+      data[j] = 0.84 * u[i];
+      data[j + 1] = spineY + width * co - fold * si;
+      data[j + 2] = spineZ + width * si + fold * co;
+      data[j + 3] = gain[i];
+    }
+    return data;
+  };
+}
+
+function orbit(count, random, data) {
+  const [px, py, c7, s7, ringIndex, gain] = arrays(count, 6);
+  const rings = 7, strands = 7, radii = [0.255, 0.350, 0.445, 0.540, 0.635, 0.730, 0.825];
+  filaments(count, rings * strands, random, (i, s, _line, brightness, line) => {
+    const ring = Math.floor(line / strands), strand = line % strands;
+    const angle = TAU * s;
+    const r = radii[ring] + (strand - (strands - 1) / 2) * 0.0028;
+    px[i] = r * Math.cos(angle); py[i] = r * 0.86 * Math.sin(angle);
+    c7[i] = Math.cos(7 * angle + ring * 0.71);
+    s7[i] = Math.sin(7 * angle + ring * 0.71);
+    ringIndex[i] = ring;
+    gain[i] = brightness * (0.30 + ring * 0.027) * (strand === 3 ? 1.15 : 0.87);
+  });
+  const matrices = Array.from({ length: rings }, () => new Float64Array(4));
+  return (t, amount) => {
+    const ct = Math.cos(TAU * t), st = Math.sin(TAU * t);
+    for (let k = 0; k < rings; k++) {
+      const phase = k * 0.79;
+      const alpha = 0.88 * Math.sin(k * 1.43) + (0.05 + 0.23 * amount) * Math.sin(TAU * t + phase);
+      const beta = 0.75 * Math.cos(k * 1.17) + (0.06 + 0.21 * amount) * Math.cos(TAU * t + phase);
+      matrices[k][0] = Math.cos(alpha); matrices[k][1] = Math.sin(alpha);
+      matrices[k][2] = Math.cos(beta); matrices[k][3] = Math.sin(beta);
+    }
+    for (let i = 0, j = 0; i < count; i++, j += 4) {
+      const m = matrices[ringIndex[i]];
+      const z = (0.003 + 0.011 * amount) * (s7[i] * ct + c7[i] * st);
+      const yy = py[i] * m[2] - z * m[3];
+      const zz = py[i] * m[3] + z * m[2];
+      data[j] = px[i] * m[0] + zz * m[1];
+      data[j + 1] = yy;
+      data[j + 2] = -px[i] * m[1] + zz * m[0];
+      data[j + 3] = gain[i];
+    }
+    return data;
+  };
+}
+
+const BUILDERS = { meridian, bloom, undertow, lattice, ribbon, orbit, ...TOPOLOGY_BUILDERS, ...FIELD_BUILDERS, ...DYNAMIC_BUILDERS };
+
+/**
+ * Construct a geometry once, then reuse its buffer for every render.
+ * @param {string} id One of SCENES[].id.
+ * @param {{count?: number, seed?: number, variation?: number}} options
+ * @returns {{count: number, data: Float32Array, update: (t:number, variation?:number)=>Float32Array}}
+ */
+function createScene(id, { count = 50000, seed = 42, variation = 0.5 } = {}) {
+  const meta=SCENES.find(s=>s.id===id);
+  if(meta?.kind==='shader') return {kind:'shader',id,source:meta.source,palette:meta.palette,seed:seededRandom(seed)()*1000};
+  const build = BUILDERS[id];
+  if (!build) throw new RangeError(`Unknown study “${id}”. Choose ${Object.keys(BUILDERS).join(', ')}.`);
+  if (!Number.isFinite(count) || count < 1 || count > 2000000) {
+    throw new RangeError('Particle count must be between 1 and 2,000,000.');
+  }
+  count = Math.floor(count);
+  const data = new Float32Array(count * 4);
+  const evaluate = build(count, seededRandom(seed), data);
+  let amount = Number.isFinite(variation) ? clamp(variation, 0, 1) : 0.5;
+  const scene = {
+    count, data,
+    update(t, nextVariation = amount) {
+      if (Number.isFinite(nextVariation)) amount = clamp(nextVariation, 0, 1);
+      return evaluate(loopPhase(t), amount);
+    },
+  };
+  scene.update(0);
+  return scene;
+}
+
+/**
+ * Loop Atelier renderer. Independent implementation, no dependencies.
+ * Geometry is a pure function of phase. Exposure is accumulated in a floating
+ * point framebuffer, then tone mapped once, after all temporal samples.
+ */
+const wrap = t => ((t % 1) + 1) % 1;
+const VERSION = '2.1.0';
+const samplePatterns=new Map();
+/** Independently permuted pixel strata, exactly centred for every sample count. */
+function samplePattern(n) {
+  n=Math.max(1,Math.min(64,Math.round(n)));
+  if(samplePatterns.has(n))return samplePatterns.get(n);
+  const shuffle=seed=>{
+    const a=Array.from({length:n},(_,i)=>i);
+    for(let i=n-1;i>0;i--){seed=(Math.imul(seed,1664525)+1013904223)>>>0;const j=Math.floor(seed/4294967296*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+    return a;
+  };
+  const x=shuffle(731),y=shuffle(9137);
+  const pattern=Object.freeze(x.map((v,i)=>Object.freeze([(v+.5)/n-.5,(y[i]+.5)/n-.5])));
+  samplePatterns.set(n,pattern);return pattern;
+}
+
+const vertex = `#version 300 es
+precision highp float;
+layout(location=0) in vec4 aParticle;
+uniform vec2 uRotation;
+uniform float uDistance, uSize, uPointSize, uWeight;
+out float vLight;
+void main() {
+  float cy=cos(uRotation.x), sy=sin(uRotation.x);
+  float cp=cos(uRotation.y), sp=sin(uRotation.y);
+  vec3 p=aParticle.xyz;
+  p=vec3(cy*p.x+sy*p.z,p.y,-sy*p.x+cy*p.z);
+  p=vec3(p.x,cp*p.y-sp*p.z,sp*p.y+cp*p.z);
+  float perspective=uDistance/(uDistance-p.z);
+  gl_Position=vec4(p.xy*2.65/(uDistance-p.z),0.,1.);
+  float footprint=uPointSize*uSize/800.*perspective;
+  gl_PointSize=max(1.,footprint);
+  // Subpixel points still rasterize as one-pixel sprites. Preserve their
+  // intended energy so a small preview does not become disproportionately bright.
+  vLight=aParticle.w * mix(.42,1.,smoothstep(-1.1,1.1,p.z)) * uWeight * min(1.,footprint*footprint);
+}`;
+const fragment = `#version 300 es
+precision highp float;
+in float vLight;
+out vec4 colour;
+void main() {
+  vec2 p=gl_PointCoord*2.-1.;
+  float r=dot(p,p);
+  if(r>1.) discard;
+  float coverage=1.-smoothstep(.06,1.,r);
+  colour=vec4(vec3(vLight*coverage),1.);
+}`;
+const screenVertex = `#version 300 es
+precision highp float;
+out vec2 uv;
+void main(){
+  vec2 p=vec2((gl_VertexID<<1)&2,gl_VertexID&2);
+  uv=p; gl_Position=vec4(p*2.-1.,0.,1.);
+}`;
+const screenFragment = `#version 300 es
+precision highp float;
+uniform sampler2D uImage;
+uniform float uExposure;
+uniform int uPalette, uColour;
+in vec2 uv;
+out vec4 colour;
+void main(){
+  if(uColour==1 && uPalette==3) {
+    vec3 v=1.-exp(-max(vec3(0.),texture(uImage,uv).rgb)*uExposure);
+    colour=vec4(mix(12.92*v,1.055*pow(v,vec3(1./2.4))-.055,step(vec3(.0031308),v)),1.);
+    return;
+  }
+  vec3 radiance=texture(uImage,uv).rgb;
+  float light=1.-exp(-(uColour==1?dot(radiance,vec3(.2126,.7152,.0722)):radiance.r)*uExposure);
+  // Linear radiance -> sRGB. This preserves delicate low-density filaments.
+  float s=light<=.0031308 ? 12.92*light : 1.055*pow(light,1./2.4)-.055;
+  vec3 bg=vec3(.018,.022,.028), ink=vec3(.95,.96,.98);
+  if(uPalette==1) { bg=vec3(.025,.019,.014); ink=vec3(.99,.79,.48); }
+  if(uPalette==2) { bg=vec3(.94,.925,.89); ink=vec3(.085,.105,.13); }
+  colour=vec4(mix(bg,ink,clamp(s,0.,1.)),1.);
+}`;
+
+function program(gl, vs, fs) {
+  const compiled=[];
+  for(const [type,source] of [[gl.VERTEX_SHADER,vs],[gl.FRAGMENT_SHADER,fs]]) {
+    const shader=gl.createShader(type);
+    gl.shaderSource(shader,source); gl.compileShader(shader);
+    if(!gl.getShaderParameter(shader,gl.COMPILE_STATUS)) {
+      const error=gl.getShaderInfoLog(shader); gl.deleteShader(shader);
+      throw new Error(`Shader compilation failed: ${error}`);
+    }
+    compiled.push(shader);
+  }
+  const p=gl.createProgram(); compiled.forEach(s=>gl.attachShader(p,s)); gl.linkProgram(p);
+  compiled.forEach(s=>gl.deleteShader(s));
+  if(!gl.getProgramParameter(p,gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+  return p;
+}
+
+class LoopRenderer {
+  constructor(canvas) {
+    this.canvas=canvas;
+    const gl=canvas.getContext('webgl2',{alpha:false,antialias:false,preserveDrawingBuffer:true,powerPreference:'high-performance'});
+    if(!gl) throw new Error('This studio needs WebGL 2. Enable hardware acceleration or use a current desktop browser.');
+    this.gl=gl;
+    this.maxTextureSize=gl.getParameter(gl.MAX_TEXTURE_SIZE);
+    this.hdr=!!gl.getExtension('EXT_color_buffer_float');
+    this.points=program(gl,vertex,fragment);
+    this.screen=program(gl,screenVertex,screenFragment);
+    this.buffer=gl.createBuffer();
+    this.vao=gl.createVertexArray();
+    gl.bindVertexArray(this.vao); gl.bindBuffer(gl.ARRAY_BUFFER,this.buffer);
+    gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0,4,gl.FLOAT,false,16,0);
+    this.emptyVao=gl.createVertexArray();
+    this.target=gl.createFramebuffer(); this.texture=gl.createTexture();
+    this.uniforms={};
+    this.artPrograms=new Map();
+    for(const [key,p,names] of [['p',this.points,['uRotation','uDistance','uSize','uPointSize','uWeight']],['s',this.screen,['uImage','uExposure','uPalette','uColour']]]) {
+      this.uniforms[key]=Object.fromEntries(names.map(n=>[n,gl.getUniformLocation(p,n)]));
+    }
+    this.allocated=0;
+    this.resize(canvas.width || 800);
+  }
+  resize(size) {
+    const gl=this.gl;
+    if(gl.isContextLost()) return false;
+    size=Math.floor(Math.max(64,Math.min(this.maxTextureSize,size)));
+    if(size===this.size) return;
+    this.size=size; this.canvas.width=size; this.canvas.height=size;
+    gl.bindTexture(gl.TEXTURE_2D,this.texture);
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+    gl.texImage2D(gl.TEXTURE_2D,0,this.hdr ? gl.RGBA16F : gl.RGBA8,size,size,0,gl.RGBA,this.hdr ? gl.HALF_FLOAT : gl.UNSIGNED_BYTE,null);
+    gl.bindFramebuffer(gl.FRAMEBUFFER,this.target);
+    gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,this.texture,0);
+    if(gl.checkFramebufferStatus(gl.FRAMEBUFFER)!==gl.FRAMEBUFFER_COMPLETE) throw new Error('The graphics device cannot allocate this output size. Try a smaller resolution.');
+    gl.bindFramebuffer(gl.FRAMEBUFFER,null);
+  }
+  render(scene, phase, options={}) {
+    const gl=this.gl, p=this.uniforms.p, s=this.uniforms.s;
+    if(gl.isContextLost()) return false;
+    const {samples=1,shutter=.65,fps=30,duration=8,exposure=1,palette=scene.palette||'silver',camera={yaw:0,pitch:0,distance:3.4},pointSize=1.5,variation=.5}=options;
+    const n=Math.max(1,Math.min(64,Math.round(samples)));
+    gl.viewport(0,0,this.size,this.size);
+    gl.bindFramebuffer(gl.FRAMEBUFFER,this.target);
+    gl.clearColor(0,0,0,1); gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.enable(gl.BLEND); gl.blendFunc(gl.ONE,gl.ONE);
+    if(scene.kind==='shader') {
+      let art=this.artPrograms.get(scene.source);
+      if(!art) {
+        const code=`#version 300 es\nprecision highp float;\nuniform float uPhase,uVariation,uSeed,uResolution,uWeight;\nuniform vec2 uJitter;\nin vec2 uv;\nout vec4 colour;\n${scene.source}\nvoid main(){vec3 c=artwork((gl_FragCoord.xy+uJitter)/uResolution*2.-1.);if(any(isnan(c))||any(isinf(c))) c=vec3(0.);colour=vec4(clamp(c,vec3(0.),vec3(32.))*uWeight,1.);}`;
+        const pr=program(gl,screenVertex,code);
+        art={program:pr,uniforms:Object.fromEntries(['uPhase','uVariation','uSeed','uResolution','uWeight','uJitter'].map(k=>[k,gl.getUniformLocation(pr,k)]))};
+        this.artPrograms.set(scene.source,art);
+      }
+      gl.useProgram(art.program);gl.bindVertexArray(this.emptyVao);
+      const u=art.uniforms;
+      gl.uniform1f(u.uVariation,variation);gl.uniform1f(u.uSeed,scene.seed);gl.uniform1f(u.uResolution,this.size);gl.uniform1f(u.uWeight,1/n);
+      const pattern=samplePattern(n);
+      for(let i=0;i<n;i++) {
+        const offset=n===1?0:((i+.5)/n-.5)*shutter/(fps*duration);
+        gl.uniform1f(u.uPhase,wrap(phase+offset));
+        // A stratified pixel footprint complements analytic derivative filtering.
+        gl.uniform2f(u.uJitter,...pattern[i]);
+        gl.drawArrays(gl.TRIANGLES,0,3);
+      }
+    } else {
+    gl.useProgram(this.points); gl.bindVertexArray(this.vao); gl.bindBuffer(gl.ARRAY_BUFFER,this.buffer);
+    gl.uniform2f(p.uRotation,camera.yaw || 0,camera.pitch || 0);
+    gl.uniform1f(p.uDistance,camera.distance || 3.4);
+    gl.uniform1f(p.uSize,this.size); gl.uniform1f(p.uPointSize,pointSize);
+    // Preserve energy as sample density or the number of shutter samples changes.
+    gl.uniform1f(p.uWeight,1.4 * 50000 / scene.count / n);
+    for(let i=0;i<n;i++) {
+      const offset=n===1 ? 0 : ((i+.5)/n-.5)*shutter/(fps*duration);
+      const data=scene.update(wrap(phase+offset),variation);
+      if(this.allocated!==data.byteLength) {
+        gl.bufferData(gl.ARRAY_BUFFER,data,gl.DYNAMIC_DRAW); this.allocated=data.byteLength;
+      } else gl.bufferSubData(gl.ARRAY_BUFFER,0,data);
+      gl.drawArrays(gl.POINTS,0,scene.count);
+    }
+    }
+    gl.disable(gl.BLEND); gl.bindFramebuffer(gl.FRAMEBUFFER,null);
+    gl.useProgram(this.screen); gl.bindVertexArray(this.emptyVao);
+    gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D,this.texture);
+    gl.uniform1i(s.uImage,0); gl.uniform1f(s.uExposure,Math.max(.1,exposure));
+    gl.uniform1i(s.uPalette,{silver:0,amber:1,paper:2,native:3}[palette] ?? 0);
+    gl.uniform1i(s.uColour,scene.kind==='shader'?1:0);
+    gl.drawArrays(gl.TRIANGLES,0,3);
+  }
+  dispose() {
+    const g=this.gl;
+    g.deleteProgram(this.points); g.deleteProgram(this.screen); g.deleteBuffer(this.buffer);
+    g.deleteTexture(this.texture); g.deleteFramebuffer(this.target);
+    g.deleteVertexArray(this.vao); g.deleteVertexArray(this.emptyVao);
+    for(const a of this.artPrograms.values())g.deleteProgram(a.program);
+    this.artPrograms.clear();
+  }
+}
+
+
+const $=id=>document.getElementById(id);
+const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+const defaults={scene:'hyperbolic',seed:42,variation:.5,exposure:1,duration:SCENES.find(s=>s.id==='hyperbolic').duration,count:180000,palette:'native',time:.15};
+let state={...defaults};
+let playing=!reducedMotion.matches && !new URLSearchParams(location.search).has('export'), scene, renderer, lastTime=0, dirty=true, guideOpen=false, exportBusy=false;
+let captureCanvas, captureRenderer, captureScene, captureKey='';
+let movingAverage=0, measuredFrames=0;
+
+function metadata(id=state.scene) { return SCENES.find(s=>s.id===id); }
+function resizeArtwork() {
+  if(!renderer)return;
+  const shader=metadata()?.kind==='shader';
+  const size=Math.max(320,Math.min(shader?1000:1400,Math.round($('art-canvas').getBoundingClientRect().width*Math.min(devicePixelRatio,shader?1.2:1.6))));
+  renderer.resize(size);dirty=true;
+}
+function announce(message) { $('status').textContent=message; $('error-message').hidden=true; }
+function showError(message) { $('error-message').textContent=message; $('error-message').hidden=false; }
+function fail(error) { showError(error.message || String(error)); console.error(error); }
+function updatePlayback() {
+  $('play-icon').textContent=playing?'Ⅱ':'▶';
+  $('play').setAttribute('aria-label',playing?'Pause animation':'Play animation');
+  if(metadata()) $('art-canvas').setAttribute('aria-label',`${metadata().title}. ${metadata().description} ${playing?'Animated':'Paused'} generative study; use the playback and phase controls below.`);
+}
+function syncControls() {
+  $('variation').value=Math.round(state.variation*100); $('variation-value').value=`${Math.round(state.variation*100)}%`;
+  $('exposure').value=Math.round(state.exposure*100); $('exposure-value').value=state.exposure.toFixed(2);
+  $('duration').value=state.duration; $('duration-value').value=`${state.duration} s`;
+  $('seed').value=state.seed; $('density').value=state.count; $('palette').value=state.palette;
+  $('timeline').value=Math.round(state.time*1000); $('phase-display').value=state.time.toFixed(3);
+  updatePlayback();
+}
+function setScene(id,{reset=true}={}) {
+  const meta=metadata(id);
+  if(!meta) throw new Error('Unknown study.');
+  state.scene=id;
+  if(reset) { state={...defaults,scene:id,duration:meta.duration,count:meta.previewCount||defaults.count,palette:meta.palette||'silver'}; }
+  scene=createScene(id,state);
+  $('scene-select').value=id;
+  $('technique-description').textContent=meta.technique; $('formula').textContent=meta.formula;
+  $('art-canvas').setAttribute('aria-label',`${meta.title}. ${meta.description} ${playing?'Animated':'Paused'} generative study; use the playback and phase controls below.`);
+  $('density').closest('div').hidden=meta.kind==='shader';
+  resizeArtwork();
+  syncControls(); dirty=true;
+}
+function rebuild() { scene=createScene(state.scene,state); dirty=true; }
+function draw() {
+  if(!renderer) return;
+  const meta=metadata();
+  renderer.render(scene,state.time,{...state,camera:meta.camera,pointSize:meta.pointSize,exposure:state.exposure*meta.exposure,samples:1});
+}
+function frame(now) {
+  if(!lastTime) lastTime=now;
+  const elapsed=Math.min(.1,(now-lastTime)/1000); lastTime=now;
+  if(!document.hidden && !guideOpen && !exportBusy && renderer && (playing||dirty)) {
+    if(playing) state.time=wrap(state.time+elapsed/state.duration);
+    const started=performance.now(); draw();
+    movingAverage=movingAverage ? .95*movingAverage+.05*(performance.now()-started) : performance.now()-started;
+    measuredFrames++;
+    $('timeline').value=Math.round(state.time*1000); $('phase-display').value=state.time.toFixed(3); dirty=false;
+  }
+  requestAnimationFrame(frame);
+}
+function download(blob,filename) {
+  const url=URL.createObjectURL(blob), a=document.createElement('a'); a.href=url;a.download=filename;
+  document.body.appendChild(a); a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);
+}
+function recipe() { return {schema:'loop-atelier/recipe',version:1,engine:VERSION,...state}; }
+function validateRecipe(value) {
+  if(!value || typeof value!=='object' || value.schema!=='loop-atelier/recipe' || value.version!==1) throw new Error('Choose a Loop Atelier version 1 recipe JSON file.');
+  if(!SCENES.some(s=>s.id===value.scene)) throw new Error('This recipe names an unknown study.');
+  const ranges={seed:[0,4294967295],variation:[0,1],exposure:[.35,2.5],duration:[3,16],count:[60000,360000],time:[0,1]};
+  for(const [key,[min,max]] of Object.entries(ranges)) if(typeof value[key]!=='number'||!Number.isFinite(value[key])||value[key]<min||value[key]>max) throw new Error(`Recipe ${key} must be between ${min} and ${max}.`);
+  if(!Number.isInteger(value.seed)||!Number.isInteger(value.duration)||![60000,180000,360000].includes(value.count)) throw new Error('Recipe seed and duration must be integers; use one of the studio particle counts.');
+  if(!['silver','amber','paper','native'].includes(value.palette)) throw new Error('Unknown recipe palette.');
+  return Object.fromEntries(Object.keys(defaults).map(k=>[k,value[k]]));
+}
+
+/** Deterministic API used by the offline renderer. Returns a lossless PNG. */
+function capture(options={}) {
+  const o={...defaults,count:360000,size:1920,samples:8,shutter:.65,fps:30,...options};
+  const meta=metadata(o.scene); if(!meta) throw new Error('Unknown capture scene.');
+  if(options.duration===undefined) o.duration=meta.duration;
+  if(options.palette===undefined) o.palette=meta.palette||'silver';
+  for(const key of ['size','samples','fps','duration','shutter','exposure','count','seed','variation','time']) if(!Number.isFinite(o[key])) throw new Error(`Invalid capture ${key}.`);
+  if(o.size<64||o.size>8192||!Number.isInteger(o.size)||o.count<100||o.count>1000000||!Number.isInteger(o.count)||o.samples<1||o.samples>64||o.fps<=0||o.duration<=0||o.shutter<0||o.shutter>1||o.variation<0||o.variation>1||o.exposure<=0) throw new Error('Capture settings are outside the supported range.');
+  if(!['silver','amber','paper','native'].includes(o.palette)) throw new Error('Unknown capture palette.');
+  if(!captureRenderer) {captureCanvas=document.createElement('canvas'); captureRenderer=new LoopRenderer(captureCanvas);}
+  if(!captureRenderer.hdr) throw new Error('Publication export requires floating-point graphics. Please use a browser and device supporting EXT_color_buffer_float.');
+  const key=`${o.scene}/${o.seed}/${o.count}`;
+  if(key!==captureKey) {captureScene=createScene(o.scene,o);captureKey=key;}
+  captureRenderer.resize(o.size);
+  if(captureRenderer.size!==o.size) throw new Error('Requested resolution exceeds this graphics device’s maximum texture size.');
+  captureRenderer.render(captureScene,o.time,{...o,camera:meta.camera,pointSize:meta.pointSize,exposure:o.exposure*meta.exposure});
+  if(captureRenderer.gl.isContextLost()) {captureRenderer=null;captureKey='';throw new Error('The graphics context was interrupted during export. Try again, or use a smaller output size.');}
+  const result=captureCanvas.toDataURL('image/png');
+  if(!result.startsWith('data:image/png;base64,')) throw new Error('The graphics device could not capture this size.');
+  return result;
+}
+
+try {
+  renderer=new LoopRenderer($('art-canvas'));
+  for(const meta of [...SCENES].sort((a,b)=>a.title.localeCompare(b.title,'en'))) {
+    const option=document.createElement('option');option.value=meta.id;option.textContent=meta.title;
+    $('scene-select').appendChild(option);
+  }
+  $('scene-select').addEventListener('change',()=>{setScene($('scene-select').value);announce(`${metadata().title} selected.`);});
+  setScene(defaults.scene);
+  const observer=new ResizeObserver(resizeArtwork); observer.observe($('art-canvas').parentElement);
+  $('art-canvas').addEventListener('webglcontextlost',event=>{event.preventDefault();playing=false;renderer=null;updatePlayback();$('canvas-error').hidden=false;$('canvas-error').textContent='The graphics device was interrupted. Restoring the artwork…';announce('Playback paused while the graphics device recovers.');});
+  $('art-canvas').addEventListener('webglcontextrestored',()=>{try{renderer=new LoopRenderer($('art-canvas'));dirty=true;$('canvas-error').hidden=true;announce('Artwork restored. Press play to continue.');}catch(error){$('canvas-error').textContent=error.message;fail(error);}});
+  $('play').addEventListener('click',()=>{playing=!playing;updatePlayback();});
+  $('timeline').addEventListener('input',()=>{playing=false;state.time=Number($('timeline').value)/1000;updatePlayback();dirty=true;});
+  for(const [id,key,scale] of [['variation','variation',.01],['exposure','exposure',.01],['duration','duration',1]]) $(id).addEventListener('input',()=>{state[key]=Number($(id).value)*scale;syncControls();dirty=true;});
+  $('seed').addEventListener('change',()=>{const n=Number($('seed').value);if(!Number.isInteger(n)||n<0||n>4294967295){$('seed').value=state.seed;showError('Seed must be an integer from 0 to 4,294,967,295.');return;}state.seed=n;rebuild();announce(`Seed ${n}.`);});
+  $('new-seed').addEventListener('click',()=>{state.seed=crypto.getRandomValues(new Uint32Array(1))[0];$('seed').value=state.seed;rebuild();announce(`Seed ${state.seed}.`);});
+  $('density').addEventListener('change',()=>{state.count=Number($('density').value);rebuild();});
+  $('palette').addEventListener('change',()=>{state.palette=$('palette').value;dirty=true;});
+  $('reset').addEventListener('click',()=>{setScene(state.scene);announce('Curated study restored.');});
+  $('save-preset').addEventListener('click',()=>{download(new Blob([JSON.stringify(recipe(),null,2)+'\n'],{type:'application/json'}),`${state.scene}-${state.seed}.recipe.json`);announce('Recipe saved, including the selected phase.');});
+  $('load-preset').addEventListener('click',()=>$('preset-file').click());
+  $('preset-file').addEventListener('change',async e=>{try{const file=e.target.files[0];if(!file)return;if(file.size>100000)throw new Error('Recipe file is too large.');const next=validateRecipe(JSON.parse(await file.text()));state=next;playing=false;setScene(state.scene,{reset:false});announce('Recipe loaded. Press play to animate.');}catch(error){fail(error);}finally{e.target.value='';}});
+  $('export-png').addEventListener('click',async()=>{
+    if(exportBusy)return; exportBusy=true;$('export-png').disabled=true;announce('Rendering a lossless still…');
+    const captured={...state};
+    try{await new Promise(r=>setTimeout(r,40));const url=capture({...captured,size:Number($('export-size').value),samples:Number($('samples').value),shutter:Number($('shutter').value)});const raw=atob(url.split(',')[1]);const bytes=Uint8Array.from(raw,c=>c.charCodeAt(0));download(new Blob([bytes],{type:'image/png'}),`${captured.scene}-${captured.seed}-${captured.time.toFixed(3)}.png`);announce(`${$('export-size').value} px still saved at phase ${captured.time.toFixed(3)}.`);}catch(error){fail(error);}finally{exportBusy=false;$('export-png').disabled=false;}
+  });
+  function changeView(showGuide,writeHash=true) {guideOpen=showGuide;$('studio-view').hidden=showGuide;$('guide-view').hidden=!showGuide;$('studio-tab').classList.toggle('active',!showGuide);$('guide-tab').classList.toggle('active',showGuide);$('studio-tab').setAttribute('aria-pressed',String(!showGuide));$('guide-tab').setAttribute('aria-pressed',String(showGuide));if(writeHash){const next=location.href.split('#')[0]+(showGuide?'#sources':'');history.replaceState(null,'',next);}dirty=true;}
+  $('studio-tab').addEventListener('click',()=>changeView(false));$('guide-tab').addEventListener('click',()=>changeView(true));document.querySelector('.brand').addEventListener('click',e=>{e.preventDefault();changeView(false);});
+  window.addEventListener('hashchange',()=>changeView(location.hash==='#sources',false));
+  if(location.hash==='#sources')changeView(true,false);
+  $('art-fullscreen').addEventListener('click',async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await $('art-canvas').parentElement.requestFullscreen();}catch{showError('Fullscreen is unavailable here. Open the standalone studio in your browser.');}});
+  document.addEventListener('fullscreenchange',()=>{$('art-fullscreen').setAttribute('aria-label',document.fullscreenElement?'Exit artwork fullscreen':'Enter artwork fullscreen');});
+  document.addEventListener('keydown',e=>{if(e.code==='Space'&&!guideOpen&&!['INPUT','SELECT','BUTTON','TEXTAREA','SUMMARY','A'].includes(document.activeElement.tagName)){e.preventDefault();playing=!playing;updatePlayback();}});
+  document.addEventListener('visibilitychange',()=>{lastTime=0;dirty=true;});
+  reducedMotion.addEventListener('change',e=>{if(e.matches){playing=false;updatePlayback();}});
+  if(reducedMotion.matches)announce('Motion is paused to respect your reduced-motion preference.');
+  else if(!renderer.hdr)announce('Standard precision rendering; use a device with floating-point graphics for final masters.');
+  window.loopStudio={ready:true,version:VERSION,defaults:{count:360000},capture,getState:()=>({...state,playing}),getRecipe:recipe,loadRecipe:v=>{state=validateRecipe(v);playing=false;setScene(state.scene,{reset:false});},selectScene:id=>setScene(id),pause:()=>{playing=false;updatePlayback();},play:()=>{playing=true;updatePlayback();},setPhase:t=>{if(!Number.isFinite(t))throw new Error('Phase must be finite.');state.time=wrap(t);dirty=true;},getStats:()=>({cpuRenderMs:movingAverage,measuredFrames,hdr:renderer?.hdr ?? null,displaySize:renderer?.size ?? null,contextLost:!renderer || renderer.gl.isContextLost(),renderer:renderer?.gl.getParameter(renderer.gl.RENDERER) ?? null}),scenes:SCENES};
+  draw();requestAnimationFrame(frame);
+} catch(error) {
+  $('canvas-error').hidden=false;$('canvas-error').textContent=error.message;
+  window.loopStudio={ready:false,error:error.message};fail(error);
+}
+
+</script>
+</body>
+</html>

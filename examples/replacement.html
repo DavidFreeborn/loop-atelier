@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>A loop by replacement · Loop Atelier</title>
+  <style>
+    :root{font-family:Arial,Helvetica,sans-serif;color:#e7e6e2;background:#0a0b0d;color-scheme:dark;font-synthesis:none}
+    *{box-sizing:border-box}body{margin:0}a{color:inherit;text-underline-offset:4px}a:hover{color:white}
+    button,input{font:inherit}button,a,input{-webkit-tap-highlight-color:transparent}
+    :focus-visible{outline:2px solid #f3f2ed;outline-offset:5px}
+    main{max-width:1180px;margin:auto;padding:32px 32px 64px}
+    nav{display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:1px solid #313236;padding-bottom:23px;font-size:13px}
+    nav span{color:#a0a1a4;font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+    header{max-width:770px;padding:46px 0 28px}.eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#aaa; margin:0 0 13px}
+    h1{font-family:Georgia,'Times New Roman',serif;font-size:clamp(32px,4.3vw,48px);font-weight:400;line-height:1.13;letter-spacing:-.03em;margin:0 0 17px}
+    header p:last-child{font-size:16px;line-height:1.7;color:#b9b9bb;margin:0;max-width:650px}
+    .workspace{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(290px,1fr);gap:36px;align-items:start}
+    figure{margin:0;min-width:0}.stage{background:#050607;border:1px solid #26272a;aspect-ratio:1;display:grid;place-items:center;overflow:hidden}
+    canvas{display:block;width:100%;height:100%;aspect-ratio:1}canvas:focus-visible{outline-offset:-6px}
+    .controls{display:flex;align-items:center;gap:16px;padding:19px 0;border-bottom:1px solid #313236}
+    button{border:1px solid #747579;background:transparent;color:#e9e9e5;border-radius:0;min-width:78px;min-height:42px;padding:9px 16px;cursor:pointer}
+    button:hover:enabled{background:#202124}button:disabled,input:disabled{opacity:.5;cursor:default}
+    .phase-control{flex:1;min-width:0}.phase-label{display:flex;justify-content:space-between;gap:12px;margin-bottom:8px;font-size:11px;color:#b4b4b7}
+    output{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-variant-numeric:tabular-nums}
+    input[type=range]{display:block;width:100%;margin:0;height:18px;accent-color:#dadad8;cursor:pointer}
+    figcaption{font-size:11px;line-height:1.7;color:#a5a5a9;margin-top:12px}
+    aside{padding-top:6px;min-width:0}h2{font-size:15px;font-weight:500;margin:0 0 14px}aside p{font-size:14px;line-height:1.75;color:#b7b7ba;margin:0 0 19px}
+    pre{background:#111214;border:1px solid #2a2b2e;padding:18px;margin:20px 0 22px;overflow:auto;line-height:1.7;font-size:12px;color:#dddeda;tab-size:2}
+    code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}p code{font-size:.9em;color:#e1e1de}
+    .note{padding-top:21px;border-top:1px solid #313236;font-size:12px;line-height:1.8;color:#a6a6ab}
+    #status{min-height:20px;font-size:12px;line-height:1.65;margin:14px 0 0;color:#aaaeb4}#status.error{border-left:2px solid #dfdfda;padding-left:12px;color:#e0e0dc}
+    @media(max-width:800px){main{padding:24px 22px 44px}.workspace{grid-template-columns:1fr;gap:34px}header{padding-top:35px}.stage{max-height:none}aside{max-width:660px}nav span{max-width:130px;text-align:right;line-height:1.6}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+  </style>
+</head>
+<body>
+  <main>
+    <nav aria-label="Example navigation"><a href="../index.html">← Loop Atelier</a><span>An authoring example</span></nav>
+    <header>
+      <p class="eyebrow">Recipe 01 / State replacement</p>
+      <h1>A loop by replacement</h1>
+      <p>Twelve identical clusters travel around a closed path. After one cycle, each cluster occupies its neighbour’s starting place. The whole image repeats while the motion continues.</p>
+    </header>
+    <div class="workspace">
+      <figure>
+        <div class="stage"><canvas id="canvas" width="800" height="800" tabindex="0" role="img" aria-label="Twelve luminous clusters moving around a closed three-dimensional path.">This example needs a browser with WebGL 2.</canvas></div>
+        <div class="controls">
+          <button id="play" type="button" disabled>Play</button>
+          <div class="phase-control">
+            <div class="phase-label"><label for="phase">Loop phase</label><output id="phase-value" for="phase">0.000 / 1.000</output></div>
+            <input id="phase" type="range" min="0" max="1" step="0.001" value="0" aria-describedby="keyboard-help" disabled>
+          </div>
+        </div>
+        <figcaption id="keyboard-help">Space: play or pause. Focus the slider and use the arrow keys to scrub. One cycle lasts eight seconds.</figcaption>
+        <p id="status" role="status">Loading the example…</p>
+        <noscript><p>Enable JavaScript to run this interactive authoring example.</p></noscript>
+      </figure>
+      <aside aria-label="How to build the example">
+        <h2>The same interface, a different loop</h2>
+        <p>The scene returns a reusable buffer of positions and intensities. The renderer asks for the state at a particular phase; it does not need the preceding frame.</p>
+        <pre aria-label="Minimal JavaScript initialization"><code>import { LoopRenderer }
+  from '../src/renderer.js';
+import { createReplacementScene }
+  from '../src/example.js';
+
+const renderer = new LoopRenderer(canvas);
+const scene = createReplacementScene({
+  count: 15000, seed: 42
+});
+
+// Call with phase between 0 and 1.
+renderer.render(scene, phase, {
+  pointSize: 1.2, exposure: 0.7,
+  camera: {
+    yaw: 0.1, pitch: 0.2, distance: 3.4
+  }
+});</code></pre>
+        <p>Start by changing the control points in <a href="../src/example.js"><code>src/example.js</code></a>. Each queue item uses the same small cloud of samples. Preserve that shared structure when changing its width or brightness.</p>
+        <p class="note">The seam matches under a permutation of the objects. An individual particle does not return to its own starting point after one cycle. Unique colours, sizes, or random offsets for each cluster would expose the exchange unless those attributes move with it.<br><br>Run <code>npm start</code> and open this page through the local server. ES module imports require HTTP; opening the HTML directly from disk will not run the example.</p>
+      </aside>
+    </div>
+  </main>
+  <script type="module">
+    const canvas = document.querySelector('#canvas');
+    const playButton = document.querySelector('#play');
+    const slider = document.querySelector('#phase');
+    const readout = document.querySelector('#phase-value');
+    const status = document.querySelector('#status');
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+    let renderer, scene, observer;
+    let phase = 0, playing = false, lastTime = null, frame = 0, failed = false;
+    const options = {
+      pointSize: 1.2, exposure: 0.7, samples: 4, duration: 8, fps: 60,
+      camera: { yaw: 0.1, pitch: 0.2, distance: 3.4 },
+    };
+
+    function fail(message) {
+      failed = true; playing = false; cancelAnimationFrame(frame);
+      playButton.disabled = slider.disabled = true;
+      playButton.textContent = 'Play';
+      status.className = 'error'; status.textContent = message;
+    }
+    function updateReadout() {
+      slider.value = String(phase);
+      readout.value = `${phase.toFixed(3)} / 1.000`;
+      slider.setAttribute('aria-valuetext', `${Math.round(phase * 100)} percent of the cycle`);
+    }
+    function draw() {
+      if (failed || !renderer) return;
+      try { renderer.render(scene, phase, options); updateReadout(); }
+      catch (error) { fail(`The graphics device could not draw this example. ${error.message}`); }
+    }
+    function schedule() {
+      cancelAnimationFrame(frame);
+      if (playing && !failed && !document.hidden) frame = requestAnimationFrame(tick);
+    }
+    function tick(now) {
+      if (!playing || failed || document.hidden) return;
+      if (lastTime !== null) phase = (phase + (now - lastTime) / 8000) % 1;
+      lastTime = now; draw(); schedule();
+    }
+    function setPlaying(value, message) {
+      if (failed) return;
+      playing = value; lastTime = null;
+      playButton.textContent = playing ? 'Pause' : 'Play';
+      status.textContent = message || (playing ? 'Playing · twelve clusters exchange places each cycle.' : 'Paused · scrub the phase to inspect the exchange.');
+      schedule();
+    }
+
+    playButton.addEventListener('click', () => setPlaying(!playing));
+    slider.addEventListener('input', () => {
+      setPlaying(false); phase = Number(slider.value); draw();
+    });
+    document.addEventListener('keydown', event => {
+      if (event.code !== 'Space' || event.repeat || event.altKey || event.ctrlKey || event.metaKey) return;
+      if (event.target.closest('button, input, select, textarea, a, [contenteditable]')) return;
+      if (!scene || failed) return;
+      event.preventDefault(); setPlaying(!playing);
+    });
+    document.addEventListener('visibilitychange', () => { lastTime = null; schedule(); });
+    reducedMotion.addEventListener('change', event => {
+      if (event.matches && scene) setPlaying(false, 'Paused for your reduced motion preference. Press Play to animate.');
+    });
+    canvas.addEventListener('webglcontextlost', event => {
+      event.preventDefault(); fail('The graphics context was interrupted. Reload this page to restore the example.');
+    });
+    window.addEventListener('pagehide', event => {
+      cancelAnimationFrame(frame);
+      if (!event.persisted) { observer?.disconnect(); renderer?.dispose(); }
+    });
+    window.addEventListener('pageshow', () => { lastTime = null; schedule(); });
+
+    try {
+      if (location.protocol === 'file:') throw new Error('Run npm start, then open http://127.0.0.1:4173/examples/replacement.html.');
+      const [{ LoopRenderer }, { createReplacementScene }] = await Promise.all([
+        import('../src/renderer.js'), import('../src/example.js'),
+      ]);
+      renderer = new LoopRenderer(canvas);
+      scene = createReplacementScene({ count: 15000, seed: 42 });
+      observer = new ResizeObserver(() => {
+        if (failed) return;
+        try {
+          renderer.resize(Math.min(1200, Math.round(canvas.clientWidth * Math.min(devicePixelRatio || 1, 2))));
+          draw();
+        } catch (error) { fail(error.message); }
+      });
+      observer.observe(canvas);
+      playButton.disabled = slider.disabled = false;
+      draw();
+      setPlaying(!reducedMotion.matches, reducedMotion.matches
+        ? 'Paused for your reduced motion preference. Press Play to animate.'
+        : undefined);
+    } catch (error) {
+      fail(`This example could not start. ${error.message} It requires WebGL 2 and a local HTTP server.`);
+    }
+  </script>
+</body>
+</html>

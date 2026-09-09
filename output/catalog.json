@@ -1,0 +1,405 @@
+[
+  {
+    "id": "meridian",
+    "title": "Meridian",
+    "subtitle": "A folded annulus",
+    "description": "A continuous silk surface turns through a saddle. Fine circular threads gather into bright folds around an unbroken dark aperture.",
+    "technique": "A toroidal surface, pleated with travelling integer harmonics. Each luminous thread is a complete closed curve.",
+    "formula": "r = R + a cos(v + τt) + b sin(3u + 2v − τt)",
+    "duration": 8,
+    "camera": {
+      "yaw": 0.08,
+      "pitch": 0.44,
+      "distance": 3.4
+    },
+    "pointSize": 1.12,
+    "exposure": 1.12
+  },
+  {
+    "id": "bloom",
+    "title": "Bloom",
+    "subtitle": "Five folds, one shell",
+    "description": "Long meridian threads describe a lobed hollow vessel. Slow pressure waves move between the petals, opening light and shadow inside the form.",
+    "technique": "A fivefold polar shell with a travelling radial mode and a second harmonic in its height. Pole intensity compensates for sampling density.",
+    "formula": "r = sin(v) [a + b cos(5u + τt) + c cos(3v − τt)]",
+    "duration": 8,
+    "camera": {
+      "yaw": 0.26,
+      "pitch": 1.12,
+      "distance": 3.4
+    },
+    "pointSize": 1.13,
+    "exposure": 1.15
+  },
+  {
+    "id": "undertow",
+    "title": "Undertow",
+    "subtitle": "Threads into a void",
+    "description": "Spiral filaments sweep into an oblique throat. The open aperture stays dark as folds travel around the widening mouth.",
+    "technique": "An open flared surface with a quadratic radius, helical coordinates, and two periodic travelling deformations. Particles follow closed cycles without respawning.",
+    "formula": "r = a + bu²; θ = v + 5u + τt; z = −c + du + εu cos(2v + 10u + τt)",
+    "duration": 9,
+    "camera": {
+      "yaw": -0.14,
+      "pitch": 0.12,
+      "distance": 3.4
+    },
+    "pointSize": 1.16,
+    "exposure": 1.18
+  },
+  {
+    "id": "lattice",
+    "title": "Lattice",
+    "subtitle": "A standing wave in six planes",
+    "description": "A translucent wire cube bends under a standing wave. Its edges remain exact while the interior mesh alternately compresses and opens.",
+    "technique": "Two orthogonal line families on each cube face, displaced by edge-pinned spatial modes. A small periodic rotation exposes the structure.",
+    "formula": "δ(p,q,t) = sin(πp) sin(πq) [a sin(2πp + τt) + b cos(2πq − τt)]",
+    "duration": 8,
+    "camera": {
+      "yaw": 0.53,
+      "pitch": 0.35,
+      "distance": 3.4
+    },
+    "pointSize": 0.95,
+    "exposure": 0.95
+  },
+  {
+    "id": "ribbon",
+    "title": "Ribbon",
+    "subtitle": "A pleated field in torsion",
+    "description": "Parallel threads form a finite sheet of pleated fabric. A travelling crimp passes through its twist, revealing the thin edge and luminous interior.",
+    "technique": "A ruled sheet around a sinusoidal spine, rotated by a longitudinal twist. Two travelling corrugations create fine ridges without temporal feedback.",
+    "formula": "P(u,v,t) = C(u,t) + Rₓ(1.5πu + a sin τt) [0, bv, ε cos(16πv + 2πu − τt)]",
+    "duration": 10,
+    "camera": {
+      "yaw": -0.16,
+      "pitch": 0.08,
+      "distance": 3.4
+    },
+    "pointSize": 1.12,
+    "exposure": 1.16
+  },
+  {
+    "id": "orbit",
+    "title": "Orbit",
+    "subtitle": "Seven entrained planes",
+    "description": "Seven separated bands of precise strands precess together. Each band has its own inclination, leaving the centre open and the intersections sharply legible.",
+    "technique": "Nested elliptical thread bundles in independently precessing planes. Tiny coherent corrugations preserve a hand-spun edge without blurring the geometry.",
+    "formula": "Pₖ(u,t) = Rᵧ(αₖ(t)) Rₓ(βₖ(t)) [rₖ cos u, 0.86rₖ sin u, ε sin(7u + τt)]",
+    "duration": 10,
+    "camera": {
+      "yaw": 0.07,
+      "pitch": 0.04,
+      "distance": 3.4
+    },
+    "pointSize": 1,
+    "exposure": 0.92
+  },
+  {
+    "id": "hopf",
+    "title": "Hopf",
+    "subtitle": "Every circle linked to every other",
+    "description": "Eighteen bands of linked circles swell, contract, and exchange prominence as the three-sphere turns beneath a stereographic projection. Every pair remains linked throughout the transformation.",
+    "technique": "Complex Hopf fibres on S³ undergo a periodic SU(2) rotation before stereographic projection. The unitary transformation mixes the two complex coordinates while preserving the exact circles and their linkage.",
+    "formula": "(z₁,z₂) = (cos η eⁱ⁽ψ⁺φ⁾, sin η eⁱψ); P = (Re z₁, Im z₁, Re z₂)/(1 − Im z₂)",
+    "duration": 10,
+    "camera": {
+      "yaw": 0.18,
+      "pitch": 0.68,
+      "distance": 3.4
+    },
+    "pointSize": 1.13,
+    "exposure": 1.14,
+    "collection": 2
+  },
+  {
+    "id": "trefoil",
+    "title": "Trefoil",
+    "subtitle": "A knot carrying seven braids",
+    "description": "Seven fine cable ribbons wind around a trefoil. A travelling twist threads the three crossings while a slow rocking motion reveals which strands pass over and under.",
+    "technique": "A (2,3) torus knot with a periodic orthonormal frame. Seven separated filament bands travel around its cross-section; a smooth rigid precession reveals the crossings.",
+    "formula": "C(u) = ((R+r cos 3u) cos 2u, (R+r cos 3u) sin 2u, r sin 3u); P = C + aN + bB",
+    "duration": 9,
+    "camera": {
+      "yaw": -0.15,
+      "pitch": 0.44,
+      "distance": 3.4
+    },
+    "pointSize": 1.15,
+    "exposure": 1.13,
+    "collection": 2
+  },
+  {
+    "id": "klein",
+    "title": "Klein",
+    "subtitle": "A surface that changes sides",
+    "description": "A figure-eight cross-section makes one half-twist around a ring. Fine threads pass through the immersion’s shared circle, exposing the geometry of a non-orientable surface.",
+    "technique": "A figure-eight immersion of the Klein bottle in R³. A double traversal closes each filament; the self-intersection is intrinsic to this particular 3D immersion and is shown openly.",
+    "formula": "A+iB = eⁱ⁽ᵘ⁄²⁺δ⁾(sin v + iκ sin 2v); P = ((R+A) cos u, (R+A) sin u, B)",
+    "duration": 10,
+    "camera": {
+      "yaw": 0.23,
+      "pitch": 0.68,
+      "distance": 3.4
+    },
+    "pointSize": 1.1,
+    "exposure": 1.08,
+    "collection": 2
+  },
+  {
+    "id": "gyroid",
+    "title": "Gyroid",
+    "subtitle": "A porous nodal architecture",
+    "description": "A continuous labyrinth of saddle surfaces breathes inside a cut cube. Its openings pass through the sculpture; fine granular light reveals the walls between them.",
+    "technique": "Area-weighted samples of a marching-tetrahedra approximation to sin x cos y + sin y cos z + sin z cos x = 0. A periodic normal wave deforms this nodal approximation; it is not an exact minimal-surface solver.",
+    "formula": "G = sin x cos y + sin y cos z + sin z cos x = 0; P(t) = P₀ + a n sin(τt + φ)",
+    "duration": 10,
+    "camera": {
+      "yaw": 0.48,
+      "pitch": 0.29,
+      "distance": 3.5
+    },
+    "pointSize": 1.28,
+    "exposure": 1.3,
+    "collection": 2
+  },
+  {
+    "id": "resonance",
+    "title": "Resonance",
+    "subtitle": "Two modes in quadrature",
+    "description": "Luminous nodal curves travel across a dark square membrane. Straight divisions open into curved chambers and exchange places as two resonant modes interfere.",
+    "technique": "Quadrature superposition of the degenerate square Neumann modes (2,5) and (5,2). Brightness traces the instantaneous zero set, displayed on an undulating saddle. This is an analytic modal field, not a simulation of sand or a bending plate.",
+    "formula": "F(u,v,t) = cos(2πu)cos(5πv)cos τt + cos(5πu)cos(2πv)sin τt",
+    "duration": 12,
+    "camera": {
+      "yaw": 0.12,
+      "pitch": 0.64,
+      "distance": 3.55
+    },
+    "pointSize": 1.13,
+    "exposure": 7.861,
+    "collection": 2
+  },
+  {
+    "id": "harmonic",
+    "title": "Harmonic",
+    "subtitle": "An octupole changing basis",
+    "description": "Eight layered lobes gather into an axial sculpture with a folded equatorial belt, then separate again. The centre stays dark as the entire harmonic form slowly turns.",
+    "technique": "Two equal-energy, orthogonal real degree-three spherical harmonics are mixed continuously. A smooth magnitude maps the angular field to lobed radial volumes; it is a sculptural field visualization, not an electron-density calculation.",
+    "formula": "Q = √105 xyz cos τt + (√7/2)(5z³ − 3z) sin τt, |n| = 1; r ∝ √(Q² + ε²) − ε",
+    "duration": 12,
+    "camera": {
+      "yaw": 0.48,
+      "pitch": 0.64,
+      "distance": 3.5
+    },
+    "pointSize": 1.22,
+    "exposure": 1.48,
+    "collection": 2
+  },
+  {
+    "id": "descent",
+    "title": "Descent",
+    "subtitle": "An endless spiral of thresholds",
+    "previewCount": 360000,
+    "description": "Nested, finely ruled thresholds expand toward the viewer. Each reveals another inside it, while the entire stairwell turns through a quiet logarithmic spiral.",
+    "technique": "Identical pleated square galleries occupy eight logarithmic scales. A quintic visibility window conceals recycling; each loop permutes the galleries exactly.",
+    "formula": "sₖ = (k − t) mod 8; rₖ = 1.18 exp(−0.405 sₖ); θₖ = αsₖ + ε sin(τt)",
+    "duration": 8,
+    "camera": {
+      "yaw": 0.1,
+      "pitch": 0.3,
+      "distance": 3.85
+    },
+    "pointSize": 1.2,
+    "exposure": 2.45,
+    "loopTopology": "permutation",
+    "collection": 2
+  },
+  {
+    "id": "confluence",
+    "title": "Confluence",
+    "subtitle": "Three currents through a double scroll",
+    "description": "Three broad ruled ribbons braid around a double-scroll orbit. A sequence of smooth shears stretches its lobes and turns the crossing through space, keeping every thread distinct.",
+    "technique": "A closed, three-strand ribbon braid is carried by six cyclic sine shears. Each shear has unit Jacobian determinant; their composition creates a smooth, volume-preserving deformation.",
+    "formula": "Sₓ: x ← x + a sin(ky + τt); Sᵧ: y ← y + b sin(kz − τt); S_z: z ← z + c sin(kx + τt)",
+    "duration": 10,
+    "camera": {
+      "yaw": 0.12,
+      "pitch": 0.22,
+      "distance": 3.65
+    },
+    "pointSize": 1.02,
+    "exposure": 1.06,
+    "collection": 2
+  },
+  {
+    "id": "palimpsest",
+    "title": "Palimpsest",
+    "subtitle": "An architectural print that consumes itself",
+    "description": "Rooms, stairways and vermilion thresholds feed into an off-centre aperture. An exact logarithmic transformation repeatedly turns the smallest plan into the largest.",
+    "technique": "A complex-log lattice with three radial and two angular material periods. Translation through that lattice creates a loxodromic zoom; nested rectilinear motifs provide four scales of detail.",
+    "formula": "L = 1.72 ln r; q = (L − 3t, 6θ/τ − aL + 2t); material(q + (−3,2)) = material(q)",
+    "duration": 12,
+    "exposure": 1,
+    "collection": 3,
+    "kind": "shader",
+    "palette": "native",
+    "source": "\nfloat paBox(vec2 p, vec2 b) {\n  vec2 q = abs(p) - b;\n  return length(max(q, 0.0)) + min(max(q.x, q.y), 0.0);\n}\nfloat paInside(float d, float aa) { return 1.0 - smoothstep(-aa, aa, d); }\nfloat paLine(float d, float w, float aa) { return 1.0 - smoothstep(w-aa, w+aa, abs(d)); }\nfloat paHash(vec2 p) { return fract(sin(dot(p,vec2(127.1,311.7))+uSeed*.0137)*43758.5453); }\nvec3 artwork(vec2 p) {\n  const float TAU = 6.28318530718;\n  vec2 z = p - vec2(-.17,.065);\n  float radius = max(length(z), .00001);\n  float logarithm = 1.72 * log(radius);\n  // One time cycle translates this lattice by (-3,+2). Its material keys\n  // repeat every three radial and two angular cells, so the image is periodic.\n  vec2 q = vec2(logarithm - 3.0*uPhase,\n    6.0*atan(z.y,z.x)/TAU - (.20+.45*uVariation)*logarithm + 2.0*uPhase);\n  vec2 cell = floor(q);\n  vec2 key = mod(cell,vec2(3.,2.));\n  vec2 f = fract(q)-.5;\n  if(key.y>.5) f=vec2(-f.y,f.x);\n  float aa = min(.18, 3.6/(max(uResolution,64.)*radius));\n  float family = key.x;\n  float paper = paLine(paBox(f,vec2(.445)),.037,aa);\n  float ink = 0.;\n  if(family<.5) {\n    // Nested rooms with alternating open thresholds, not concentric circles.\n    vec2 room=f;\n    float scale=1.;\n    for(int level=0;level<4;level++) {\n      float wall=paLine(paBox(room,vec2(.335*scale)),.023*scale+.004,aa);\n      float doorway=paInside(paBox(room-vec2(.335*scale,0.),vec2(.065*scale,.11*scale)),aa);\n      paper=max(paper,wall*(1.-doorway));\n      room=vec2(-room.y,room.x)-vec2(.024*scale,-.014*scale);\n      scale*=.56;\n    }\n    paper=max(paper,paInside(paBox(f-vec2(.13,-.11),vec2(.07,.19)),aa));\n  } else if(family<1.5) {\n    paper=max(paper,paInside(paBox(f,vec2(.355,.375)),aa));\n    ink=max(ink,paInside(paBox(f+vec2(.06,.015),vec2(.19,.255)),aa));\n    float steps=paLine(fract((f.y+.5)*7.)-.5,.11,aa*7.);\n    ink=max(ink,steps*paInside(paBox(f-vec2(.245,0.),vec2(.065,.32)),aa));\n    ink=max(ink,paInside(paBox(f-vec2(-.22,.28),vec2(.065,.055)),aa));\n  } else {\n    paper=max(paper,paInside(paBox(f-vec2(-.22,0.),vec2(.08,.34)),aa));\n    paper=max(paper,paInside(paBox(f-vec2(.12,.23),vec2(.22,.065)),aa));\n    paper=max(paper,paInside(paBox(f-vec2(.12,-.23),vec2(.22,.065)),aa));\n    paper=max(paper,paLine(paBox(f-vec2(.075,0.),vec2(.15)),.028,aa));\n    float hatch=paLine(fract((f.x+f.y)*10.)-.5,.10,aa*10.);\n    paper=max(paper,hatch*paInside(paBox(f-vec2(.255,0.),vec2(.055,.13)),aa));\n  }\n  float redDoor=paInside(paBox(f-vec2(.08,-.015),vec2(.047,.075)),aa);\n  float redRail=paInside(paBox(f-vec2(-.38,.15),vec2(.014,.15)),aa);\n  float accent=(redDoor+redRail)*step(.5,paHash(key));\n  float tick=paInside(paBox(f-vec2(.365,.34),vec2(.032,.009)),aa);\n  paper=max(paper,tick);\n  vec3 color=mix(vec3(.001),vec3(3.6),clamp(paper-ink,0.,1.));\n  color=mix(color,vec3(3.8,.065,.017),clamp(accent,0.,1.));\n  // Deliberate central aperture also removes the unresolved log singularity.\n  float aperture=smoothstep(.020,.052,radius);\n  color=mix(vec3(.001),color,aperture);\n  float seal=paLine(radius-.028,.0017,1.4/max(uResolution,64.));\n  return max(mix(color,vec3(3.8,.065,.017),seal),vec3(0.));\n}\n"
+  },
+  {
+    "id": "switchboard",
+    "title": "Switchboard",
+    "subtitle": "Routes lock, release and find another order",
+    "description": "An interlocking print of paired tracks rearranges through staggered quarter turns. Larger routes reverse the black-and-white ground while vermilion channels mark mechanisms in motion.",
+    "technique": "Two nested Truchet scales use quintic stop-and-turn schedules. A half-turn is an exact symmetry of each paired-arc motif, making the punctuated mechanism image-periodic.",
+    "formula": "α = (π/2)[b + E((s−.12)/.23) + E((s−.62)/.23)], s = fract(t−delay)",
+    "duration": 12,
+    "exposure": 1,
+    "collection": 3,
+    "kind": "shader",
+    "palette": "native",
+    "source": "\nfloat swHash(vec2 p) { return fract(sin(dot(p,vec2(113.7,271.9))+uSeed*.0213)*41537.1941); }\nfloat swEase(float value) { float x=clamp(value,0.,1.);return x*x*x*(x*(6.*x-15.)+10.); }\nmat2 swRotation(float a) { float c=cos(a),s=sin(a);return mat2(c,-s,s,c); }\nfloat swBand(float distance, float width, float aa) { return 1.-smoothstep(width-aa,width+aa,abs(distance)); }\nvec4 swMechanism(vec2 q, float offset) {\n  vec2 cell=floor(q),f=fract(q)-.5;\n  float key=swHash(cell);\n  float group=swHash(floor(cell*.5));\n  float local=fract(uPhase + offset - .051*(cell.x-cell.y) - .13*group);\n  float first=swEase((local-.12)/.23);\n  float second=swEase((local-.62)/.23);\n  // Two quarter turns: final angle differs by pi, an exact symmetry of the\n  // paired arcs. Both movement windows have zero velocity and acceleration.\n  float angle=1.57079632679*(step(.5,key)+first+second);\n  vec2 v=swRotation(angle)*f;\n  float distance=min(abs(length(v-vec2(-.5,-.5))-.5),abs(length(v-vec2(.5,.5))-.5));\n  float moving=4.*first*(1.-first)+4.*second*(1.-second);\n  // The contact fingers retract before the rotor leaves its locked orientation.\n  // Cropping is radial and softly gated: no rotating square-edge fragments.\n  float retracted=swEase(first/.08)*swEase((1.-first)/.08)\n                 +swEase(second/.08)*swEase((1.-second)/.08);\n  float diskAA=max(fwidth(length(f)),.0001);\n  float disk=1.-smoothstep(.435-diskAA,.435+diskAA,length(f));\n  float gate=mix(1.,disk,retracted);\n  return vec4(distance,moving,key,gate);\n}\nvec3 artwork(vec2 p) {\n  float density=3.5+1.4*uVariation;\n  vec2 q=p*density+vec2(.5);\n  vec4 mechanism=swMechanism(q,0.);\n  vec4 large=swMechanism(p*1.13+vec2(.5),.21);\n  float aa=2.2*density/max(uResolution,64.);\n  float largeAA=2.6/max(uResolution,64.);\n  float polarity=swBand(large.x,.175,largeAA)*large.w;\n  vec3 dark=vec3(.001),paper=vec3(3.7),red=vec3(3.7,.058,.016);\n  vec3 background=mix(dark,paper,polarity);\n  vec3 foreground=mix(paper,dark,polarity);\n  float rails=swBand(mechanism.x,.083,aa)*mechanism.w;\n  float channel=swBand(mechanism.x,.031,aa)*mechanism.w;\n  vec3 color=mix(background,foreground,rails);\n  color=mix(color,background,channel);\n  float live=channel*mechanism.y;\n  color=mix(color,red,live);\n  vec2 f=fract(q)-.5;\n  // Fixed port bearings reveal when a route is locked and when it is turning.\n  float port=min(min(length(f-vec2(.5,0.)),length(f-vec2(-.5,0.))),\n                 min(length(f-vec2(0.,.5)),length(f-vec2(0.,-.5))));\n  float bearing=swBand(port-.028,.009,aa);\n  color=mix(color,foreground,bearing);\n  float pin=1.-smoothstep(.010-aa,.010+aa,port);\n  color=mix(color,mix(foreground,red,mechanism.y),pin);\n  // A finer etched scale sits in the quiet centres of selected mechanisms.\n  float plate=1.-smoothstep(.16,.19,length(f));\n  float hatch=swBand(fract((f.x-f.y)*17.)-.5,.08,aa*17.);\n  float etch=plate*hatch*step(.53,mechanism.z)*(1.-rails);\n  color=mix(color,mix(vec3(.055),vec3(1.8),1.-polarity),etch*.55);\n  float boss=swBand(length(f)-.033,.006,aa);\n  color=mix(color,foreground,boss*.8);\n  return max(color,vec3(0.));\n}\n"
+  },
+  {
+    "id": "section",
+    "title": "Section",
+    "subtitle": "Rooms from a fourth direction",
+    "description": "A four-dimensional cellular grid passes through a three-dimensional slice. Ivory and copper structures join, divide, and change direction as the slice turns through the grid.",
+    "technique": "Ray-marched thickened intersections of pairs of hypercubic grid planes in R⁴, restricted to a rotating affine three-plane. Real occlusion, soft shadows, and opaque material distinguish the structural families.",
+    "formula": "q = R(t)(x,y,z,h(t)); solid = {minᵢ<ⱼ d((qᵢ,qⱼ),grid) < ε}",
+    "duration": 12,
+    "exposure": 1,
+    "collection": 3,
+    "kind": "shader",
+    "palette": "native",
+    "source": "\nconst float PI = 3.141592653589793;\nconst float TAU = 6.283185307179586;\nvec2 mapScene(vec3 p);\nvec3 materialAt(vec3 p, float id);\nfloat gFloor,gFov;\nfloat sdRoundBox(vec3 p, vec3 b, float r) {\n  vec3 q=abs(p)-b;\n  return length(max(q,0.0))+min(max(q.x,max(q.y,q.z)),0.0)-r;\n}\nfloat squareBeam(vec2 p,float w,float bevel) {\n  vec2 q=abs(p)-vec2(w);\n  return length(max(q,0.0))+min(max(q.x,q.y),0.0)-bevel;\n}\nfloat seededPhase(){return TAU*fract(sin(uSeed*0.01731+0.719)*437.1831);}\nvec3 normalAt(vec3 p,float e) {\n  const vec2 k=vec2(1.0,-1.0);\n  return normalize(k.xyy*mapScene(p+k.xyy*e).x+k.yyx*mapScene(p+k.yyx*e).x\n    +k.yxy*mapScene(p+k.yxy*e).x+k.xxx*mapScene(p+k.xxx*e).x);\n}\nfloat occlusionAt(vec3 p,vec3 n) {\n  float ao=0.0,weight=1.0;\n  for(int i=1;i<=4;i++) {\n    float h=0.025+float(i)*0.064;\n    ao+=(h-mapScene(p+n*h).x)*weight;\n    weight*=0.56;\n  }\n  return clamp(1.0-1.8*ao,0.12,1.0);\n}\nfloat shadowAt(vec3 p,vec3 direction) {\n  float t=0.025,result=1.0;\n  for(int i=0;i<24;i++) {\n    float d=mapScene(p+direction*t).x;\n    result=min(result,13.0*d/t);\n    t+=clamp(d,0.028,0.24);\n    if(d<0.001||t>5.5) break;\n  }\n  return clamp(result,0.06,1.0);\n}\nvec3 architecture(vec2 p,vec3 ro,vec3 target,float theme) {\n  vec3 fw=normalize(target-ro),rt=normalize(cross(fw,vec3(0.0,1.0,0.0))),up=cross(rt,fw);\n  vec3 rd=normalize(fw+gFov*p.x*rt+gFov*p.y*up);\n  // Both sculptures and their plinths fit inside this box. Spend the ray\n  // budget inside that region; handle the unbounded floor analytically.\n  vec3 ta=(-vec3(2.06)-ro)/rd,tb=(vec3(2.06)-ro)/rd;\n  vec3 nearBound=min(ta,tb),farBound=max(ta,tb);\n  float entry=max(nearBound.x,max(nearBound.y,nearBound.z));\n  float exitDistance=min(farBound.x,min(farBound.y,farBound.z));\n  bool intersects=exitDistance>=max(entry,0.0);\n  float travel=intersects?max(0.0,entry-0.003):18.0;\n  if(rd.y<-0.0001&&-(ro.y+gFloor)/rd.y<travel)intersects=false;\n  vec2 h=vec2(1.0,0.0);bool hit=false;\n  int steps=uResolution<800.0?68:80;\n  for(int i=0;i<80;i++) {\n    if(i>=steps||!intersects) break;\n    h=mapScene(ro+rd*travel);\n    if(h.x<0.0009+travel*0.00010){hit=true;break;}\n    travel+=max(h.x*0.91,0.001);\n    if(travel>17.0)break;\n  }\n  vec3 background=mix(vec3(0.009,0.014,0.021),vec3(0.028,0.022,0.019),theme);\n  background*=0.62+0.38*exp(-0.8*dot(p,p));\n  // Continue the distant studio floor analytically instead of revealing the\n  // ray-marcher's far bound as a hard false horizon behind the sculpture.\n  if(!hit&&rd.y<-0.0001) {\n    float floorTravel=-(ro.y+gFloor)/rd.y;\n    if(floorTravel>0.0) {travel=floorTravel;h=vec2(0.0);hit=true;}\n  }\n  if(!hit)return background;\n  vec3 pos=ro+rd*travel;\n  vec3 n=h.y<0.5?vec3(0.0,1.0,0.0):normalAt(pos,0.0012+0.00008*travel);\n  vec3 albedo=materialAt(pos,h.y);\n  vec3 light=normalize(vec3(-0.55,0.87,0.58));\n  bool distantFloor=h.y<0.5&&length(pos.xz)>5.5;\n  float diffuse=max(dot(n,light),0.0);\n  float ao=distantFloor?1.0:pow(occlusionAt(pos,n),0.72);\n  float shadow=distantFloor?1.0:shadowAt(pos+n*0.007,light);\n  float rim=max(dot(n,normalize(vec3(0.7,0.3,-0.6))),0.0);\n  vec3 halfVector=normalize(light-rd);\n  float specular=pow(max(dot(n,halfVector),0.0),72.0)*shadow;\n  vec3 ambient=vec3(0.14,0.18,0.24)*(0.62+0.38*max(n.y,0.0));\n  vec3 colour=albedo*(ambient*ao+vec3(1.65,1.37,1.02)*diffuse*shadow);\n  colour+=albedo*vec3(0.18,0.28,0.43)*rim*ao;\n  float metal=(theme>0.5&&h.y>0.5&&h.y<3.5)||(theme<0.5&&h.y>1.5&&h.y<2.5)?1.0:0.0;\n  colour+=mix(vec3(0.52),albedo,0.55)*specular*(0.7+metal);\n  vec3 reflected=reflect(rd,n);\n  float panel=smoothstep(0.78,0.98,dot(reflected,normalize(vec3(-0.4,0.75,0.2))));\n  colour+=albedo*vec3(0.58,0.63,0.71)*panel*metal*ao*0.35;\n  float grazing=pow(1.0-max(dot(n,-rd),0.0),4.0);\n  colour+=vec3(0.08,0.11,0.15)*grazing*ao;\n  float haze=1.0-exp(-(h.y<0.5?0.072:0.014)*travel);\n  return max(mix(colour,background,haze),vec3(0.0));\n}\n\nvec2 gXW,gYW,gZW;\nfloat gSlice,gWidth,gSpacing;\nvec4 sectionCoordinates(vec3 p) {\n  vec4 q=vec4(p,gSlice);\n  q.xw=mat2(gXW.x,-gXW.y,gXW.y,gXW.x)*q.xw;\n  q.yw=mat2(gYW.x,-gYW.y,gYW.y,gYW.x)*q.yw;\n  q.zw=mat2(gZW.x,-gZW.y,gZW.y,gZW.x)*q.zw;\n  return q;\n}\nvec2 sectionStructure(vec3 p) {\n  vec4 q=sectionCoordinates(p);\n  vec4 d=abs(mod(q+0.5*gSpacing,gSpacing)-0.5*gSpacing);\n  // The thickened pairwise intersections of a 4D hypercubic grid's planes.\n  // Restriction to the 3D slice yields architectural struts. No 4D-to-3D\n  // perspective division is involved: this is genuinely a hyperplane slice.\n  // The symmetric cross-section increases with either nonnegative coordinate.\n  // Its minimum pair is therefore the two smallest coordinates: two rounded\n  // box evaluations replace six, with exactly the same geometry and material.\n  float smallest=min(d.x,min(d.y,d.z));\n  float middle=max(min(d.x,d.y),min(max(d.x,d.y),d.z));\n  float ivory=squareBeam(vec2(smallest,middle),gWidth,0.017);\n  float metal=squareBeam(vec2(smallest,d.w),gWidth,0.017);\n  vec2 result=ivory<metal?vec2(ivory,1.0):vec2(metal,2.0);\n  float clip=sdRoundBox(p,vec3(1.67),0.045);\n  result.x=max(result.x,clip);\n  return result;\n}\nvec2 mapScene(vec3 p) {\n  vec2 result=sectionStructure(p);\n  float plinth=sdRoundBox(p-vec3(0.0,-1.79,0.0),vec3(1.86,0.085,1.86),0.045);\n  if(plinth<result.x)result=vec2(plinth,3.0);\n  float floorDistance=p.y+1.95;\n  if(floorDistance<result.x)result=vec2(floorDistance,0.0);\n  return result;\n}\nvec3 materialAt(vec3 p,float id) {\n  if(id<0.5)return vec3(0.020,0.027,0.039);\n  if(id>2.5)return vec3(0.028,0.038,0.055);\n  if(id>1.5)return vec3(0.49,0.205,0.072);\n  return vec3(0.74,0.71,0.64);\n}\nvec3 artwork(vec2 p) {\n  float a=TAU*fract(uPhase),seed=seededPhase();\n  float xw=0.48+(0.24+0.36*uVariation)*sin(a);\n  float yw=-0.22+(0.20+0.28*uVariation)*sin(a+0.9);\n  float zw=0.34+(0.19+0.27*uVariation)*cos(a);\n  gXW=vec2(cos(xw),sin(xw));gYW=vec2(cos(yw),sin(yw));gZW=vec2(cos(zw),sin(zw));\n  gSlice=0.31*sin(a+0.4)+0.045*sin(seed);\n  gWidth=0.047+0.013*uVariation;\n  gFloor=1.95;\n  gFov=0.62;\n  gSpacing=0.88+0.10*fract(sin(uSeed*0.371)*73.15);\n  float camera=0.73+0.13*sin(a);\n  vec3 ro=vec3(5.15*cos(camera),3.10+0.13*cos(a),5.15*sin(camera));\n  return architecture(p,ro,vec3(0.0,-0.34,0.0),0.0);\n}\n"
+  },
+  {
+    "id": "inversion",
+    "title": "Inversion",
+    "subtitle": "An arcade folded through a sphere",
+    "description": "Ordered rooms become curved vaults around a shifting inversion sphere. Broad copper arches give way to progressively smaller cobalt chambers toward the centre.",
+    "technique": "The inverse image of a periodic architectural lattice under sphere inversion. A conservative distance bound supports opaque ray marching; the central accumulation is deliberately cropped at finite scale.",
+    "formula": "I(p) = c + R²(p−c)/‖p−c‖²; geometry = I⁻¹(periodic vaulted grid)",
+    "duration": 12,
+    "exposure": 1,
+    "collection": 3,
+    "kind": "shader",
+    "palette": "native",
+    "source": "\nconst float PI = 3.141592653589793;\nconst float TAU = 6.283185307179586;\nvec2 mapScene(vec3 p);\nvec3 materialAt(vec3 p, float id);\nfloat gFloor,gFov;\nfloat sdRoundBox(vec3 p, vec3 b, float r) {\n  vec3 q=abs(p)-b;\n  return length(max(q,0.0))+min(max(q.x,max(q.y,q.z)),0.0)-r;\n}\nfloat squareBeam(vec2 p,float w,float bevel) {\n  vec2 q=abs(p)-vec2(w);\n  return length(max(q,0.0))+min(max(q.x,q.y),0.0)-bevel;\n}\nfloat seededPhase(){return TAU*fract(sin(uSeed*0.01731+0.719)*437.1831);}\nvec3 normalAt(vec3 p,float e) {\n  const vec2 k=vec2(1.0,-1.0);\n  return normalize(k.xyy*mapScene(p+k.xyy*e).x+k.yyx*mapScene(p+k.yyx*e).x\n    +k.yxy*mapScene(p+k.yxy*e).x+k.xxx*mapScene(p+k.xxx*e).x);\n}\nfloat occlusionAt(vec3 p,vec3 n) {\n  float ao=0.0,weight=1.0;\n  for(int i=1;i<=4;i++) {\n    float h=0.025+float(i)*0.064;\n    ao+=(h-mapScene(p+n*h).x)*weight;\n    weight*=0.56;\n  }\n  return clamp(1.0-1.8*ao,0.12,1.0);\n}\nfloat shadowAt(vec3 p,vec3 direction) {\n  float t=0.025,result=1.0;\n  for(int i=0;i<24;i++) {\n    float d=mapScene(p+direction*t).x;\n    result=min(result,13.0*d/t);\n    t+=clamp(d,0.028,0.24);\n    if(d<0.001||t>5.5) break;\n  }\n  return clamp(result,0.06,1.0);\n}\nvec3 architecture(vec2 p,vec3 ro,vec3 target,float theme) {\n  vec3 fw=normalize(target-ro),rt=normalize(cross(fw,vec3(0.0,1.0,0.0))),up=cross(rt,fw);\n  vec3 rd=normalize(fw+gFov*p.x*rt+gFov*p.y*up);\n  // Both sculptures and their plinths fit inside this box. Spend the ray\n  // budget inside that region; handle the unbounded floor analytically.\n  vec3 ta=(-vec3(2.06)-ro)/rd,tb=(vec3(2.06)-ro)/rd;\n  vec3 nearBound=min(ta,tb),farBound=max(ta,tb);\n  float entry=max(nearBound.x,max(nearBound.y,nearBound.z));\n  float exitDistance=min(farBound.x,min(farBound.y,farBound.z));\n  bool intersects=exitDistance>=max(entry,0.0);\n  float travel=intersects?max(0.0,entry-0.003):18.0;\n  if(rd.y<-0.0001&&-(ro.y+gFloor)/rd.y<travel)intersects=false;\n  vec2 h=vec2(1.0,0.0);bool hit=false;\n  int steps=uResolution<800.0?68:80;\n  for(int i=0;i<80;i++) {\n    if(i>=steps||!intersects) break;\n    h=mapScene(ro+rd*travel);\n    if(h.x<0.0009+travel*0.00010){hit=true;break;}\n    travel+=max(h.x*0.91,0.001);\n    if(travel>17.0)break;\n  }\n  vec3 background=mix(vec3(0.009,0.014,0.021),vec3(0.028,0.022,0.019),theme);\n  background*=0.62+0.38*exp(-0.8*dot(p,p));\n  // Continue the distant studio floor analytically instead of revealing the\n  // ray-marcher's far bound as a hard false horizon behind the sculpture.\n  if(!hit&&rd.y<-0.0001) {\n    float floorTravel=-(ro.y+gFloor)/rd.y;\n    if(floorTravel>0.0) {travel=floorTravel;h=vec2(0.0);hit=true;}\n  }\n  if(!hit)return background;\n  vec3 pos=ro+rd*travel;\n  vec3 n=h.y<0.5?vec3(0.0,1.0,0.0):normalAt(pos,0.0012+0.00008*travel);\n  vec3 albedo=materialAt(pos,h.y);\n  vec3 light=normalize(vec3(-0.55,0.87,0.58));\n  bool distantFloor=h.y<0.5&&length(pos.xz)>5.5;\n  float diffuse=max(dot(n,light),0.0);\n  float ao=distantFloor?1.0:pow(occlusionAt(pos,n),0.72);\n  float shadow=distantFloor?1.0:shadowAt(pos+n*0.007,light);\n  float rim=max(dot(n,normalize(vec3(0.7,0.3,-0.6))),0.0);\n  vec3 halfVector=normalize(light-rd);\n  float specular=pow(max(dot(n,halfVector),0.0),72.0)*shadow;\n  vec3 ambient=vec3(0.14,0.18,0.24)*(0.62+0.38*max(n.y,0.0));\n  vec3 colour=albedo*(ambient*ao+vec3(1.65,1.37,1.02)*diffuse*shadow);\n  colour+=albedo*vec3(0.18,0.28,0.43)*rim*ao;\n  float metal=(theme>0.5&&h.y>0.5&&h.y<3.5)||(theme<0.5&&h.y>1.5&&h.y<2.5)?1.0:0.0;\n  colour+=mix(vec3(0.52),albedo,0.55)*specular*(0.7+metal);\n  vec3 reflected=reflect(rd,n);\n  float panel=smoothstep(0.78,0.98,dot(reflected,normalize(vec3(-0.4,0.75,0.2))));\n  colour+=albedo*vec3(0.58,0.63,0.71)*panel*metal*ao*0.35;\n  float grazing=pow(1.0-max(dot(n,-rd),0.0),4.0);\n  colour+=vec3(0.08,0.11,0.15)*grazing*ao;\n  float haze=1.0-exp(-(h.y<0.5?0.072:0.014)*travel);\n  return max(mix(colour,background,haze),vec3(0.0));\n}\n\nvec3 gCentre,gGridShift;\nfloat gRadius2,gGridSize;\nvec2 vaultedGrid(vec3 q) {\n  vec3 d=abs(mod(q+0.5*gGridSize,gGridSize)-0.5*gGridSize);\n  float a=squareBeam(d.xy,0.040,0.045);\n  float b=squareBeam(d.xz,0.040,0.045);\n  float c=squareBeam(d.yz,0.040,0.045);\n  float distance=min(a,min(b,c));\n  return vec2(distance,a<b&&a<c?1.0:(b<c?2.0:3.0));\n}\nvec2 invertedStructure(vec3 p) {\n  vec3 relative=p-gCentre;\n  float radius=max(length(relative),0.025),r2=radius*radius;\n  vec3 q=gCentre+gRadius2*relative/r2+gGridShift;\n  vec2 grid=vaultedGrid(q);\n  // Exact identity: |I(x)-I(p)|=R²|x-p|/(|x-c||p-c|). Within a ball of\n  // radius d around p, this is <=R²d/(r(r-d)). Solving for a safe source\n  // clearance D gives the conservative step below, without a square root.\n  float D=abs(grid.x);\n  float safe=D*r2/(gRadius2+D*radius);\n  float distance=sign(grid.x)*safe;\n  // Finite crop: the accumulation at the inversion centre is deliberately\n  // excluded, so the shader does not pretend to resolve infinitely small cells.\n  distance=max(distance,0.31-radius);\n  distance=max(distance,sdRoundBox(p,vec3(1.78,1.43,1.78),0.08));\n  return vec2(distance,grid.y);\n}\nvec2 mapScene(vec3 p) {\n  vec2 result=invertedStructure(p);\n  float plinth=sdRoundBox(p-vec3(0.0,-1.60,0.0),vec3(1.94,0.065,1.94),0.045);\n  if(plinth<result.x)result=vec2(plinth,4.0);\n  float ground=p.y+1.78;\n  if(ground<result.x)result=vec2(ground,0.0);\n  return result;\n}\nvec3 materialAt(vec3 p,float id) {\n  if(id<0.5)return vec3(0.025,0.028,0.037);\n  if(id>3.5)return vec3(0.065,0.061,0.055);\n  float r=length(p-gCentre);\n  vec3 copper=vec3(0.65,0.34,0.13),cobalt=vec3(0.045,0.12,0.21);\n  float blend=smoothstep(0.48,1.58,r);\n  if(id<1.5)blend=0.65+0.35*blend;\n  return mix(cobalt,copper,blend);\n}\nvec3 artwork(vec2 p) {\n  float a=TAU*fract(uPhase),seed=seededPhase();\n  gCentre=vec3(0.20*cos(a),0.14*sin(a),0.15*sin(2.0*a));\n  gGridShift=vec3(0.22*sin(a+0.4),0.19*cos(a),0.17*sin(2.0*a+0.7));\n  gGridShift+=0.035*vec3(sin(seed),cos(seed),sin(seed+1.3));\n  gRadius2=1.72+(0.16+0.24*uVariation)*sin(a-0.3);\n  gGridSize=0.87+0.04*cos(seed);\n  gFloor=1.78;\n  gFov=0.65;\n  float camera=0.60+0.18*sin(a+0.2);\n  vec3 ro=vec3(5.2*cos(camera),2.65+0.18*cos(a),5.2*sin(camera));\n  return architecture(p,ro,vec3(0.0,-0.30,0.0),1.0);\n}\n"
+  },
+  {
+    "id": "monodromy",
+    "title": "Monodromy",
+    "subtitle": "Five roots exchange their identities",
+    "description": "Copper, deep blue and ivory territories unfold into recursively branching borders. Three roots braid in one direction while two braid in the other; the polynomial returns to its beginning even though its roots have exchanged places.",
+    "technique": "Newton iteration of a degree-five complex polynomial built from a cubic and a quadratic factor. Periodic coefficients produce root monodromy. Smooth orbit effort supplies engraved contours; converged root position supplies a continuous, label-independent palette.",
+    "formula": "P(z,t) = [(z−c(t))³−a(t)][(z−d(t))²−b(t)]; zₙ₊₁ = zₙ − P/P′",
+    "duration": 12,
+    "exposure": 1,
+    "collection": 3,
+    "kind": "shader",
+    "palette": "native",
+    "source": "\nvec2 cmul(vec2 a, vec2 b) { return vec2(a.x*b.x-a.y*b.y, a.x*b.y+a.y*b.x); }\nvec2 cdiv(vec2 a, vec2 b) { return cmul(a,vec2(b.x,-b.y))/max(dot(b,b),1e-24); }\nvec2 cis(float a) { return vec2(cos(a),sin(a)); }\nfloat engraved(float phase, float width) {\n  float pixel = max(fwidth(phase), 1e-4);\n  float line = 1.0-smoothstep(width, width+pixel, abs(sin(phase)));\n  return mix(line, 2.0*width/3.14159265359, smoothstep(.45,1.8,pixel));\n}\nvec3 artwork(vec2 p) {\n  float tau=6.28318530718, t=tau*uPhase, seed=.37*sin(uSeed*.0137);\n  vec2 c=.19*vec2(cos(t+.4),sin(t-.2));\n  vec2 d=.29*vec2(cos(t+2.1),sin(t+1.2));\n  vec2 a=(.48+.16*cos(t+.2))*cis(t+seed);\n  vec2 b=(.16+.07*sin(t+.8))*cis(-t+.9+seed);\n  float tilt=.14*sin(t);\n  mat2 rotation=mat2(cos(tilt),sin(tilt),-sin(tilt),cos(tilt));\n  vec2 z=rotation*(p*(1.12+.32*uVariation));\n  float effort=0.0;\n  for(int i=0;i<28;i++) {\n    vec2 zc=z-c, zd=z-d, zc2=cmul(zc,zc);\n    vec2 A=cmul(zc2,zc)-a, B=cmul(zd,zd)-b;\n    vec2 f=cmul(A,B), df=3.0*cmul(zc2,B)+2.0*cmul(zd,A);\n    float residual=length(f);\n    effort+=(1.0-exp(-3.2*sqrt(residual)))*smoothstep(1e-5,1e-3,residual);\n    if(residual>1e-8) {\n      z-=cdiv(f,df);\n      // Only near singular Newton poles: keep powers inside Float32 range.\n      z*=min(1.0,1000.0/max(length(z),1e-12));\n    }\n  }\n  // Smooth through roots crossing the origin; atan would rotate an entire\n  // basin's colour abruptly even though the root itself moves continuously.\n  vec2 direction=z*inversesqrt(dot(z,z)+.15*.15);\n  float warm=.5+.5*(direction.y*cos(.65)+direction.x*sin(.65));\n  vec3 ink=vec3(.012,.039,.075), copper=vec3(1.35,.34,.095), chalk=vec3(1.75,1.52,1.04);\n  vec3 pigment=mix(ink,copper,smoothstep(.12,.85,warm));\n  float secondHarmonic=(direction.x*direction.x-direction.y*direction.y)*cos(.8)+2.0*direction.x*direction.y*sin(.8);\n  pigment=mix(pigment,chalk,.42*smoothstep(.45,1.0,.5+.5*secondHarmonic));\n  float relief=.34+.66*exp(-.13*effort);\n  float fine=engraved(8.3*effort+.6*direction.y,.14);\n  float broad=engraved(2.3*effort+.5,.08);\n  float border=1.0-exp(-.065*max(effort-5.0,0.0));\n  vec3 color=pigment*relief*(.58+.42*fine);\n  color+=vec3(.32,.58,.7)*border*(.25+.75*broad);\n  color+=chalk*.27*broad*exp(-.06*effort);\n  return max(color,vec3(0.0));\n}"
+  },
+  {
+    "id": "caustic",
+    "title": "Caustic",
+    "subtitle": "Two quartic wavefronts collide",
+    "description": "Amber and glacial wavefronts braid through a folded cubic plane. Six spreading arms gather into cusps, exchange fine fringes and open deep channels of destructive interference.",
+    "technique": "Direct midpoint quadrature of two finite-aperture quartic diffraction integrals. A periodic cubic map bends their control plane into a braid. Color follows relative wave strength, while coherent interference alone supplies the light. This is a scalar wave study with an artistic coordinate embedding, not a ray-traced fluid simulation.",
+    "formula": "Ψ(X,Y)=∫w(s) exp[ik(s⁴/4+Xs²/2+Ys)] ds; I=|Ψ₁+eⁱθΨ₂|²",
+    "duration": 12,
+    "exposure": 1,
+    "collection": 3,
+    "kind": "shader",
+    "palette": "native",
+    "source": "\nvec2 phaseUnit(float a) { return vec2(cos(a),sin(a)); }\nvec3 artwork(vec2 p) {\n  float tau=6.28318530718, t=tau*uPhase, seed=.29*sin(uSeed*.021);\n  float turn=.22*sin(t+seed);\n  mat2 rotation=mat2(cos(turn),sin(turn),-sin(turn),cos(turn));\n\n  vec2 z=rotation*p;\n  vec2 z2=vec2(z.x*z.x-z.y*z.y,2.0*z.x*z.y);\n  vec2 z3=vec2(z2.x*z.x-z2.y*z.y,z2.x*z.y+z2.y*z.x);\n  float twisting=.5*sin(t);\n  mat2 twist=mat2(cos(twisting),sin(twisting),-sin(twisting),cos(twisting));\n  vec2 q=1.45*tanh(.9*(1.35*z3-(.55+.18*cos(t))*twist*z));\n  float separation=.54+.32*cos(t);\n  float bend=.16+.18*uVariation;\n  vec2 first=vec2(2.7*(q.x-separation)-.78, 3.15*q.y+.58*sin(t+.3)+bend*q.x*q.x);\n  vec2 second=vec2(-2.7*(q.x+separation)-.78, 3.15*q.y-.58*sin(t+.3)-bend*q.x*q.x);\n  float k=16.0+8.0*uVariation;\n  vec2 waveA=vec2(0.0), waveB=vec2(0.0);\n  // Fixed, independent quadrature: no time stepping or texture feedback.\n  for(int i=0;i<256;i++) {\n    float s=-1.7+(float(i)+.5)*(3.4/256.0);\n    float s2=s*s, quartic=.25*s2*s2;\n    float aperture=.5+.5*cos(3.14159265359*s/1.7);\n    float phaseA=k*(quartic+.5*first.x*s2+first.y*s);\n    float phaseB=k*(quartic+.5*second.x*s2+second.y*s);\n    waveA+=aperture*phaseUnit(phaseA);\n    waveB+=aperture*phaseUnit(phaseB);\n  }\n  waveA*=3.4/256.0; waveB*=3.4/256.0;\n  float angle=1.2*sin(t-.4)+seed+9.0*q.x-6.0*q.y;\n  vec2 phasedB=vec2(waveB.x*cos(angle)-waveB.y*sin(angle),waveB.x*sin(angle)+waveB.y*cos(angle));\n  float IA=dot(waveA,waveA), IB=dot(waveB,waveB), interference=dot(waveA+phasedB,waveA+phasedB);\n  // An explicit artistic intensity transfer suppresses the broad low-level\n  // field, giving destructive-interference channels a clear graphic presence.\n\n  float energy=pow(1.1*interference,1.55);\n  float balance=IA/max(IA+IB,1e-8);\n  vec3 hue=mix(vec3(.025,.42,.94),vec3(1.65,.32,.045),smoothstep(.18,.82,balance));\n  vec3 color=energy*hue;\n  color+=vec3(.7,.79,.73)*.065*energy*energy;\n  // A subdued full-frame field preserves the darkest destructive interference.\n  color+=vec3(.0025,.006,.011);\n  return max(color,vec3(0.0));\n}"
+  },
+  {
+    "id": "surgery",
+    "title": "Surgery",
+    "subtitle": "Eight chambers, five handles",
+    "description": "Eight chambers merge along twelve connections, forming a surface with five handles. Increasing the level closes those handles around an inner cavity.",
+    "technique": "A quartic level set changes topology at its analytically known saddle levels. Rays intersect the polynomial directly; saddle curvature colours the emerging handles.",
+    "formula": "Σᵢ(xᵢ²−a)² = κ(t)a²; critical levels κ = 1, 2, 3",
+    "collection": 4,
+    "kind": "shader",
+    "palette": "native",
+    "duration": 12,
+    "exposure": 1,
+    "source": "\nconst float PI=3.141592653589793, TAU=6.283185307179586;\nfloat hash1(float n){return fract(sin(n*127.1+uSeed*0.01731)*43758.5453);}\nmat2 turn(float a){float c=cos(a),s=sin(a);return mat2(c,-s,s,c);}\nvec3 backdrop(vec2 p){return vec3(0.008,0.012,0.018)*(0.70+0.30*exp(-dot(p,p)));}\nvec3 cameraRay(vec2 p,vec3 ro,vec3 target,float fov){\n vec3 fw=normalize(target-ro),rt=normalize(cross(fw,vec3(0,1,0)));\n return normalize(fw+fov*(p.x*rt+p.y*cross(rt,fw)));\n}\nvec2 sphereInterval(vec3 ro,vec3 rd,float r){\n float b=dot(ro,rd),d=b*b-dot(ro,ro)+r*r;\n if(d<0.0)return vec2(1.0,-1.0);\n float h=sqrt(d);return vec2(max(0.0,-b-h),-b+h);\n}\nvec3 lightSurface(vec3 p,vec3 n,vec3 rd,vec3 albedo,float shadow,float ao,float metal){\n vec3 key=normalize(vec3(-0.65,0.88,0.60)),fill=normalize(vec3(0.72,0.25,-0.48));\n float diffuse=max(dot(n,key),0.0),back=max(dot(n,fill),0.0);\n vec3 colour=albedo*(vec3(0.12,0.17,0.25)*ao+vec3(2.6,2.24,1.86)*diffuse*shadow);\n colour+=albedo*vec3(0.24,0.38,0.58)*back*ao;\n vec3 h=normalize(key-rd),reflected=reflect(rd,n);\n float spec=pow(max(dot(n,h),0.0),mix(72.0,110.0,metal));\n float panel=smoothstep(0.88,0.98,dot(reflected,normalize(vec3(-0.4,0.80,0.3))));\n float fresnel=0.04+0.30*pow(1.0-max(dot(n,-rd),0.0),5.0);\n colour+=mix(vec3(0.95),albedo,metal*.7)*(spec*shadow*0.9+panel*fresnel*ao);\n return max(colour,vec3(0));\n}\n\nfloat gK,gA;\nmat3 gRotation;\nfloat quartic(vec4 c,float e,float s){return (((c.x*s+c.y)*s+c.z)*s+c.w)*s+e;}\nfloat signedCubeRoot(float x){return sign(x)*pow(abs(x),1.0/3.0);}\nvec3 cubicRoots(float a,float b,float c){\n // Roots of x^3+a*x^2+b*x+c; a single real root is repeated in the output.\n float p=b-a*a/3.0,q=(2.0*a*a*a)/27.0-a*b/3.0+c;\n float discriminant=q*q*.25+p*p*p/27.0;\n if(discriminant>=0.0){\n  float d=sqrt(discriminant);\n  float r=signedCubeRoot(-q*.5+d)+signedCubeRoot(-q*.5-d)-a/3.0;\n  return vec3(r);\n }\n float radius=2.0*sqrt(max(-p/3.0,0.0));\n float theta=acos(clamp((-q*.5)/sqrt(max(-p*p*p/27.0,1e-20)),-1.0,1.0))/3.0;\n vec3 r=radius*cos(vec3(theta,theta+TAU/3.0,theta+2.0*TAU/3.0))-a/3.0;\n return vec3(min(r.x,min(r.y,r.z)),max(min(r.x,r.y),min(max(r.x,r.y),r.z)),max(r.x,max(r.y,r.z)));\n}\nfloat surfaceHit(vec3 worldOrigin,vec3 worldDirection){\n vec3 ro=gRotation*worldOrigin,rd=gRotation*worldDirection;\n // Move the polynomial origin to closest approach; this avoids cancellation\n // from expanding fourth powers at the much more distant camera position.\n float centre=-dot(ro,rd);vec3 r=ro+centre*rd;\n float radius2=3.0*gA+gA*sqrt(3.0*gK)+0.002;\n float h2=radius2-dot(r,r);if(h2<0.0)return -1.0;\n float h=sqrt(h2),lo=max(-h,-centre+0.00015),hi=h;\n if(lo>=hi)return -1.0;\n vec3 r2=r*r,d2=rd*rd;\n vec4 c=vec4(dot(d2,d2),4.0*dot(r*rd,d2),6.0*dot(r2,d2)-2.0*gA,4.0*dot(r*r2,rd)-4.0*gA*dot(r,rd));\n float e=dot(r2-vec3(gA),r2-vec3(gA))-gK*gA*gA;\n vec3 stationary=cubicRoots(3.0*c.y/(4.0*c.x),c.z/(2.0*c.x),c.w/(4.0*c.x));\n stationary=clamp(stationary,vec3(lo),vec3(hi));\n float left=lo,fl=quartic(c,e,left);\n for(int segment=0;segment<4;segment++){\n  float right=segment==0?stationary.x:(segment==1?stationary.y:(segment==2?stationary.z:hi));\n  float fr=quartic(c,e,right);\n  if(right>left+1e-7&&fl*fr<=0.0){\n   for(int j=0;j<21;j++){\n    float middle=(left+right)*.5,fm=quartic(c,e,middle);\n    if(fl*fm<=0.0)right=middle;else{left=middle;fl=fm;}\n   }\n   return centre+(left+right)*.5;\n  }\n  left=right;fl=fr;\n }\n return -1.0;\n}\nvec3 artwork(vec2 p){\n float a=TAU*fract(uPhase),seed=hash1(1.0)*TAU;\n gA=.40;\n float pulse=sin(a-.45);\n gK=1.42+(0.65+0.20*uVariation)*pulse*pulse*pulse;\n float yaw=.25+.13*sin(a+.2)+.10*sin(seed),tilt=.18+.10*cos(a);\n gRotation=mat3(cos(yaw),0,-sin(yaw),0,1,0,sin(yaw),0,cos(yaw));\n gRotation=mat3(1,0,0,0,cos(tilt),-sin(tilt),0,sin(tilt),cos(tilt))*gRotation;\n vec3 ro=vec3(3.15,2.22,4.12),rd=cameraRay(p,ro,vec3(0),.385);\n float t=surfaceHit(ro,rd);if(t<0.0)return backdrop(p);\n vec3 pos=ro+rd*t,q=gRotation*pos;\n vec3 grad=4.0*q*(q*q-vec3(gA));\n // At a topology-changing critical point the geometric normal is undefined;\n // a finite radial fallback is used only at that vanishing-gradient point.\n vec3 n=normalize(transpose(gRotation)*(dot(grad,grad)>1e-12?grad:q));\n vec3 h=12.0*q*q-vec3(4.0*gA);\n float curvature=(grad.x*grad.x*h.y*h.z+grad.y*grad.y*h.x*h.z+grad.z*grad.z*h.x*h.y)/max(pow(dot(grad,grad),2.0),1e-8);\n // Gaussian curvature identifies the saddle regions where handles form.\n float saddle=smoothstep(-.25,1.3,-curvature);\n vec3 albedo=mix(vec3(.76,.70,.60),vec3(.055,.18,.23),saddle*.90);\n vec3 light=normalize(vec3(-.65,.88,.60));\n float sh=surfaceHit(pos+n*.004,light)>0.0?.17:1.0;\n float sh2=surfaceHit(pos+n*.004,normalize(light+vec3(.08,.025,-.04)))>0.0?.17:1.0;\n float ao=mix(1.0,.62,saddle);\n return lightSurface(pos,n,rd,albedo,(sh+sh2)*.5,ao,.22);\n}\n"
+  },
+  {
+    "id": "laguerre",
+    "title": "Laguerre",
+    "subtitle": "An architecture of competing distances",
+    "description": "Weighted cells exchange space inside a cutaway sphere. Moving the section reveals the shared walls and inner chambers as their boundaries rearrange.",
+    "technique": "A 3D power diagram uses squared distance minus a changing weight. Exact bisector distances form finite walls; two moving planes remove a wedge from the cellular volume.",
+    "formula": "Cᵢ = {x : ‖x−sᵢ‖²−wᵢ ≤ ‖x−sⱼ‖²−wⱼ for every j}",
+    "collection": 4,
+    "kind": "shader",
+    "palette": "native",
+    "duration": 12,
+    "exposure": 1,
+    "source": "\nconst float PI=3.141592653589793, TAU=6.283185307179586;\nfloat hash1(float n){return fract(sin(n*127.1+uSeed*0.01731)*43758.5453);}\nmat2 turn(float a){float c=cos(a),s=sin(a);return mat2(c,-s,s,c);}\nvec3 backdrop(vec2 p){return vec3(0.008,0.012,0.018)*(0.70+0.30*exp(-dot(p,p)));}\nvec3 cameraRay(vec2 p,vec3 ro,vec3 target,float fov){\n vec3 fw=normalize(target-ro),rt=normalize(cross(fw,vec3(0,1,0)));\n return normalize(fw+fov*(p.x*rt+p.y*cross(rt,fw)));\n}\nvec2 sphereInterval(vec3 ro,vec3 rd,float r){\n float b=dot(ro,rd),d=b*b-dot(ro,ro)+r*r;\n if(d<0.0)return vec2(1.0,-1.0);\n float h=sqrt(d);return vec2(max(0.0,-b-h),-b+h);\n}\nvec3 lightSurface(vec3 p,vec3 n,vec3 rd,vec3 albedo,float shadow,float ao,float metal){\n vec3 key=normalize(vec3(-0.65,0.88,0.60)),fill=normalize(vec3(0.72,0.25,-0.48));\n float diffuse=max(dot(n,key),0.0),back=max(dot(n,fill),0.0);\n vec3 colour=albedo*(vec3(0.12,0.17,0.25)*ao+vec3(2.6,2.24,1.86)*diffuse*shadow);\n colour+=albedo*vec3(0.24,0.38,0.58)*back*ao;\n vec3 h=normalize(key-rd),reflected=reflect(rd,n);\n float spec=pow(max(dot(n,h),0.0),mix(72.0,110.0,metal));\n float panel=smoothstep(0.88,0.98,dot(reflected,normalize(vec3(-0.4,0.80,0.3))));\n float fresnel=0.04+0.30*pow(1.0-max(dot(n,-rd),0.0),5.0);\n colour+=mix(vec3(0.95),albedo,metal*.7)*(spec*shadow*0.9+panel*fresnel*ao);\n return max(colour,vec3(0));\n}\n\nconst int CELLS=19;\nvec3 gSites[CELLS],gCutNormal,gCutNormal2;\nfloat gWeights[CELLS],gCut,gCut2,gThickness;\nvoid prepareCells(float a){\n for(int i=0;i<CELLS;i++){\n  float f=float(i);vec3 site;\n  if(i==0)site=vec3(0);\n  else if(i<=6){\n   float s=(i%2)==0?-1.0:1.0;\n   site=i<=2?vec3(s,0,0):(i<=4?vec3(0,s,0):vec3(0,0,s));\n   site*=.94;\n  }else{\n   int j=i-7,plane=j/4,k=j%4;\n   float x=(k%2)==0?-.82:.82,y=k<2?-.82:.82;\n   site=plane==0?vec3(x,y,0):(plane==1?vec3(x,0,y):vec3(0,x,y));\n  }\n  vec3 offset=vec3(hash1(f*3.0+3.0),hash1(f*3.0+4.0),hash1(f*3.0+5.0))-.5;\n  site+=offset*.20;\n  site+=.065*vec3(sin(a+f*1.7),cos(a+f*2.3),sin(a+f*.93));\n  gSites[i]=site;\n  gWeights[i]=(.18+.25*uVariation)*sin(a+f*1.83+hash1(f+72.0)*1.4);\n }\n}\nvec2 cellular(vec3 p,out vec3 normal){\n float best=1e8;int winner=0;\n for(int i=0;i<CELLS;i++){\n  vec3 q=p-gSites[i];float power=dot(q,q)-gWeights[i];\n  if(power<best){best=power;winner=i;}\n }\n float clearance=1e8;\n for(int j=0;j<CELLS;j++){\n  if(j==winner)continue;\n  vec3 q=p-gSites[j];float power=dot(q,q)-gWeights[j];\n  // Exact inward distance to a power-bisector plane of the winning cell.\n  vec3 towards=gSites[winner]-gSites[j];float separation=length(towards);\n  float distance=(power-best)/(2.0*separation);\n  if(distance<clearance){clearance=distance;normal=towards/separation;}\n }\n return vec2(clearance-gThickness,float(winner));\n}\nvec2 cellDetail(vec3 p,out vec3 normal){\n vec2 wall=cellular(p,normal);float r=length(p),bound=r-1.56;\n vec3 radial=p/max(r,.000001);\n float d=max(wall.x,bound);float material=1.0+wall.y*.01;\n if(bound>wall.x)normal=radial;\n float shell=abs(r-1.515)-.045;\n if(shell<d){d=shell;material=2.0;normal=sign(r-1.515)*radial;}\n // Remove a dihedral wedge, retaining enough exterior shell to reveal volume.\n float cut1=dot(p,gCutNormal)-gCut,cut2=dot(p,gCutNormal2)-gCut2;\n float cut=min(cut1,cut2);\n if(cut>d){d=cut;material=3.0;normal=cut1<cut2?gCutNormal:gCutNormal2;}\n return vec2(d,material);\n}\nvec2 cellMap(vec3 p){vec3 normal;return cellDetail(p,normal);}\nvec3 cellNormal(vec3 p){\n // Exact face normals keep hard polyhedral junctions sharp; finite-difference\n // averaging here would invent narrow, bright bevels that are not in the model.\n vec3 normal;cellDetail(p,normal);return normal;\n}\nfloat chamberExit(vec3 p,vec3 direction){\n // A void is a convex power cell eroded by the wall thickness, intersected\n // with the inner sphere. Its first ray exit is the first opaque boundary.\n if(length(p)>=1.47)return 0.0;\n float best=1e8;int winner=0;\n for(int i=0;i<CELLS;i++){\n  vec3 q=p-gSites[i];float power=dot(q,q)-gWeights[i];\n  if(power<best){best=power;winner=i;}\n }\n float exitDistance=sphereInterval(p,direction,1.47).y;\n for(int j=0;j<CELLS;j++){\n  if(j==winner)continue;\n  vec3 q=p-gSites[j],towards=gSites[winner]-gSites[j];\n  float separation=length(towards);\n  float clearance=(dot(q,q)-gWeights[j]-best)/(2.0*separation)-gThickness;\n  if(clearance<=0.0)return 0.0;\n  float closing=-dot(towards,direction)/separation;\n  if(closing>1e-7)exitDistance=min(exitDistance,clearance/closing);\n }\n return exitDistance;\n}\nvec2 clipHalfspace(vec2 interval,vec3 p,vec3 direction,vec3 normal,float offset){\n float height=dot(p,normal)-offset,speed=dot(direction,normal);\n if(abs(speed)<1e-7){if(height>0.0)return vec2(1,-1);}\n else if(speed>0.0)interval.y=min(interval.y,-height/speed);\n else interval.x=max(interval.x,-height/speed);\n return interval;\n}\nfloat cellShadow(vec3 p,vec3 direction){\n vec2 interval=sphereInterval(p,direction,1.56);interval.x=max(interval.x,.005);\n // The retained volume is sphere ∩ (halfspace 1 ∪ halfspace 2). Testing\n // those two ray intervals separately is an exact union-visibility query.\n for(int side=0;side<2;side++){\n  vec2 segment=clipHalfspace(interval,p,direction,side==0?gCutNormal:gCutNormal2,side==0?gCut:gCut2);\n  if(segment.y<=segment.x)continue;\n  vec3 start=p+direction*(segment.x+.000001);\n  if(chamberExit(start,direction)<segment.y-segment.x-.000002)return .065;\n }\n return 1.0;\n}\nvec3 artwork(vec2 p){\n float a=TAU*fract(uPhase);prepareCells(a);\n gCutNormal=normalize(vec3(.08+.15*sin(a),.18+.12*cos(a),1));\n gCutNormal2=normalize(vec3(1,-.10+.15*sin(a),-.12));\n gCut=-.28+.30*sin(a+.35);gCut2=-.48+.24*cos(a-.2);\n gThickness=.031+.012*uVariation;\n vec3 ro=vec3(2.68,2.35,4.38),rd=cameraRay(p,ro,vec3(0),.405);\n vec2 interval=sphereInterval(ro,rd,1.57);\n if(interval.x>interval.y)return backdrop(p);\n float t=interval.x;vec2 hit;bool found=false;\n for(int i=0;i<180;i++){\n  hit=cellMap(ro+rd*t);\n  if(hit.x<.00075){found=true;break;}\n  t+=max(.0004,hit.x*.95);if(t>interval.y)break;\n }\n if(!found)return backdrop(p);\n vec3 pos=ro+rd*t,n=cellNormal(pos);\n vec3 albedo=hit.y>2.5?vec3(.59,.27,.095):(hit.y>1.5?vec3(.045,.095,.13):vec3(.68,.71,.67));\n if(hit.y<1.5)albedo*=.88+.12*hash1(floor((hit.y-1.0)*100.0+.5)+31.0);\n float ao=1.0;\n for(int i=0;i<4;i++){\n  float h=.055+float(i)*.095;\n  ao-=clamp((h-cellMap(pos+n*h).x)/h,0.0,1.0)*(.34*pow(.68,float(i)));\n }\n float sh=cellShadow(pos+n*.004,normalize(vec3(-.65,.88,.60)));\n return lightSurface(pos,n,rd,albedo,sh,clamp(ao,.13,1.0),hit.y>1.5?.6:.08);\n}\n"
+  },
+  {
+    "id": "milnor",
+    "title": "Milnor",
+    "subtitle": "Three pages bound by a trefoil",
+    "description": "Three surfaces unfold around one trefoil boundary. They are pages of a complex-polynomial open book, viewed through stereographic projection.",
+    "technique": "Three argument levels of z₁²+cz₂³ on the unit 3-sphere become surfaces in 3D. Finite level bands, a thickened binding and a spherical crop make the pages visible.",
+    "formula": "f=z₁²+cz₂³; arg f = 2πt+2πj/3, j=0,1,2; (z₁,z₂)∈S³",
+    "collection": 4,
+    "kind": "shader",
+    "palette": "native",
+    "duration": 12,
+    "exposure": 1,
+    "source": "\nconst float PI=3.141592653589793, TAU=6.283185307179586;\nfloat hash1(float n){return fract(sin(n*127.1+uSeed*0.01731)*43758.5453);}\nmat2 turn(float a){float c=cos(a),s=sin(a);return mat2(c,-s,s,c);}\nvec3 backdrop(vec2 p){return vec3(0.008,0.012,0.018)*(0.70+0.30*exp(-dot(p,p)));}\nvec3 cameraRay(vec2 p,vec3 ro,vec3 target,float fov){\n vec3 fw=normalize(target-ro),rt=normalize(cross(fw,vec3(0,1,0)));\n return normalize(fw+fov*(p.x*rt+p.y*cross(rt,fw)));\n}\nvec2 sphereInterval(vec3 ro,vec3 rd,float r){\n float b=dot(ro,rd),d=b*b-dot(ro,ro)+r*r;\n if(d<0.0)return vec2(1.0,-1.0);\n float h=sqrt(d);return vec2(max(0.0,-b-h),-b+h);\n}\nvec3 lightSurface(vec3 p,vec3 n,vec3 rd,vec3 albedo,float shadow,float ao,float metal){\n vec3 key=normalize(vec3(-0.65,0.88,0.60)),fill=normalize(vec3(0.72,0.25,-0.48));\n float diffuse=max(dot(n,key),0.0),back=max(dot(n,fill),0.0);\n vec3 colour=albedo*(vec3(0.12,0.17,0.25)*ao+vec3(2.6,2.24,1.86)*diffuse*shadow);\n colour+=albedo*vec3(0.24,0.38,0.58)*back*ao;\n vec3 h=normalize(key-rd),reflected=reflect(rd,n);\n float spec=pow(max(dot(n,h),0.0),mix(72.0,110.0,metal));\n float panel=smoothstep(0.88,0.98,dot(reflected,normalize(vec3(-0.4,0.80,0.3))));\n float fresnel=0.04+0.30*pow(1.0-max(dot(n,-rd),0.0),5.0);\n colour+=mix(vec3(0.95),albedo,metal*.7)*(spec*shadow*0.9+panel*fresnel*ao);\n return max(colour,vec3(0));\n}\n\nvec2 gPhase0,gPhase1,gPhase2;\nfloat gCoefficient,gBand;\nvec2 multiplyComplex(vec2 a,vec2 b){return vec2(a.x*b.x-a.y*b.y,a.x*b.y+a.y*b.x);}\nvec2 polynomial(vec3 p){\n float r2=dot(p,p),d=1.0+r2;\n vec2 z1=2.0*p.xy/d,z2=vec2(2.0*p.z,r2-1.0)/d;\n return multiplyComplex(z1,z1)+gCoefficient*multiplyComplex(multiplyComplex(z2,z2),z2);\n}\nfloat pageBand(vec2 f,vec2 direction){\n float along=dot(f,direction),across=f.y*direction.x-f.x*direction.y;\n return max(abs(across)-gBand,-along);\n}\nvec2 milnorMap(vec3 p){\n vec2 f=polynomial(p);\n float d0=pageBand(f,gPhase0),d1=pageBand(f,gPhase1),d2=pageBand(f,gPhase2);\n float D=min(d0,min(d1,d2));\n float material=d0<d1&&d0<d2?1.0:(d1<d2?2.0:3.0);\n // The polynomial's Lipschitz constant on the unit 4-ball is <=3*max(1,c).\n // Stereographic chord lengths obey |q(p)-q(x)|=2|p-x|/sqrt((1+|p|²)(1+|x|²)).\n // This conservative local clearance follows by solving that chord bound.\n float r=length(p),L=3.0*max(1.0,gCoefficient);\n float d=D*(1.0+r*r)/(2.0*L+abs(D)*r);\n float binding=length(f)-.045;\n float bd=binding*(1.0+r*r)/(2.0*L+abs(binding)*r);\n if(bd<d){d=bd;material=4.0;}\n d=max(d,r-1.62);\n return vec2(d,material);\n}\nvec3 milnorNormal(vec3 p){\n const vec2 k=vec2(1,-1);float e=.0012;\n return normalize(k.xyy*milnorMap(p+k.xyy*e).x+k.yyx*milnorMap(p+k.yyx*e).x+k.yxy*milnorMap(p+k.yxy*e).x+k.xxx*milnorMap(p+k.xxx*e).x);\n}\nfloat milnorShadow(vec3 p,vec3 direction){\n float t=.005,end=sphereInterval(p,direction,1.63).y;\n for(int i=0;i<180;i++){\n  float d=milnorMap(p+direction*t).x;\n  if(d<.00035)return .12;\n  t+=max(d*.98,.00035);if(t>end)return 1.0;\n }\n return .12;\n}\nvec3 artwork(vec2 p){\n float a=TAU*fract(uPhase),seed=hash1(9.0)*TAU;\n float theta=a+.18*sin(seed);\n gPhase0=vec2(cos(theta),sin(theta));\n gPhase1=vec2(cos(theta+TAU/3.0),sin(theta+TAU/3.0));\n gPhase2=vec2(cos(theta+2.0*TAU/3.0),sin(theta+2.0*TAU/3.0));\n gCoefficient=.85+.30*uVariation;gBand=.018+.010*uVariation;\n float yaw=.18*sin(a+.25);\n vec3 ro=vec3(4.25,2.15,3.078);ro.xz=turn(yaw)*ro.xz;\n vec3 rd=cameraRay(p,ro,vec3(0),.395);\n vec2 interval=sphereInterval(ro,rd,1.63);if(interval.x>interval.y)return backdrop(p);\n float t=interval.x;vec2 hit;bool found=false;\n for(int i=0;i<240;i++){\n  hit=milnorMap(ro+rd*t);if(hit.x<.0009){found=true;break;}\n  t+=max(hit.x*.97,.00035);if(t>interval.y)break;\n }\n if(!found)return backdrop(p);\n vec3 pos=ro+rd*t,n=milnorNormal(pos);\n vec3 albedo=hit.y>3.5?vec3(.60,.30,.10):(hit.y<1.5?vec3(.76,.73,.64):(hit.y<2.5?vec3(.085,.21,.26):vec3(.40,.47,.49)));\n float ao=1.0;\n for(int i=1;i<=4;i++){float h=float(i)*.048;ao-=(h-milnorMap(pos+n*h).x)*(.85/float(i));}\n float sh=milnorShadow(pos+n*.005,normalize(vec3(-.65,.88,.60)));\n return lightSurface(pos,n,rd,albedo,sh,clamp(ao,.25,1.0),hit.y>3.5?.7:.12);\n}\n"
+  },
+  {
+    "id": "hyperbolic",
+    "title": "Hyperbolic",
+    "subtitle": "Seven sides, three at each vertex",
+    "movieCrf": 12,
+    "description": "A regular hyperbolic tiling viewed through a moving disk isometry.",
+    "technique": "Exact {7,3} circle-reflection tiling in the Poincaré disk; periodic Möbius translation.",
+    "formula": "Mₐ(z)=(z−a)/(1−āz); reflection z↦c+R²(z−c)/|z−c|²",
+    "duration": 12,
+    "exposure": 1,
+    "collection": 4,
+    "kind": "shader",
+    "palette": "native",
+    "source": "\nvec2 hypMul(vec2 a,vec2 b){return vec2(a.x*b.x-a.y*b.y,a.x*b.y+a.y*b.x);}\nvec2 hypDiv(vec2 a,vec2 b){return hypMul(a,vec2(b.x,-b.y))/max(dot(b,b),1e-20);}\nfloat hypLine(float d,float width,float aa){return 1.-smoothstep(width,width+aa,abs(d));}\nvec3 artwork(vec2 p){\n  const float PI=3.14159265359, TAU=6.28318530718;\n  float t=TAU*uPhase, pixel=2./max(uResolution,64.);\n  vec3 ground=vec3(.002,.006,.011);\n  vec2 z=p/.965;\n  float diskRadius=length(z);\n  if(diskRadius>=1.) return ground;\n  float excursion=.38+.24*uVariation;\n  vec2 a=excursion*vec2(cos(t),.72*sin(t));\n  // Exact disk automorphism. Its denominator has no zero in the open disk.\n  z=hypDiv(z-a,vec2(1.,0.)-hypMul(vec2(a.x,-a.y),z));\n  float orientation=.0031*uSeed+.13*sin(2.*t);\n  z=hypMul(z,vec2(cos(orientation),sin(orientation)));\n  // Fundamental sector of the regular {7,3} tessellation.\n  float A=PI/7., B=PI/3.;\n  float denominator=sqrt(cos(B)*cos(B)-sin(A)*sin(A));\n  float centre=cos(B)/denominator, radius=sin(A)/denominator;\n  vec2 c=vec2(centre,0.);\n  for(int i=0;i<36;i++){\n    float angle=atan(z.y,z.x), sector=floor((angle+A)/(2.*A));\n    float turn=-sector*2.*A;\n    z=hypMul(z,vec2(cos(turn),sin(turn))); z.y=abs(z.y);\n    vec2 delta=z-c;\n    float distance2=dot(delta,delta);\n    if(distance2>=radius*radius) break;\n    // Reflection in an orthogonal circle is a hyperbolic isometry.\n    z=c+radius*radius*delta/distance2;\n  }\n  float conformal=max(1.-dot(z,z),1e-6);\n  float signedSine=(dot(z-c,z-c)-radius*radius)/(radius*conformal);\n  float edge=asinh(max(signedSine,0.));\n  float radial=2.*atanh(min(length(z),.99999));\n  float aa=max(fwidth(edge),pixel*.5);\n  float edgeInk=hypLine(edge,.009,aa);\n  float inset=hypLine(edge-.060,.005,aa);\n  // Seven exact orthogonal-circle arcs form a {7/2} geodesic star.\n  float r=.252+.008*sin(t), span=2.*PI/7.;\n  float gc=(1.+r*r)/(2.*r*cos(span)), gr=sqrt(gc*gc-1.);\n  float star=10.;\n  for(int j=0;j<7;j++){\n    float a=TAU*float(j)/7.;\n    vec2 centreStar=gc*vec2(cos(a),sin(a));\n    float distance=asinh((dot(z-centreStar,z-centreStar)-gr*gr)/(gr*conformal));\n    star=min(star,abs(distance));\n  }\n  float aaStar=max(fwidth(star),pixel*.35);\n  float inside=1.-smoothstep(r,r+max(fwidth(length(z)),1e-5),length(z));\n  float engraving=hypLine(star,.005,aaStar)*inside;\n  float tracery=hypLine(star-.028,.003,aaStar)*inside;\n  float inner=hypLine(radial-.152,.004,max(fwidth(radial),pixel*.35));\n  vec3 gold=vec3(1.8,.9,.19), porcelain=vec3(1.5,1.72,1.68), teal=vec3(.016,.32,.29);\n  vec3 color=ground+porcelain*.62*edgeInk+gold*.9*engraving+teal*(.8*inset+.9*tracery+.5*inner);\n  float rim=1.-smoothstep(1.-2.*pixel,1.,diskRadius);\n  return mix(ground,max(color,vec3(0.)),rim);\n}"
+  },
+  {
+    "id": "phason",
+    "title": "Phason",
+    "subtitle": "A loop through internal space",
+    "description": "Dual pentagrid rhombi rearrange through local phason flips on a closed internal-space path.",
+    "technique": "Dual pentagrid rhombi; optical crossfades during local flips along a closed internal-space path.",
+    "formula": "uⱼ·r+γⱼ=nⱼ; X=Σⱼ⌈uⱼ·r+γⱼ⌉uⱼ; γⱼ=uⱼ⊥·w(t)",
+    "duration": 12,
+    "exposure": 1,
+    "collection": 4,
+    "kind": "shader",
+    "palette": "native",
+    "source": "\nfloat phCross(vec2 a,vec2 b){return a.x*b.y-a.y*b.x;}\nfloat phLine(float d,float width,float aa){return 1.-smoothstep(width,width+aa,abs(d));}\nvec3 artwork(vec2 p){\n  const float TAU=6.28318530718;\n  float t=TAU*uPhase, orientation=.0009*uSeed;\n  float c=cos(orientation),s=sin(orientation);\n  vec2 x=5.4*mat2(c,s,-s,c)*p;\n  float amplitude=.18+.35*uVariation;\n  vec2 w=vec2(.137,.091)+amplitude*vec2(cos(t),sin(t));\n  vec2 physical[5],internal[5];float gamma[5];\n  for(int j=0;j<5;j++){\n    float a=TAU*float(j)/5.;\n    physical[j]=vec2(cos(a),sin(a));internal[j]=vec2(cos(2.*a),sin(2.*a));\n    gamma[j]=dot(internal[j],w);\n  }\n  float aa=10.8/max(uResolution,64.);\n  vec3 ground=vec3(.002,.005,.009),color=vec3(0.);\n  float acceptedCoverage=0.;\n  for(int i=0;i<5;i++)for(int j=i+1;j<5;j++){\n    vec2 u=physical[i],v=physical[j];float determinant=phCross(u,v),area=abs(determinant);\n    vec2 estimate=floor(.4*vec2(dot(u,x),dot(v,x))+vec2(gamma[i],gamma[j]));\n    // A dual tile has x=(5/2)r+sum(s_l u_l), 0<=s_l<=1.\n    // The projection error is <0.65 in each grid coordinate: two levels suffice.\n    for(int ni=0;ni<2;ni++)for(int nj=0;nj<2;nj++){\n      vec2 levels=estimate+vec2(float(ni),float(nj));\n      vec2 grid=levels-vec2(gamma[i],gamma[j]);\n      vec2 r=vec2(grid.x*v.y-grid.y*u.y,u.x*grid.y-v.x*grid.x)/determinant;\n      vec2 base=levels.x*u+levels.y*v;\n      vec2 rest[3];float blend[3];int index=0;\n      for(int k=0;k<5;k++)if(k!=i&&k!=j){\n        vec2 e=physical[k];float h=dot(e,r)+gamma[k],integer=floor(h+.5);\n        float ai=phCross(e,v)/determinant,aj=phCross(u,e)/determinant;\n        vec2 derivative=internal[k]-ai*internal[i]-aj*internal[j];\n        // Smooth a phason flip in internal-space distance, not in clock time.\n        float width=.014*length(derivative);\n        rest[index]=e;blend[index]=smoothstep(-width,width,h-integer);\n        base+=integer*e;index++;\n      }\n      for(int state=0;state<8;state++){\n        vec2 b=base;float weight=1.;\n        for(int k=0;k<3;k++){\n          float bit=float((state>>k)&1);\n          b+=bit*rest[k];weight*=mix(1.-blend[k],blend[k],bit);\n        }\n        if(weight<=0.)continue;\n        vec2 centre=b+.5*(u+v),d=x-centre;\n        vec2 local=vec2(phCross(d,v),phCross(u,d))/determinant;\n        float edge=(max(abs(local.x),abs(local.y))-.5)*area;\n        if(edge>aa)continue;\n        float coverage=1.-smoothstep(-aa,aa,edge);\n        float line=phLine(edge,.010,aa);\n        float thick=step(.8,area);\n        vec2 acute=.5*(u+sign(dot(u,v))*v);\n        float arc=min(abs(length(d-acute)-.5),abs(length(d+acute)-.5));\n        float engraving=phLine(arc,.007,aa);\n        float diagonal=abs(phCross(d,acute))/length(acute);\n        float spine=phLine(diagonal,.005,aa);\n        vec3 gold=vec3(2.,.72,.095),ivory=vec3(1.65,1.78,1.67),blue=vec3(.001,.007,.015);\n        vec3 tile=blue*(.4+.8*thick)+mix(gold,ivory,thick)*(.72*line+.12*engraving);\n        tile+=gold*(.014+.19*spine)*(1.-thick);\n        color+=weight*coverage*tile;\n        acceptedCoverage+=weight*coverage;\n      }\n    }\n  }\n  // Simultaneous local flips are not disjoint events. Normalize their optical\n  // mixture so overlapping acceptance windows cannot pump the face brightness.\n  return ground+max(color,vec3(0.))/max(acceptedCoverage,.05);\n}"
+  },
+  {
+    "id": "vortices",
+    "title": "Vortices",
+    "subtitle": "Six phase singularities braid",
+    "description": "Opposite-charge phase vortices deform and reconnect visible nodal fringes.",
+    "technique": "Three charge +3 and three charge −3 complex factors; saddle carrier and analytic contour-width control.",
+    "formula": "Ψ=eⁱφ ∏ⱼ[(z−aⱼ)(z̄−b̄ⱼ)/√((|z−aⱼ|²+ε²)(|z−bⱼ|²+ε²))]³",
+    "duration": 12,
+    "exposure": 1,
+    "collection": 4,
+    "kind": "shader",
+    "palette": "native",
+    "source": "\nvec2 voMul(vec2 a,vec2 b){return vec2(a.x*b.x-a.y*b.y,a.x*b.y+a.y*b.x);}\nfloat voLine(float value,float width){float aa=max(fwidth(value),1e-5);return 1.-smoothstep(width,width+aa,abs(value));}\nvec3 artwork(vec2 p){\n  const float TAU=6.28318530718;\n  float t=TAU*uPhase, seed=.21*sin(uSeed*.0097);\n  float angle=.16*sin(t+seed);\n  vec2 z=mat2(cos(angle),sin(angle),-sin(angle),cos(angle))*p;\n  vec2 wave=vec2(1.,0.);\n  vec2 phaseGradient=vec2(48.*z.x+8.*z.y,-48.*z.y+8.*z.x);\n  float nearest=10., chargeField=0.;\n  float separation=.35+.22*uVariation;\n  for(int j=0;j<3;j++){\n    float a=TAU*float(j)/3.;\n    vec2 positive=(.59+.08*sin(t+a))*vec2(cos(a+t),sin(a+t));\n    vec2 negative=separation*vec2(cos(a-t+.7),sin(a-t+.7))+.13*vec2(sin(t),cos(2.*t));\n    vec2 plus=z-positive,minus=z-negative;\n    float p2=dot(plus,plus),m2=dot(minus,minus);\n    vec2 f=plus*inversesqrt(p2+.0016),g=vec2(minus.x,-minus.y)*inversesqrt(m2+.0016);\n    vec2 pair=voMul(f,g);\n    wave=voMul(wave,voMul(pair,voMul(pair,pair)));\n    phaseGradient+=3.*(vec2(-plus.y,plus.x)/max(p2,1e-7)-vec2(-minus.y,minus.x)/max(m2,1e-7));\n    nearest=min(nearest,sqrt(min(p2,m2)));\n    chargeField+=.028/(p2+.05)-.028/(m2+.05);\n  }\n  float carrier=24.*(z.x*z.x-z.y*z.y)+8.*z.x*z.y+2.*sin(t);\n  wave=voMul(wave,vec2(cos(carrier),sin(carrier)));\n  float amplitude=length(wave);\n  vec2 direction=wave/max(amplitude,.002);\n  // Analytic phase-gradient scaling prevents broad chalk bands at saddles.\n  float contourGradient=length(phaseGradient)*max(abs(direction.y),.01);\n  float strand=voLine(direction.x,min(.095,.0019*contourGradient));\n  float parallel=voLine(direction.x-.62,min(.035,.0011*contourGradient));\n  float visibility=smoothstep(.005,.09,amplitude);\n  float coreRing=voLine(nearest-.030,.003)*(1.-smoothstep(.025,.08,nearest));\n  vec3 ivory=vec3(1.6,1.78,1.75), cold=vec3(.03,.38,.72), warm=vec3(1.6,.30,.08);\n  vec3 hue=mix(cold,warm,.5+.5*tanh(2.2*chargeField));\n  vec3 color=vec3(.002,.004,.009)+visibility*(ivory*.82*strand+hue*.65*parallel);\n  color+=hue*.82*coreRing;\n  return max(color,vec3(0.));\n}"
+  }
+]

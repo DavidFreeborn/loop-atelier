@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#101113">
+  <meta name="description" content="An interactive generative art studio.">
+  <title>Loop atelier</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23101113'/%3E%3Cellipse cx='32' cy='32' rx='21' ry='13' fill='none' stroke='%23d8d4cb' stroke-width='2' transform='rotate(-35 32 32)'/%3E%3Cellipse cx='32' cy='32' rx='13' ry='21' fill='none' stroke='%23d8d4cb' stroke-width='2' transform='rotate(-35 32 32)'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+  <header class="masthead">
+    <h1><a class="brand" href="#studio">Loop atelier</a></h1>
+    <nav aria-label="Main navigation"><button class="nav-button active" id="studio-tab" aria-pressed="true">Studio</button><button class="nav-button" id="guide-tab" aria-pressed="false">Sources</button></nav>
+  </header>
+  <main id="studio-view">
+    <div class="workspace">
+      <section class="artwork" aria-label="Selected study">
+        <div class="study-select"><label for="scene-select">Study</label><select id="scene-select"></select></div>
+        <div class="canvas-wrap"><canvas id="art-canvas" width="800" height="800" role="img" aria-label="Generative study"></canvas><div id="canvas-error" role="alert" hidden></div><button id="art-fullscreen" class="canvas-action" title="Enter fullscreen" aria-label="Enter artwork fullscreen">⤢</button></div>
+        <div class="transport"><button id="play" class="play-button" aria-label="Pause animation" title="Play or pause (Space)"><span id="play-icon" aria-hidden="true">Ⅱ</span></button><label for="timeline" class="sr-only">Animation phase</label><input id="timeline" type="range" min="0" max="1000" value="150" step="1"><output id="phase-display" for="timeline">0.150</output></div>
+        <div class="method" aria-label="Mathematical construction"><p id="technique-description"></p><code id="formula"></code></div>
+      </section>
+      <aside class="inspector" aria-label="Composition controls">
+        <div class="inspector-actions"><button id="reset" class="text-button">Reset</button></div>
+        <div class="control"><label for="variation">Deformation <output for="variation" id="variation-value">50%</output></label><input id="variation" type="range" min="0" max="100" value="50"></div>
+        <div class="control"><label for="exposure">Exposure <output for="exposure" id="exposure-value">1.00</output></label><input id="exposure" type="range" min="35" max="250" value="100"></div>
+        <div class="control"><label for="duration">Loop duration <output for="duration" id="duration-value">12 s</output></label><input id="duration" type="range" min="3" max="16" value="12" step="1"></div>
+        <div class="control"><label for="seed">Seed <button class="text-button" id="new-seed" type="button">Randomize</button></label><input id="seed" type="number" min="0" max="4294967295" value="42" step="1" inputmode="numeric"></div>
+        <div class="control split-control"><div><label for="density">Particles</label><select id="density"><option value="60000">60,000</option><option value="180000" selected>180,000</option><option value="360000">360,000</option></select></div><div><label for="palette">Palette</label><select id="palette"><option value="native">Original</option><option value="silver">Silver</option><option value="amber">Amber</option><option value="paper">Ink on paper</option></select></div></div>
+        <div class="preset-actions"><button id="save-preset" class="secondary-button">Save recipe</button><button id="load-preset" class="secondary-button">Load recipe</button><input type="file" id="preset-file" accept=".json,application/json" hidden></div>
+        <details class="export-options" open><summary>Export PNG</summary><div class="export-inner"><div class="control"><label for="export-size">Resolution</label><select id="export-size"><option value="1200">1,200 × 1,200</option><option value="2400" selected>2,400 × 2,400</option><option value="3600">3,600 × 3,600</option></select></div><div class="export-row"><div class="control"><label for="samples">Samples</label><select id="samples"><option value="1">1</option><option value="8" selected>8</option><option value="16">16</option></select></div><div class="control"><label for="shutter">Shutter</label><select id="shutter"><option value="0">0°</option><option value="0.35">126°</option><option value="0.65" selected>234°</option><option value="1">360°</option></select></div></div><button id="export-png" class="primary-button">Save PNG</button></div></details>
+        <p id="error-message" class="error-message" role="alert" hidden></p>
+        <p id="status" class="sr-only" role="status" aria-live="polite"></p>
+      </aside>
+    </div>
+  </main>
+  <main id="guide-view" hidden>
+    <p class="sources-introduction">Each frame evaluates seeded mathematical functions at a phase t ∈ [0, 1). Multiple samples are averaged in linear light before tone mapping. The references below inform the constructions.</p>
+    <ol id="bibliography" class="sources">
+      <li><a href="https://bleuje.com/tutorials/" target="_blank" rel="noreferrer">Étienne Jacob — Loop tutorials</a><p>Periodicity, phase offsets, and replacement.</p></li>
+      <li><a href="https://bleuje.com/tutorial6/" target="_blank" rel="noreferrer">Étienne Jacob — Motion blur template (by beesandbombs), 2023</a><p>Template and temporal-sampling approach by Dave Whyte (beesandbombs).</p></li>
+      <li><a href="https://github.com/Bleuje/processing-animations-code" target="_blank" rel="noreferrer">Étienne Jacob — Processing animation sketches</a><p>Reference implementations studied for technique; no code copied.</p></li>
+      <li><a href="https://stevejtrettel.site/notes/2026/regular-polygons-disk-model/" target="_blank" rel="noreferrer">Steve Trettel — Regular Polygons in the Poincaré Disk, 2026</a><p>Orthogonal-circle geometry and hyperbolic reflections in Hyperbolic.</p></li>
+      <li><a href="https://pure.tue.nl/ws/files/4344195/597566.pdf" target="_blank" rel="noreferrer">N. G. de Bruijn — Algebraic theory of Penrose’s non-periodic tilings of the plane, I–II, 1981</a><p>The pentagrid dual construction used in Phason.</p></li>
+      <li><a href="https://michaelberryphysics.wordpress.com/wp-content/uploads/2013/07/berry034.pdf" target="_blank" rel="noreferrer">J. F. Nye &amp; M. V. Berry — Dislocations in wave trains, 1974</a><p>Phase singularities and winding number in Vortices.</p></li>
+      <li><a href="https://www.degruyterbrill.com/document/doi/10.1515/9781400881819/html?lang=en" target="_blank" rel="noreferrer">John Milnor — Singular Points of Complex Hypersurfaces, 1968</a><p>The fibration f/|f| and the trefoil binding used in Milnor.</p></li>
+      <li><a href="https://doc.cgal.org/latest/Interpolation/index.html" target="_blank" rel="noreferrer">CGAL — 2D and Surface Function Interpolation</a><p>Power distance and weighted Voronoi cells, used in Laguerre.</p></li>
+    </ol>
+  </main>
+  <noscript>This studio requires JavaScript. Rendered PNG and MP4 files are included in the output folder.</noscript>
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>

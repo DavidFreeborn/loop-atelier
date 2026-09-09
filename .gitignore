@@ -1,0 +1,20 @@
+node_modules/
+.cache/
+.publish/
+__pycache__/
+*.pyc
+.env
+.env.*
+*.log
+
+# Publication masters, working renders and the toolkit ZIP belong in Releases.
+output/*
+!output/loop-atelier.html
+!output/catalog.json
+!output/collection.png
+!output/collection-02.png
+!output/collection-03.png
+!output/collection-04.png
+!output/thumbnails/
+output/thumbnails/*
+!output/thumbnails/*.png

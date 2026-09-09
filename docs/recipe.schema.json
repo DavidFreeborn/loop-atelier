@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Loop Atelier studio recipe v1",
+  "description": "Portable settings for reproducing a selected study and phase. Additional metadata is ignored by the studio.",
+  "type": "object",
+  "required": [
+    "schema",
+    "version",
+    "scene",
+    "seed",
+    "variation",
+    "exposure",
+    "duration",
+    "count",
+    "palette",
+    "time"
+  ],
+  "properties": {
+    "schema": {
+      "const": "loop-atelier/recipe"
+    },
+    "version": {
+      "const": 1
+    },
+    "engine": {
+      "type": "string"
+    },
+    "scene": {
+      "enum": [
+        "meridian",
+        "bloom",
+        "undertow",
+        "lattice",
+        "ribbon",
+        "orbit",
+        "hopf",
+        "trefoil",
+        "klein",
+        "gyroid",
+        "resonance",
+        "harmonic",
+        "descent",
+        "confluence",
+        "section",
+        "inversion",
+        "monodromy",
+        "caustic",
+        "palimpsest",
+        "switchboard",
+        "hyperbolic",
+        "phason",
+        "vortices",
+        "surgery",
+        "laguerre",
+        "milnor"
+      ]
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967295
+    },
+    "variation": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "exposure": {
+      "type": "number",
+      "minimum": 0.35,
+      "maximum": 2.5
+    },
+    "duration": {
+      "type": "integer",
+      "minimum": 3,
+      "maximum": 16
+    },
+    "count": {
+      "enum": [
+        60000,
+        180000,
+        360000
+      ]
+    },
+    "palette": {
+      "enum": [
+        "silver",
+        "amber",
+        "paper",
+        "native"
+      ]
+    },
+    "time": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    }
+  }
+}

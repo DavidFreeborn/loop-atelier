@@ -1,0 +1,20 @@
+{
+  "name": "loop-atelier",
+  "version": "2.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A deterministic generative art toolkit with twenty-six mathematical studies.",
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "test": "node scripts/test.mjs",
+    "render": "node scripts/render.mjs",
+    "package": "node scripts/package.mjs",
+    "test:browser": "node tests/browser-check.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
