@@ -194,16 +194,8 @@ test('Vortices: six analytic paths close with velocity; isolated cores carry cha
   }
 });
 
-const require=createRequire(import.meta.url);let chromium;
-try{({chromium}=require('playwright'));}catch{({chromium}=require(path.join(homedir(),'.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright')));}
-test('Mathematics 04 GLSL: unwrapped phase, finite radiance, reproducible seed and variation',async t=>{
-  const browser=await chromium.launch({channel:'chromium',headless:true}),report={};
-  try{
-    const page=await browser.newPage();
-    for(const shader of MATHEMATICS_04_SHADERS)await t.test(shader.id,async()=>{
-      await page.setContent('<canvas width="320" height="320"></canvas>');
-      const result=await page.evaluate(({source})=>{
-        const size=320,canvas=document.querySelector('canvas'),gl=canvas.getContext('webgl2',{antialias:false,preserveDrawingBuffer:true});
+function shaderProbe({source,size=320,stress=false}){
+        const canvas=document.querySelector('canvas'),gl=canvas.getContext('webgl2',{antialias:false,preserveDrawingBuffer:true});
         if(!gl)throw Error('WebGL 2 unavailable');
         const compile=(type,source)=>{const s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(s));return s;};
         const vs=compile(gl.VERTEX_SHADER,`#version 300 es\nvoid main(){vec2 p=vec2((gl_VertexID<<1)&2,gl_VertexID&2);gl_Position=vec4(p*2.-1.,0.,1.);}`);
@@ -224,17 +216,38 @@ test('Mathematics 04 GLSL: unwrapped phase, finite radiance, reproducible seed a
           if(gl.getError()!==gl.NO_ERROR)throw Error('WebGL validation error');return data;
         };
         const diff=(a,b)=>{let sum=0,maximum=0,large=0;for(let i=0;i<a.length;i++)if(i%4!==3){const d=Math.abs(a[i]-b[i]);sum+=d;maximum=Math.max(maximum,d);if(d>8)large++;}return{mean:sum/(size*size*3),maximum,largeFraction:large/(size*size*3)};};
-        const periods=[],invalid=[];
+        const periods=[],invalid=[],repeats=[];
         for(const variation of[0,.5,1])for(const seed of[7,601.1037519201636])for(const phase of[-1/360,0,.173,.5,.917]){
-          periods.push({phase,variation,seed,...diff(render(phase,variation,seed),render(phase+1,variation,seed))});
+          const baseline=render(phase,variation,seed);
+          periods.push({phase,variation,seed,...diff(baseline,render(phase+1,variation,seed))});
           const flags=render(phase,variation,seed,true);let count=0;for(let i=0;i<flags.length;i+=4)if(flags[i])count++;
           if(count)invalid.push({phase,variation,seed,count});
+          if(stress){
+            // Inspect mode and unrelated uniforms must not leave any state in an
+            // independently evaluated frame, including its derivative helper lanes.
+            const afterInspect=diff(baseline,render(phase,variation,seed));
+            render(phase+.271,1-variation,seed+17);
+            const afterOtherFrame=diff(baseline,render(phase,variation,seed));
+            repeats.push({phase,variation,seed,afterInspect,afterOtherFrame});
+          }
         }
         const canonical=render(.173),repeat=diff(canonical,render(.173));
         const seedDifference=diff(canonical,render(.173,.5,75));
         const variationDifference=diff(render(.173,0),render(.173,1));
-        return {periods,invalid,repeat,seedDifference,variationDifference};
-      },{source:shader.source});
+        const debug=gl.getExtension('WEBGL_debug_renderer_info');
+        const renderer=debug?gl.getParameter(debug.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER);
+        return {periods,invalid,repeat,seedDifference,variationDifference,repeats,renderer};
+      }
+
+const require=createRequire(import.meta.url);let chromium;
+try{({chromium}=require('playwright'));}catch{({chromium}=require(path.join(homedir(),'.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright')));}
+test('Mathematics 04 GLSL: unwrapped phase, finite radiance, reproducible seed and variation',async t=>{
+  const browser=await chromium.launch({channel:'chromium',headless:true}),report={};
+  try{
+    const page=await browser.newPage();
+    for(const shader of MATHEMATICS_04_SHADERS)await t.test(shader.id,async()=>{
+      await page.setContent('<canvas width="320" height="320"></canvas>');
+      const result=await page.evaluate(shaderProbe,{source:shader.source});
       report[shader.id]=result;
       assert.deepEqual(result.invalid,[],'nonnegative finite radiance within HDR range');assert.equal(result.repeat.maximum,0);
       assert.ok(result.seedDifference.mean>.1,'seed must visibly affect composition');assert.ok(result.variationDifference.mean>.1,'variation must visibly affect motion or structure');
@@ -242,4 +255,29 @@ test('Mathematics 04 GLSL: unwrapped phase, finite radiance, reproducible seed a
       t.diagnostic(`${shader.id}: worst raw-phase MAE ${Math.max(...result.periods.map(p=>p.mean)).toFixed(6)}/255, zero invalid HDR pixels`);
     });
   }finally{await browser.close();await mkdir('output/qa/04-mathematics',{recursive:true});await writeFile('output/qa/04-mathematics/math-report.json',JSON.stringify(report,null,2));}
+});
+
+// Software rasterizers expose inactive derivative lanes that hardware drivers
+// may accidentally mask. Keep this independent of the machine's default GPU.
+test('Hyperbolic GLSL: disk-rim derivatives remain deterministic on SwiftShader',async t=>{
+  const browser=await chromium.launch({channel:'chromium',headless:true,args:['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']});
+  try{
+    const page=await browser.newPage();
+    await page.setContent('<canvas width="192" height="192"></canvas>');
+    const source=MATHEMATICS_04_SHADERS.find(s=>s.id==='hyperbolic').source;
+    const result=await page.evaluate(shaderProbe,{source,size:192,stress:true});
+    assert.match(result.renderer,/SwiftShader/i,'the regression must run on the software rasterizer');
+    assert.deepEqual(result.invalid,[],'nonnegative finite radiance within HDR range');
+    assert.equal(result.repeat.maximum,0,'consecutive frames must be bit-identical');
+    assert.equal(result.repeats.length,30);
+    for(const entry of result.repeats){
+      assert.equal(entry.afterInspect.maximum,0,`inspect-mode switch changed a frame: ${JSON.stringify(entry)}`);
+      assert.equal(entry.afterOtherFrame.maximum,0,`unrelated frame changed a repeated frame: ${JSON.stringify(entry)}`);
+    }
+    for(const entry of result.periods){
+      assert.ok(entry.mean<.12,`period mismatch: ${JSON.stringify(entry)}`);
+      assert.ok(entry.largeFraction<.004,`period changes too many pixels: ${JSON.stringify(entry)}`);
+    }
+    t.diagnostic(`30 phase/variation/seed cases, 60 exact repeats after intervening draws; ${result.renderer}`);
+  }finally{await browser.close();}
 });

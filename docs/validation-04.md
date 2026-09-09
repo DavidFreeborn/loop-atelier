@@ -51,6 +51,12 @@ The six publication movies have also been decoded into complete 120-frame inspec
 
 The portable archive includes all 26 PNGs and 26 MP4s, their manifests, source, documentation, compact motion proofs, selected inspection images and numerical reports. Large per-frame working rasters can be regenerated using the documented proof commands. Assembly computes SHA-256 checksums and verifies the ZIP's CRC integrity after writing it.
 
+## Public-build compatibility correction
+
+The first GitHub Linux run exposed a Hyperbolic defect that the authoring GPU did not reveal: an early return outside the disk left `fwidth` derivatives undefined for neighbouring rim fragments. SwiftShader could then produce different edge pixels for identical inputs. The shader now evaluates a safe interior surrogate for outside fragments and uses its existing final rim mask to return the background. This keeps every fragment lane alive through the derivative calculations without changing the construction or its controls. A focused software-renderer regression checks exact repeated draws through changes of phase and inspection mode; the original finite-radiance and periodicity checks remain strict.
+
+The PNG and MP4 masters retain their previously verified bytes and original rendering manifests. They document the authoring GPU's published rasters; the corrected live and offline studio also supports repeatable edge rendering on software graphics backends.
+
 ## Practical limits
 
 These are mathematically defined generative studies with designed materials and motion. Milnor shows cropped finite level bands, not complete zero-thickness pages. Phason's blended transition image is not an exact tiling. The vortex field is a prescribed complex construction, not a solved wave or fluid experiment. Ray budgets, tolerances, pixel filtering, and the finite screen limit what can be resolved.

@@ -9,7 +9,10 @@ vec3 artwork(vec2 p){
   vec3 ground=vec3(.002,.006,.011);
   vec2 z=p/.965;
   float diskRadius=length(z);
-  if(diskRadius>=1.) return ground;
+  // Keep neighbouring fragment lanes alive for the derivatives below. The final
+  // rim mask returns the ground outside the disk; an early return makes fwidth
+  // undefined in the boundary quads on software graphics backends.
+  if(diskRadius>=1.) z=vec2(0.);
   float excursion=.38+.24*uVariation;
   vec2 a=excursion*vec2(cos(t),.72*sin(t));
   // Exact disk automorphism. Its denominator has no zero in the open disk.
